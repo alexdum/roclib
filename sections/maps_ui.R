@@ -1,11 +1,7 @@
-maps_ui <- tabPanel("Maps", icon = icon("layer-group"), value = "#maps",
-                    sidebarLayout(fluid = T,
+maps_ui <- tabPanel("Graphs", icon = icon("chart-line"), value = "#facts",
+                    sidebarLayout(fluid = T
                                   
-                                  sidebarPanel(width = 2,
-                                               h3(format(updd, "%b %d, %Y")),
-                                                 
-                                               
-                                  ),
+                                  ,
                                   mainPanel(
                                     tabsetPanel(id = "maps_tab",
                                                 tabPanel("Confirmed",

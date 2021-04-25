@@ -1,4 +1,4 @@
-graphs_ui <- tabPanel("Multi_annual", icon = icon("layer-group"), value = "maps", id =  "#facts",
+graphs_ui <- tabPanel("Maps", icon = icon("globe-europe"), value = "maps", id =  "#facts",
                      sidebarLayout(fluid = T,
                                    sidebarPanel(
                                      
@@ -32,18 +32,10 @@ graphs_ui <- tabPanel("Multi_annual", icon = icon("layer-group"), value = "maps"
                                     #),
                                    mainPanel(
                                      tabsetPanel(
-                                       tabPanel(" Multi-mean",
+                                       tabPanel("Multi-mean",
                                                 fluidRow(
                                                   h3("2006-2100"),
-                                                  #h5(first.case),
-                                                  # h5("The first death cases reported on Mar 22, 2020."),
-                                                  # h5(cfr),
-                                                  # column(6,
-                                                  #        
-                                                  #        h4("Daily confirmed, recovered and death cases", style = "text-align:center;"),
-                                                  #        
-                                                  #        dygraphOutput("dygraph")
-                                                         
+                                                     
                                                   ),
                                                   
                                                  
@@ -57,26 +49,13 @@ graphs_ui <- tabPanel("Multi_annual", icon = icon("layer-group"), value = "maps"
                                                   
                                                 ),
                                                 
-                                                
-                                                
-                                       #          fluidRow(
-                                       #            
-                                       #            column(6,
-                                       #                   
-                                       #                   h4("Age of deaths", style = "text-align:center;"),
-                                       #                   plotly::plotlyOutput("hist.decs")
-                                       #                   
-                                       #                   
-                                       #            ),
-                                       #            column(6,
-                                       #                   h4("Country source of infection", style = "text-align:center;"),
-                                       #                   plotly::plotlyOutput("hist2")
-                                       #                   
-                                       #            )  
-                                       # 
+                                     
                                         )
                                         
                                         )
+                                    
+                                     
+                                     
                                      )
                                    )
 )

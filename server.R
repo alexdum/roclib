@@ -73,13 +73,14 @@ server <- function(input, output, session) {
   
       })
   
-  
   output$downloadPlot <- downloadHandler(
     filename = function(){paste("input$coolplot",'.png',sep='')},
     content = function(file){
       ggsave(file,plot=input$coolplot)
        }
      )
+  
+  
    
 }
 
