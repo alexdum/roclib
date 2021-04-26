@@ -9,13 +9,13 @@ ui <- shinyUI(
   ui <- function(req) { 
     fluidPage(theme = shinytheme("darkly"),
                tags$head(
-                 includeHTML("google-analytics.html"),
+                # includeHTML("google-analytics.html"),
                  tags$style(type = "text/css", "body {padding-top: 70px;}"),
               
                ),
               useShinyjs(),
               navbarPage("RoCliB", collapsible = F, fluid = T, id = "tabs", position =  "fixed-top",
-                         selected = "#about",
+                         selected = "#maps",
                          
                          # Statistics & Facts ------------------------------------------------------
                          graphs_ui
