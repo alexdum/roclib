@@ -11,12 +11,7 @@ ui <- shinyUI(
                tags$head(
                  includeHTML("google-analytics.html"),
                  tags$style(type = "text/css", "body {padding-top: 70px;}"),
-              #   # pentru leafle t
-              #   tags$meta(charset = "UTF-8"),
-              #   tags$meta(name = "description", content = "Relevant facts and statistics about COVID-19 spread in Romania."),
-              #   tags$meta(name = "keywords", content = "COVID-19, Romania, spread maps, relevant graphs"),
-              #   tags$meta(name = "author", content = "Alexandru Dumitrescu"),
-              #   tags$meta(name = "viewport", content = "width=device-width, initial-scale=1.0")
+              
                ),
               useShinyjs(),
               navbarPage("RoCliB", collapsible = F, fluid = T, id = "tabs", position =  "fixed-top",
