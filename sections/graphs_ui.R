@@ -1,10 +1,12 @@
-graphs_ui <- tabPanel("Maps", icon = icon("globe-europe"), value = "maps", id =  "#facts",
+graphs_ui <- tabPanel("Maps", icon = icon("globe-europe"), value = "maps", id =  "#maps",
                      sidebarLayout(fluid = T,
                                    sidebarPanel(
                                      
                                                       
                                                           selectInput("Model", label = "Model",
-                                                                          choices = unique(date1$model),width = "600px"),
+                                                                          choices = unique(date1$model),width = "600px",
+                                                                      selected = "ensemblemean"),
+                                                          
                                                           selectInput("Scenario", label = "Scenario",
                                                                          choices =unique(date1$scen),width = "600px"),
                                               
