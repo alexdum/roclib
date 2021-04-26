@@ -14,22 +14,7 @@ graphs_ui <- tabPanel("Maps", icon = icon("globe-europe"), value = "maps", id = 
                                                           selectInput("Season", label = "Season",
                                                                          choices =unique(date1$season),width = "600px"),
                                                           width = 4, position = "left"),
-                                   # sidebarPanel(width = 2,
-                                   #              #h3(format(updd, "%b %d, %Y")),
-                                   #              h4(paste(infect, "Cases"),  style = "color:red"),
-                                   #              h4(paste(recov, "Recovered"), style = "color:green"),
-                                   #              h4(paste(decs, "Deaths"), style = "color:#636363"),        
-                                   #              # dateRangeInput("daterange", "Date range:",
-                                   #              #                start = min(dats.nod),
-                                   #              #                end   = max(dats.nod),
-                                   #              #                min = as.character(min(dats.nod)),
-                                   #              #                max = as.character(max(dats.nod))),
-                                   #              
-                                   #              # sliderInput("opacity", "Opacity", 0.8, min = 0.1,
-                                   #              #             max = 1, step = .1),,
-                                   #              # submitButton("Apply Changes",icon("refresh")),
-                                   #              
-                                    #),
+                                   
                                    mainPanel(
                                      tabsetPanel(
                                        tabPanel("Multi-mean",
@@ -37,10 +22,7 @@ graphs_ui <- tabPanel("Maps", icon = icon("globe-europe"), value = "maps", id = 
                                                   h3("2006-2100"),
                                                      
                                                   ),
-                                                  
-                                                 
-                                                
-                                                fluidRow(
+                                                 fluidRow(
                                             
                                                          h4("", style = "text-align:center;"),
                                                          plotOutput("coolplot"),
@@ -48,9 +30,7 @@ graphs_ui <- tabPanel("Maps", icon = icon("globe-europe"), value = "maps", id = 
                                                          
                                                   
                                                 ),
-                                                
-                                     
-                                        )
+                                             )
                                         
                                         )
                                     

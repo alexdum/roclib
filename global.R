@@ -11,13 +11,13 @@ library(rgdal)
 library(sf)
 library(RColorBrewer)
 
-date1 <- readRDS("www/data/tabs/season_mean_models.rds")
+date1 <- readRDS("www/data/tabs/season+anual_mean_models.rds")
 
 ### calcul anual din sezoniere 
-# date11 <- date1%>% group_by(Lon,Lat,model,scen,param)%>% summarise(value= ifelse(param=="precAdjust",sum(value),mean(value)))%>%
-#       mutate(season = "anual")
-# res <-bind_rows(date1, date11) 
-# saveRDS(res,"www/data/tabs/season+anual_mean_models.rds")
+#date11 <- date1%>% group_by(Lon,Lat,model,scen,param)%>% summarise(value= ifelse(param=="precAdjust",sum(value),mean(value)))%>%
+ #      mutate(season = "anual")
+ #res <-bind_rows(date1, date11) 
+ #saveRDS(res,"www/data/tabs/season+anual_mean_models.rds")
 
 brks.p<-c(50,100.0,150.0,200.0,250.0,300.0,350.0,400.0,450.0,500.0,550,600)
 cols.p <- c("#ffffd9",brewer.pal(9,"GnBu"), "#023858","#081d58","#810f7c","#88419d")

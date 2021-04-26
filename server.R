@@ -13,13 +13,7 @@ server <- function(input, output, session) {
       filter(param == input$Parameter)
   })
   
-  
 
-  
-  # updateSelectInput(session, "County", choices = judet, selected = "Alba")
-  # locc = sort(meta1$name)
-  # updateSelectInput(session, "Localities", choices = locc, selected = "")
-  
 
     
   output$coolplot <- renderPlot({

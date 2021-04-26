@@ -1,0 +1,12 @@
+name: RoCliB
+title: RoCliB
+username:
+account: climatologis
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 4021053
+bundleId: 4519384
+url: https://climatologis.shinyapps.io/RoCliB/
+when: 1619421434.12563
+asMultiple: FALSE
+asStatic: FALSE
