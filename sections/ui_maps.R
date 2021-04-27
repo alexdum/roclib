@@ -1,4 +1,4 @@
-graphs_ui <- tabPanel("Maps", icon = icon("globe-europe"), value = "maps", id =  "#maps",
+ui_maps <- tabPanel("Graphs", icon = icon("globe-europe"), value = "#maps", id = "#maps",
                      sidebarLayout(fluid = T,
                                    sidebarPanel(
                                      
@@ -28,7 +28,7 @@ graphs_ui <- tabPanel("Maps", icon = icon("globe-europe"), value = "maps", id = 
                                             
                                                          h4("", style = "text-align:center;"),
                                                          plotOutput("coolplot"),
-                                                         downloadButton('downloadData', 'Download PNG')
+                                                         #downloadButton('downloadData', 'Download PNG')
                                                          
                                                   
                                                 ),

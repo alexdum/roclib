@@ -18,11 +18,11 @@ server <- function(input, output, session) {
     
   output$coolplot <- renderPlot({
      
-    if(input$Parameter == "precAdjust"){
+    if (input$Parameter == "precAdjust") {
       
        ggplot() + 
-        geom_tile(data= filtered(), aes(x=Lon, y=Lat,
-                                        fill=value))+
+        geom_tile(data= filtered(), aes(x = Lon, y = Lat,
+                                        fill = value)) +
         scale_fill_gradientn(name = "mm",
                              limits = c(50,
                                         600),
