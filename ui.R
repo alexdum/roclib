@@ -1,6 +1,6 @@
 
 #source("sections/ui_about.R", local = T)
-source("sections/graphs_ui.R", local = T)
+source("sections/ui_graphs.R", local = T)
 #source("sections/ui_maps.R", local = T)
 
 # meta tags https://rdrr.io/github/daattali/shinyalert/src/inst/examples/demo/ui.R

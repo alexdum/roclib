@@ -1,58 +1,45 @@
-maps_ui <- tabPanel("Graphs", icon = icon("chart-line"), value = "#facts",
-                    sidebarLayout(fluid = T
-                                  
-                                  ,
-                                  mainPanel(
-                                    tabsetPanel(id = "maps_tab",
-                                                tabPanel("Confirmed",
-                                                         fluidRow(
-                                                           h3(textOutput("maps.text")),
-                                                           leafletOutput("overview_map"),
-                                                           sliderInput(
-                                                             "timeSlider",
-                                                             label      = "Select date for the map",
-                                                             min        = min(counties$case_date),
-                                                             max        = max(counties$case_date),
-                                                             value      = max(counties$case_date),
-                                                             width      = "100%",
-                                                             timeFormat = "%d.%m.%Y",
-                                                             animate    = animationOptions(loop = F)
-                                                             
-                                                           ),
-                                                           class = "slider",
-                                                           width = 12,
-                                                           style = 'padding-left:15px; padding-right:15px;',
-                                                           helpText("Press the play button for animation.", 
-                                                                    style = "text-align:right;")
-                                                         )
-                                                ),
-                                                tabPanel("Deceased",
-                                                         fluidRow(
-                                                           h3(textOutput("maps.text2")),
-                                                           leafletOutput("overview_map2"),
-                                                           sliderInput(
-                                                             "timeSlider2",
-                                                             label      = "Select date for the map",
-                                                             min        = min(counties2$case_date),
-                                                             max        = max(counties2$case_date),
-                                                             value      = max(counties2$case_date),
-                                                             width      = "100%",
-                                                             timeFormat = "%d.%m.%Y",
-                                                             animate    = animationOptions(loop = F)
-                                                           ),
-                                                           class = "slider",
-                                                           width = 12,
-                                                           style = 'padding-left:15px; padding-right:15px;',
-                                                           helpText("Press the play button for animation.",
-                                                                    style = "text-align:right;")
-                                                         )
-                                                ),
-                                                tabPanel("Data",
-                                                         h3(textOutput("tabs.text")),
-                                                         DT::dataTableOutput("maps_data")
-                                                )
-                                                
+maps_ui <- tabPanel("Maps", icon = icon("globe-europe"), value = "maps", id =  "#maps",
+                      sidebarLayout(fluid = T,
+                                    sidebarPanel(
+                                      
+                                      
+                                      selectInput("Model", label = "Model",
+                                                  choices = unique(date1$model),width = "600px",
+                                                  selected = "ensemblemean"),
+                                      
+                                      selectInput("Scenario", label = "Scenario",
+                                                  choices =unique(date1$scen),width = "600px"),
+                                      
+                                      selectInput("Parameter", label = "Parameter",
+                                                  choices =unique(date1$param),width = "600px"),
+                                      
+                                      selectInput("Season", label = "Season",
+                                                  choices =unique(date1$season),width = "600px"),
+                                      width = 4, position = "left"),
+                                    
+                                    mainPanel(
+                                      tabsetPanel(
+                                        tabPanel("Multi-mean",
+                                                 fluidRow(
+                                                   h3("2006-2100"),
+                                                   
+                                                 ),
+                                                 fluidRow(
+                                                   
+                                                   h4("", style = "text-align:center;"),
+                                                   plotOutput("coolplot"),
+                                                   downloadButton('downloadData', 'Download PNG')
+                                                   
+                                                   
+                                                 ),
+                                        )
+                                        
+                                      )
+                                      
+                                      
+                                      
                                     )
-                                  )
-                    )
+                      )
 )
+
+
