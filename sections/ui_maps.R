@@ -11,7 +11,9 @@ ui_maps <- tabPanel("Graphs", icon = icon("globe-europe"), value = "#maps", id =
                                                                          choices =unique(date1$scen),width = "600px"),
                                               
                                                           selectInput("Parameter", label = "Parameter",
-                                                                         choices =unique(date1$param),width = "600px"),
+                                                                      c("Tmean" =  "tasAdjust", "Prec" = "precAdjust",
+                                                                        "Tmin" = "tasminAdjust", "Tmax" =  "tasmaxAdjust"),
+                                                                      selected = "Tmean", width = "600px"),
                                                           
                                                           selectInput("Season", label = "Season",
                                                                          choices =unique(date1$season),width = "600px"),

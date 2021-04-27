@@ -27,9 +27,9 @@ cols <- c("#8c6bb1","#9ecae1","#deebf7","#ffffe5",brewer.pal(9,"YlOrRd"),rev(bre
 
 ## pentru judete limita a se folosit doar o data dupa se pune in comentariu.
 
-judete <- readOGR("www/data/shp/ROU_adm/Judete.shp")
-judete <- spTransform(judete, CRSobj = "+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
-judete <- st_as_sf(judete)
+judete <- read_sf("www/data/shp/ROU_adm/Judete.shp") %>% st_transform(4326)
+
+
 
 
 
