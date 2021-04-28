@@ -36,9 +36,9 @@ output$tabtext <- renderText({
 
 
 output$coolplot <- renderPlot(
-   height = 500, units="px",
-  # 
+  height = 500, units="px",
   {
+    
     rs <- rs()
     #print(rs)
     
@@ -106,5 +106,6 @@ output$coolplot <- renderPlot(
     # )
     
   })
+
 
 
