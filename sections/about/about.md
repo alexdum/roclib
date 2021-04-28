@@ -18,7 +18,7 @@ RCP8.5 + 10 RCP4.5) = 120 netCDF files. The terms of use for the
 bias-corrected data are the same as those from the original EURO-CORDEX
 simulations obtained from ESGF servers .
 
-###### The main characteristics of the RoCliB dataset are listed below:
+##### The main characteristics of the RoCliB dataset are listed below:
 
 -   Climate variables: air temperature (tasAdjust - Celsius degree),
     maximum air temperature (tasmaxAdjust - Celsius degree), minimum air
@@ -48,12 +48,12 @@ simulations obtained from ESGF servers .
 -   Data source:
     [\<https://doi.org/10.5281/zenodo.4642464\>](https://doi.org/10.5281/zenodo.4642464){.uri}.
 
-###### The dashboard is structured in two main sections:
+##### The dashboard is structured in two main sections:
 
 -   [Key figures and *Graphs*](#Graphs)
 -   [Relevant *Maps*](#maps)
 
-###### Tools
+##### Tools
 
 -   Visualisation: [shiny](https://shiny.rstudio.com/)
 -   Map: [leaflet](https://rstudio.github.io/leaflet/)
@@ -63,7 +63,7 @@ simulations obtained from ESGF servers .
 -   Table: [DT](https://rstudio.github.io/DT/)
 -   Deployment: via [Drupal](www.drupal.org)
 
-###### Source code
+##### Source code
 
 Repository:
 [https://github.com/alexdum](https://github.com/alexdum/roclib)
@@ -71,7 +71,7 @@ Repository:
 Report issue(s) or feature(s) request
 [here](https://github.com/alexdum/roclib/issues)
 
-###### Developer
+##### Developer
 
 Alexandru Dumitrescu:
 [dumitrescu\@meteoromania.ro](mailto:dumitrescu@meteoromania.ro)
