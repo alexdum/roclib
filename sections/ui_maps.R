@@ -1,4 +1,4 @@
-ui_maps <- tabPanel("Graphs", icon = icon("globe-europe"), value = "#maps", id = "#maps",
+ui_maps <- tabPanel("Maps", icon = icon("globe-europe"), value = "#maps", id = "#maps",
                     sidebarLayout(fluid = T,
                                   sidebarPanel(
                                     
