@@ -28,16 +28,13 @@ ui_maps <- tabPanel("Graphs", icon = icon("globe-europe"), value = "#maps", id =
                                   
                                   mainPanel(
                                     tabsetPanel(
-                                      tabPanel("Multi-mean",
-                                               fluidRow(
-                                                 h3("Change"),
-                                                 
-                                               ),
+                                      tabPanel("Changes",
+                                            
                                                fluidRow(
                                                  
-                                                 h4("", style = "text-align:center;"),
-                                                 plotOutput("coolplot"),
-                                                 textOutput("season")
+                                                 h5(textOutput("tabtext"), style = "text-align:center;"),
+                                                 plotOutput("coolplot")
+                                                 
                                                  #downloadButton('downloadData', 'Download PNG')
                                                  
                                                  

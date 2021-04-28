@@ -22,17 +22,24 @@ rs <- reactive({
   
 })
 
-
-
-
+output$tabtext <- renderText({
+  
+  if(input$Parameter == "tasAdjust") var1 <- "Tmean"
+  if(input$Parameter == "tasminAdjust") var1 <- "Tmin"
+  if(input$Parameter == "tasmaxAdjust") var1 <- "Tmax"
+  if(input$Parameter == "prAdjust") var1 <- "Precipitation"
+  var2 <- ifelse (input$Scenario == "rcp45",  "RCP4.5", "RCP8.5")
+  var3 <- ifelse(grepl(2071, input$Period, fixed = TRUE), "2071-2100 vs. 1971-2000", "2021-2050 vs. 1971-2000")
+  varf <- paste(var1,input$Season, var2, var3 )
+  
+})
 
 
 output$coolplot <- renderPlot({
   
   
-  
   rs <- rs()
-  print(rs)
+  #print(rs)
   
   
   rg <- range(rs$values) %>% round(1)
@@ -42,10 +49,8 @@ output$coolplot <- renderPlot({
   rs$values[rs$values < rg[1]] <- rg[1]
   
   # simboluri in functie de parametru
-  
   if (input$Parameter != "prAdjust") {
     
-
     ylOrBn <- colorRampPalette( brewer.pal(9,"YlOrRd"), interpolate="linear")
     
     brks <- seq(0.2, 5.4, by = 0.2)
@@ -54,19 +59,15 @@ output$coolplot <- renderPlot({
     cols <- data.frame(cols = ylOrBn(length(brks)),
                        brks = brks)
     
-   # cols <- cols %>% filter( brks >= rg[1] & brks <=  rg[2])
   } else {
-    cols <- data.frame(cols = brewer.pal(7,"BrBG"),
-                       brks = seq(-30, 30, by = 10))
-    
+    cols <- data.frame(cols = brewer.pal(7,"BrBG"), brks = seq(-30, 30, by = 10))
     cols <- cols %>% filter( brks >= plyr::round_any(rg[1],10, f = floor) & brks <= plyr::round_any(rg[2], 10, f = ceiling) )
     
   }
   
-  print(cols)
-  print(rg)
+  #print(cols)
+  #print(rg)
   ggplot() +
-    
     geom_raster(data = rs, aes(x = x, y = y,
                                fill = values),interpolate = F, alpha = 100) +
     geom_sf(fill = "transparent", data = judete) +
@@ -74,7 +75,7 @@ output$coolplot <- renderPlot({
     # make title bold and add space
     # 
     scale_fill_stepsn( colours = cols$cols,#[2:(nrow(cols))],
-                       name = ifelse(input$Parameter != "prAdjust", "     °C", "     mm"), 
+                       name = ifelse(input$Parameter != "prAdjust", "      °C", "      %"), 
                        breaks = cols$brks) + 
     
     
