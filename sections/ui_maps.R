@@ -1,39 +1,46 @@
 ui_maps <- tabPanel("Maps", icon = icon("globe-europe"), value = "#maps", id = "#maps",
+                    h4("Maps"),
+                    HTML("Here are shown relevant maps that can be used for climate change analysis in Romania. The data used to 
+                         compute the maps can be downloaded for eeach visualised variable in GeoTIFF format."),
+                    
                     sidebarLayout(fluid = T,
-                                  sidebarPanel(
+                                  sidebarPanel(width = 2,
                                     
                                     
                                     selectInput("Period", label = "Period",
                                                 c("2071-2100 vs. 1971-2000" =  "20710301-21001130",
                                                   "2021-2050 vs. 1971-2000" =  "20210301-20501130"),  
-                                                width = "600px",
+                                                width = "220px",
                                                 selected = "2071-2100 vs. 1971-2000"),
                                     
                                     selectInput("Scenario", label = "Scenario",
                                                 c("RCP4.5" =  "rcp45",
                                                   "RCP8.5" =  "rcp85") ,
-                                                width = "600px",
+                                                width = "220px",
                                                 selected = "RCP4.5"),
                                     
                                     selectInput("Parameter", label = "Parameter",
                                                 c("Tmean" =  "tasAdjust", "Prec" = "prAdjust",
                                                   "Tmin" = "tasminAdjust", "Tmax" =  "tasmaxAdjust"),
-                                                selected = "Tmean", width = "600px"),
+                                                selected = "Tmean", width = "220px"),
                                     
                                     selectInput("Season", label = "Season",
                                                 c("DJF" =  "DJF", "MAM" =  "MAM", 
                                                   "JJA" =  "JJA", "SON" = "SON" ),
-                                                width = "600px", selected = "SON")
+                                                width = "220px", selected = "SON")
                                   ),
                                   
-                                  mainPanel(
-                                    tabsetPanel(
-                                      tabPanel("Changes",
+                                  mainPanel(width = 6,
+                                    tabsetPanel( 
+                                      tabPanel(h5("Changes"),
+                                               HTML("The changes are computed as differences between future periods (2021-2050 and 2071-2100) and the 
+                       historical period (1971-2000). The differences are computed as absolute (°C) for air temperature and reltaive for 
+                       precipitation (%)"),
                                             
-                                               fluidRow(
+                                               fluidRow(width = 6,
                                                  
                                                  h5(textOutput("tabtext"), style = "text-align:center;"),
-                                                 plotOutput("coolplot")
+                                                 plotOutput("coolplot", height = "500px")
                                                  
                                                  #downloadButton('downloadData', 'Download PNG')
                                                  

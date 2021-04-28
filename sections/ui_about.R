@@ -1,7 +1,9 @@
 about_ui <- tabPanel("About",icon = icon("question-circle"), value = "#about", id = "#about",
                      
                     
-      fluidRow( includeMarkdown("sections/about/about.md"))
+      fluidRow( h4("About"),
+      includeMarkdown("sections/about/about.md")
+      )
                                      
                                      
                        
