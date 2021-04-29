@@ -7,7 +7,10 @@ ui_maps <- tabPanel("Maps", icon = icon("globe-europe"), value = "#maps", id = "
                     sidebarLayout(fluid = T,
                                   sidebarPanel(width = 2,
                                                
-                                               
+                                               selectInput("Parameter", label = "Parameter",
+                                                           c("Tmean" =  "tasAdjust", "Prec" = "prAdjust",
+                                                             "Tmin" = "tasminAdjust", "Tmax" =  "tasmaxAdjust"),
+                                                           selected = "Tmean", width = "220px"),
                                                selectInput("Period", label = "Period",
                                                            c("2071-2100 vs. 1971-2000" =  "20710301-21001130",
                                                              "2021-2050 vs. 1971-2000" =  "20210301-20501130"),  
@@ -19,16 +22,11 @@ ui_maps <- tabPanel("Maps", icon = icon("globe-europe"), value = "#maps", id = "
                                                              "RCP8.5" =  "rcp85") ,
                                                            width = "220px",
                                                            selected = "RCP4.5"),
-                                               
-                                               selectInput("Parameter", label = "Parameter",
-                                                           c("Tmean" =  "tasAdjust", "Prec" = "prAdjust",
-                                                             "Tmin" = "tasminAdjust", "Tmax" =  "tasmaxAdjust"),
-                                                           selected = "Tmean", width = "220px"),
-                                               
-                                               selectInput("Season", label = "Season",
-                                                           c("DJF" =  "DJF", "MAM" =  "MAM", 
+  
+                                                selectInput("Season", label = "Annual/Season",
+                                                           c("Annual" = "Annual", "DJF" =  "DJF", "MAM" =  "MAM", 
                                                              "JJA" =  "JJA", "SON" = "SON" ),
-                                                           width = "220px", selected = "SON"),
+                                                           width = "220px", selected = "Annual"),
                                                downloadButton('downloadPlot', 'Download   PNG', 
                                                               style = "padding: 5px 20px 5px 24px;margin: 5px 5px 5px 5px; "),
                                                h5(""),

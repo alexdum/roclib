@@ -1,17 +1,31 @@
 # citeste raster de interes
 rs <- reactive({
   
+  # modificari in situatia cu Annual
+  smean <- "_seasmean.nc"
+  ssum <- "_seassum.nc"
+  period <- input$Period
+  if (input$Season == "Annual") {
+    # perioada change
+    period <- period %>% gsub("0301", "0101", .) %>% gsub("1130", "1231", .)
+    # season change
+    smean <- gsub("seas", "year", smean)
+    ssum <- gsub("seas", "year", ssum)
+    
+    }
+    
+  
   if (input$Parameter != "prAdjust") {
-    path <- paste0("www/data/ncs/changes_ensemble/bc_",input$Parameter,"_",input$Scenario,"_",input$Period,"_seasmean.nc")
+    path <- paste0("www/data/ncs/changes_ensemble/bc_",input$Parameter,"_",input$Scenario,"_",period, smean)
   } else {
-    path <- paste0("www/data/ncs/changes_ensemble/bc_",input$Parameter,"_",input$Scenario,"_",input$Period,"_seassum.nc")
+    path <- paste0("www/data/ncs/changes_ensemble/bc_",input$Parameter,"_",input$Scenario,"_",period, ssum)
   }
   
   # print(path)
   r <- brick(path)
 
   nms <- names(r) %>% gsub("X", "",.) %>% as.numeric() %>%  as.Date(origin = "1970-01-01") %>% seas::mkseas("DJF") %>% as.character()
-  r <- r[[which(nms %in% input$Season )]]
+  if (input$Season != "Annual") r <- r[[which(nms %in% input$Season )]]
   
   nlayers(r)
   r
