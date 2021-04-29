@@ -66,16 +66,15 @@ plotInput<- reactive ({
     
     ylOrBn <- colorRampPalette( brewer.pal(9,"YlOrRd"), interpolate="linear")
     
-    brks <- seq(0.2, 5.4, by = 0.2)
-    brks <-  brks[brks >= plyr::round_any(rg[1], 0.2, f = floor) & brks <=  plyr::round_any(rg[2], 0.2, f = ceiling)]
-    
-    cols <- data.frame(cols = ylOrBn(length(brks)),
-                       brks = brks)
+    brks <- seq(1.5, 5, by = 0.5)
+    cols <- ylOrBn(length(brks) - 1)
+    lim <- c(1, 5.5)
     
   } else {
-    cols <- data.frame(cols = brewer.pal(7,"BrBG"), brks = seq(-30, 30, by = 10))
-    cols <- cols %>% filter( brks >= plyr::round_any(rg[1],10, f = floor) & brks <= plyr::round_any(rg[2], 10, f = ceiling) )
     
+    cols <- brewer.pal(6,"BrBG")
+    brks <- seq(-20, 20, by = 10)
+    lim <- c(-30,30)
   }
   
   #print(cols)
@@ -87,9 +86,10 @@ plotInput<- reactive ({
     geom_sf_text(aes(label = JUDET),colour = "darkgrey",size = 3, data = judete)+
     # make title bold and add space
     # 
-    scale_fill_stepsn( colours = cols$cols,#[2:(nrow(cols))],
+    scale_fill_stepsn( colours = cols,
                        name = ifelse(input$Parameter != "prAdjust", "      °C", "      %"), 
-                       breaks = cols$brks) + 
+                       breaks = brks,
+                       limits = lim) + 
     labs(caption = "@MeteoRomania") +
     xlab("") + ylab("") + theme_bw() +
     guides(fill = guide_colourbar(barwidth = 1.0, barheight = 10.0, title.position = "top")) +
