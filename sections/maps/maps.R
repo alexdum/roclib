@@ -94,12 +94,15 @@ plotInput<- reactive ({
     xlab("") + ylab("") + theme_bw() +
     guides(fill = guide_colourbar(barwidth = 1.0, barheight = 10.0, title.position = "top")) +
     theme( legend.position = c(.9, .75),
-           plot.caption = element_text(vjust = 25, hjust = 0.95)) 
+           plot.caption = element_text(vjust = 25, hjust = 0.95)) +
+    annotate("text", label = paste("max.:", rg[2]), x=29.2, y = 46, size = 3) +
+    annotate("text", label = paste("min.:", rg[1]), x=29.2, y = 45.9, size = 3) +
+    annotate("text", label = paste("avg.:", mean(rs$values) %>% round(1)), x=29.2, y = 45.8,  size = 3)
 })
 
 # pentru randare plot
 output$coolplot <- renderPlot(
-  height = 500, units="px", {
+  width = 850, height = 650, units="px",res = 100, {
     plotInput()
   })
 
@@ -107,7 +110,7 @@ output$coolplot <- renderPlot(
 output$downloadPlot <- downloadHandler(
   filename = function() { paste(textvar() %>% gsub(" " ,"_", . ) %>% gsub("vs.", "vs",.) %>% tolower(), '.png', sep='') },
   content = function(file) {
-    png(file, width = 1014, height = 800, units = "px", res = 130)
+    png(file, width = 850, height = 650, units = "px", res = 100)
     print(plotInput())
     dev.off()
   })
