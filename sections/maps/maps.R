@@ -95,9 +95,9 @@ plotInput<- reactive ({
     guides(fill = guide_colourbar(barwidth = 1.0, barheight = 10.0, title.position = "top")) +
     theme( legend.position = c(.9, .75),
            plot.caption = element_text(vjust = 25, hjust = 0.95)) +
-    annotate("text", label = paste("max.:", rg[2]), x=29.2, y = 46, size = 3) +
-    annotate("text", label = paste("min.:", rg[1]), x=29.2, y = 45.9, size = 3) +
-    annotate("text", label = paste("avg.:", mean(rs$values) %>% round(1)), x=29.2, y = 45.8,  size = 3)
+    annotate("text", label = paste("max.:", rg[2] %>% sprintf("%.1f",.)), x=29.2, y = 46, size = 3) +
+    annotate("text", label = paste("min.:", rg[1] %>% sprintf("%.1f",.)), x=29.2, y = 45.9, size = 3) +
+    annotate("text", label = paste("avg.:", mean(rs$values) %>% round(1)%>% sprintf("%.1f",.)), x=29.2, y = 45.8,  size = 3)
 })
 
 # pentru randare plot
