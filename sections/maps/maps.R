@@ -1,4 +1,4 @@
-
+# citeste raster de interes
 rs <- reactive({
   
   if (input$Parameter != "prAdjust") {
@@ -7,20 +7,17 @@ rs <- reactive({
     path <- paste0("www/data/ncs/changes_ensemble/bc_",input$Parameter,"_",input$Scenario,"_",input$Period,"_seassum.nc")
   }
   
-  print(path)
+  # print(path)
   r <- brick(path)
-  # r <- brick("www/data/ncs/changes_ensemble/bc_tasAdjust_rcp85_20710301-21001130_seasmean.nc")
+
   nms <- names(r) %>% gsub("X", "",.) %>% as.numeric() %>%  as.Date(origin = "1970-01-01") %>% seas::mkseas("DJF") %>% as.character()
+  r <- r[[which(nms %in% input$Season )]]
   
-  
-  rs <- r[[which(nms %in% input$Season )]] %>% rasterToPoints() %>% as_tibble()
-  # rs <- r[[which(nms %in% "SON" )]] %>% rasterToPoints() %>% as_tibble()
-  names(rs)[3] <- "values"
-  
-  rs
-  
+  nlayers(r)
+  r
   
 })
+
 
 
 # text titlu si salvare png si fisier
@@ -37,21 +34,18 @@ textvar <- reactive({
 })
 
 
+# titlu harta
 output$tabtext <- renderText({
   textvar()
 })
 
-# reactive acum pentruutilizare output si download
+# plot reactive acum pentruutilizare output si download
 plotInput<- reactive ({
-  
-  rs <- rs()
-  #print(rs)
+
+  rs <- rs() %>% rasterToPoints() %>% as_tibble()
+  names(rs)[3] <- "values"
   
   rg <- range(rs$values) %>% round(1)
-  
-  #print(brks)
-  rs$values[rs$values > rg[2]] <- rg[2]
-  rs$values[rs$values < rg[1]] <- rg[1]
   
   # simboluri in functie de parametru
   if (input$Parameter != "prAdjust") {
@@ -82,18 +76,11 @@ plotInput<- reactive ({
     scale_fill_stepsn( colours = cols$cols,#[2:(nrow(cols))],
                        name = ifelse(input$Parameter != "prAdjust", "      °C", "      %"), 
                        breaks = cols$brks) + 
-    
-    
-    
-    
     labs(caption = "@MeteoRomania") +
-    xlab("") + ylab("") +
-    theme_bw() +
+    xlab("") + ylab("") + theme_bw() +
     guides(fill = guide_colourbar(barwidth = 1.0, barheight = 10.0, title.position = "top")) +
     theme( legend.position = c(.9, .75),
-           plot.caption = element_text(vjust = 25, hjust = 0.95))# ,aspect.ratio = 1)   #c(.93,.72)
-  
-  
+           plot.caption = element_text(vjust = 25, hjust = 0.95)) 
 })
 
 # pentru randare plot
@@ -102,7 +89,7 @@ output$coolplot <- renderPlot(
     plotInput()
   })
 
-# pentru descprcare plot imagine
+# pentru descarcare plot imagine
 output$downloadPlot <- downloadHandler(
   filename = function() { paste(textvar() %>% gsub(" " ,"_", . ) %>% gsub("vs.", "vs",.) %>% tolower(), '.png', sep='') },
   content = function(file) {
@@ -110,6 +97,14 @@ output$downloadPlot <- downloadHandler(
     print(plotInput())
     dev.off()
   })
+
+# pentru descarcare fisier Geotiff
+output$downloadRaster <- downloadHandler(
+  filename = function() { paste(textvar() %>% gsub(" " ,"_", . ) %>% gsub("vs.", "vs",.) %>% tolower(), '.tif', sep='') },
+  content = function(file) {
+    writeRaster(rs(), file, overwrite = T)
+  }
+  )
 
 
 

@@ -1,7 +1,8 @@
 ui_maps <- tabPanel("Maps", icon = icon("globe-europe"), value = "#maps", id = "#maps",
                     h4("Maps"),
-                    HTML("Here are shown relevant maps that can be used for climate change analysis in Romania. The data used to 
-                         compute the maps can be downloaded for eeach visualised variable in GeoTIFF format."),
+                    HTML("Here are shown relevant maps for essential climate variables and indicators that can 
+                         be used for climate change analysis in Romania. The data used to compute the maps can 
+                         be downloaded for each visualised variable in GeoTIFF format."),
                     
                     sidebarLayout(fluid = T,
                                   sidebarPanel(width = 2,
@@ -28,14 +29,18 @@ ui_maps <- tabPanel("Maps", icon = icon("globe-europe"), value = "#maps", id = "
                                                            c("DJF" =  "DJF", "MAM" =  "MAM", 
                                                              "JJA" =  "JJA", "SON" = "SON" ),
                                                            width = "220px", selected = "SON"),
-                                               downloadButton('downloadPlot', 'Download png Map ')
+                                               downloadButton('downloadPlot', 'Download   PNG', 
+                                                              style = "padding: 5px 20px 5px 24px;margin: 5px 5px 5px 5px; "),
+                                               h5(""),
+                                               downloadButton('downloadRaster', 'Download GeoTIFF',
+                                                              style = "padding: 5px 10px 5px 10px;margin: 5px 5px 5px 5px; ")
                                   ),
                                   
                                   mainPanel(width = 6,
                                             tabsetPanel( 
                                               tabPanel(h5("Changes"),
                                                        HTML("The changes are computed as differences between future periods (2021-2050 and 2071-2100) and the 
-                       historical period (1971-2000). The differences are computed as absolute (°C) for air temperature and reltaive for 
+                       historical period (1971-2000). The changes are computed as absolute (°C) for air temperature and reltaive for 
                        precipitation (%)"),
                                                        
                                                        fluidRow(width = 6, 
@@ -44,9 +49,7 @@ ui_maps <- tabPanel("Maps", icon = icon("globe-europe"), value = "#maps", id = "
                                                                 h5(textOutput("tabtext"), style = "text-align:center;"),
                                                                 plotOutput("coolplot")
                                                                 
-                                                                #downloadButton('downloadData', 'Download PNG')
-                                                                
-                                                                
+                                                              
                                                        ),
                                               )
                                               
