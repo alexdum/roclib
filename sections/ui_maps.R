@@ -8,9 +8,9 @@ ui_maps <- tabPanel("Maps", icon = icon("globe-europe"), value = "#maps", id = "
                                   sidebarPanel(width = 2,
                                                
                                                selectInput("Parameter", label = "Parameter",
-                                                           c("Tmean" =  "tasAdjust", "Prec" = "prAdjust",
-                                                             "Tmin" = "tasminAdjust", "Tmax" =  "tasmaxAdjust"),
-                                                           selected = "Tmean", width = "220px"),
+                                                           c("Temperature" =  "tasAdjust", "Precipitation" = "prAdjust",
+                                                             "Minimum mean temperature" = "tasminAdjust", "Maximum mean temperature" =  "tasmaxAdjust"),
+                                                           selected = "Temperature", width = "220px"),
                                                selectInput("Period", label = "Period",
                                                            c("2071-2100 vs. 1971-2000" =  "20710301-21001130",
                                                              "2021-2050 vs. 1971-2000" =  "20210301-20501130"),  
