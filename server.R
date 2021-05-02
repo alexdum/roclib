@@ -1,4 +1,5 @@
-server <- function(input, output, session) {
+server <- shinyServer(function(input, output, session) {
+  
    #observeEvent(input$RegiuneInput,
     #            updateSelectInput(session, "judetInput", "Judet",
      #                             choices = unique(date$NUME[date$CMR==input$RegiuneInput])))
@@ -7,5 +8,5 @@ server <- function(input, output, session) {
   
   
    
-}
+})
 
