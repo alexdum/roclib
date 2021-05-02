@@ -12,6 +12,7 @@ suppressPackageStartupMessages({
   library(sf)
   library(RColorBrewer)
   library(raster)
+  library(png)
 })
 #date1 <- readRDS("www/data/tabs/season+anual_mean_models.rds")
 
@@ -29,6 +30,7 @@ suppressPackageStartupMessages({
 ## pentru judete limita a se folosit doar o data dupa se pune in comentariu.
 
 judete <- read_sf("www/data/shp/ROU_adm/Judete.shp") %>% st_transform(4326)
+logo <- readPNG("www/png/sigla_anm.png")
 
 
 

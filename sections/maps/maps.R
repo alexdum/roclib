@@ -27,7 +27,7 @@ rs <- reactive({
   nms <- names(r) %>% gsub("X", "",.) %>% as.numeric() %>%  as.Date(origin = "1970-01-01") %>% seas::mkseas("DJF") %>% as.character()
   if (input$Season != "Annual") r <- r[[which(nms %in% input$Season )]]
   
-  nlayers(r)
+  #nlayers(r)
   r
   
 })
@@ -83,7 +83,8 @@ plotInput<- reactive ({
     geom_raster(data = rs, aes(x = x, y = y,
                                fill = values),interpolate = F, alpha = 100) +
     geom_sf(fill = "transparent", data = judete) +
-    geom_sf_text(aes(label = JUDET),colour = "darkgrey",size = 3, data = judete)+
+    geom_sf_text(aes(label = JUDET),colour = "darkgrey",size = 3, data = judete) +
+    annotation_raster(logo, xmin = 20.525, xmax = 21.525, ymin = 43.3, ymax = 43.9) +
     # make title bold and add space
     # 
     scale_fill_stepsn( colours = cols,
@@ -95,9 +96,9 @@ plotInput<- reactive ({
     guides(fill = guide_colourbar(barwidth = 1.0, barheight = 10.0, title.position = "top")) +
     theme( legend.position = c(.9, .75),
            plot.caption = element_text(vjust = 25, hjust = 0.95)) +
-    annotate("text", label = paste("max.:", rg[2] %>% sprintf("%.1f",.)), x=29.2, y = 46, size = 3) +
-    annotate("text", label = paste("min.:", rg[1] %>% sprintf("%.1f",.)), x=29.2, y = 45.9, size = 3) +
-    annotate("text", label = paste("avg.:", mean(rs$values) %>% round(1)%>% sprintf("%.1f",.)), x=29.2, y = 45.8,  size = 3)
+    annotate("text", label = paste("min.:", rg[1] %>% sprintf("%.1f",.)), x=29.2, y = 46, size = 3) +
+    annotate("text", label = paste("avg.:", mean(rs$values) %>% round(1)%>% sprintf("%.1f",.)), x=29.2, y = 45.9,  size = 3) +
+    annotate("text", label = paste("max.:", rg[2] %>% sprintf("%.1f",.)), x=29.2, y = 45.8, size = 3)
 })
 
 # pentru randare plot
