@@ -96,7 +96,7 @@ plotInput<- reactive ({
     guides(fill = guide_colourbar(barwidth = 1.0, barheight = 10.0, title.position = "top")) +
     theme(legend.position = c(.9, .75),
            plot.caption = element_text(vjust = 30, hjust = 0.95),
-          plot.title = element_text(vjust = -7, hjust = 0.5)) +
+          plot.title = element_text(vjust = -7, hjust = 0.5, size = 12)) +
     annotate("text", label = paste("min.:", rg[1] %>% sprintf("%.1f",.)), x=29.2, y = 46, size = 3) +
     annotate("text", label = paste("avg.:", mean(rs$values) %>% round(1)%>% sprintf("%.1f",.)), x=29.2, y = 45.9,  size = 3) +
     annotate("text", label = paste("max.:", rg[2] %>% sprintf("%.1f",.)), x=29.2, y = 45.8, size = 3)

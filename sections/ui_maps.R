@@ -3,6 +3,12 @@ ui_maps <- tabPanel("Maps", icon = icon("globe-europe"), value = "#maps", id = "
                     HTML("Here are shown relevant maps for essential climate variables and indicators that can 
                          be used for climate change analysis in Romania. The data used to compute the maps can 
                          be downloaded for each visualised variable in GeoTIFF format."),
+                    tabsetPanel( 
+                      tabPanel(h5("Changes"),
+                               HTML("The changes are computed as differences between future periods (2021-2050 and 2071-2100) and the 
+                       historical period (1971-2000). The changes are computed as absolute (°C) for air temperature and reltaive for 
+                       precipitation (%)"),
+                               
                     
                     sidebarLayout(fluid = T,
                                   sidebarPanel(width = 2,
@@ -35,12 +41,7 @@ ui_maps <- tabPanel("Maps", icon = icon("globe-europe"), value = "#maps", id = "
                                   ),
                                   
                                   mainPanel(width = 6,
-                                            tabsetPanel( 
-                                              tabPanel(h5("Changes"),
-                                                       HTML("The changes are computed as differences between future periods (2021-2050 and 2071-2100) and the 
-                       historical period (1971-2000). The changes are computed as absolute (°C) for air temperature and reltaive for 
-                       precipitation (%)"),
-                                                       
+                                                   
                                                        fluidRow(width = 6, 
                                                             
                                                                 #h5(textOutput("tabtext"), style = "text-align:center;"),
