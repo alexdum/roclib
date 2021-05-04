@@ -88,12 +88,20 @@ plotInput<- reactive ({
                        name = ifelse(input$Parameter != "prAdjust", "      °C", "      %"), 
                        breaks = brks,
                        limits = lim) + 
-    labs(caption = "@SUSCAP", title = textvar()) +
-    xlab("") + ylab("") + theme_bw() + #xlim(20,30) + ylim(43.5, 48.3) +
+    labs(caption = "@SUSCAP", title = textvar(), x = "", y = "") +
+    theme_bw() + #xlim(20,30) + ylim(43.5, 48.3) +
     guides(fill = guide_colourbar(barwidth = 1.0, barheight = 10.0, title.position = "top")) +
     theme(legend.position = c(.9, .75),
           plot.caption = element_text(vjust = 30, hjust = 0.95),
-          plot.title = element_text(vjust = -7, hjust = 0.5, size = 12)) +
+          plot.title = element_text(vjust = -7, hjust = 0.5, size = 12),
+          #axis.text = element_blank(),
+          axis.title = element_blank(),
+          axis.ticks = element_blank(),
+          axis.ticks.length = unit(0, "pt"), #length of tick marks
+          # panel.grid.major=element_blank(),
+          # panel.grid.minor=element_blank(),
+          plot.margin = margin(-0.9, 0, 0, 0, "cm")
+          ) +
     annotate("text", label = paste("min.:", rg[1] %>% sprintf("%.1f",.)), x=29.2, y = 46, size = 3) +
     annotate("text", label = paste("avg.:", mean(rs$values) %>% round(1)%>% sprintf("%.1f",.)), x=29.2, y = 45.9,  size = 3) +
     annotate("text", label = paste("max.:", rg[2] %>% sprintf("%.1f",.)), x=29.2, y = 45.8, size = 3)
