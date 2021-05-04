@@ -10,6 +10,7 @@ ui <- shinyUI(
   ui <- function(req) { 
     fluidPage(theme = shinytheme("yeti"),
                tags$head(
+                 
                 # includeHTML("google-analytics.html"),
                  tags$style(type = "text/css", "body {padding-top: 70px;}"),
               
