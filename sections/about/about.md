@@ -74,12 +74,12 @@ Report issue(s) or feature(s) request
 ##### Developer
 
 Alexandru Dumitrescu:
-[dumitrescu\@meteoromania.ro](mailto:dumitrescu@meteoromania.ro)
+[dumitrescu@meteoromania.ro](mailto:dumitrescu@meteoromania.ro)
 
 Vlad Amihaesei:
-[vlad.amihaesei\@meteoromania.ro](mailto:vlad.amihaesei@meteoromania.r)
+[vlad.amihaesei@meteoromania.ro](mailto:vlad.amihaesei@meteoromania.r)
 
 ------------------------------------------------------------------------
 
-(c) 2021 Alexandru Dumitrescu \| [MIT
+(c) 2021 SUSCAP MeteoRomania \| [MIT
     License](https://github.com/alexdum/roclib/blob/master/LICENSE)
