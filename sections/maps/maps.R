@@ -12,8 +12,8 @@ rs <- reactive({
     smean <- gsub("seas", "year", smean)
     ssum <- gsub("seas", "year", ssum)
     
-    }
-    
+  }
+  
   
   if (input$Parameter != "prAdjust") {
     path <- paste0("www/data/ncs/changes_ensemble/bc_",input$Parameter,"_",input$Scenario,"_",period, smean)
@@ -23,7 +23,7 @@ rs <- reactive({
   
   # print(path)
   r <- brick(path)
-
+  
   nms <- names(r) %>% gsub("X", "",.) %>% as.numeric() %>%  as.Date(origin = "1970-01-01") %>% seas::mkseas("DJF") %>% as.character()
   if (input$Season != "Annual") r <- r[[which(nms %in% input$Season )]]
   
@@ -55,7 +55,7 @@ textvar <- reactive({
 
 # plot reactive acum pentruutilizare output si download
 plotInput<- reactive ({
-
+  
   rs <- rs() %>% rasterToPoints() %>% as_tibble()
   names(rs)[3] <- "values"
   
@@ -63,15 +63,11 @@ plotInput<- reactive ({
   
   # simboluri in functie de parametru
   if (input$Parameter != "prAdjust") {
-    
     ylOrBn <- colorRampPalette( brewer.pal(9,"YlOrRd"), interpolate="linear")
-    
     brks <- seq(1.5, 5, by = 0.5)
     cols <- ylOrBn(length(brks) - 1)
     lim <- c(1, 5.5)
-    
   } else {
-    
     cols <- brewer.pal(6,"BrBG")
     brks <- seq(-20, 20, by = 10)
     lim <- c(-30,30)
@@ -79,6 +75,7 @@ plotInput<- reactive ({
   
   #print(cols)
   #print(rg)
+  
   ggplot() +
     geom_raster(data = rs, aes(x = x, y = y,
                                fill = values),interpolate = F, alpha = 100) +
@@ -95,11 +92,12 @@ plotInput<- reactive ({
     xlab("") + ylab("") + theme_bw() + #xlim(20,30) + ylim(43.5, 48.3) +
     guides(fill = guide_colourbar(barwidth = 1.0, barheight = 10.0, title.position = "top")) +
     theme(legend.position = c(.9, .75),
-           plot.caption = element_text(vjust = 30, hjust = 0.95),
+          plot.caption = element_text(vjust = 30, hjust = 0.95),
           plot.title = element_text(vjust = -7, hjust = 0.5, size = 12)) +
     annotate("text", label = paste("min.:", rg[1] %>% sprintf("%.1f",.)), x=29.2, y = 46, size = 3) +
     annotate("text", label = paste("avg.:", mean(rs$values) %>% round(1)%>% sprintf("%.1f",.)), x=29.2, y = 45.9,  size = 3) +
     annotate("text", label = paste("max.:", rg[2] %>% sprintf("%.1f",.)), x=29.2, y = 45.8, size = 3)
+  
 })
 
 # pentru randare plot
@@ -123,7 +121,7 @@ output$downloadRaster <- downloadHandler(
   content = function(file) {
     writeRaster(rs(), file, overwrite = T)
   }
-  )
+)
 
 
 
