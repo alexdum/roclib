@@ -32,6 +32,9 @@ suppressPackageStartupMessages({
 judete <- read_sf("www/data/shp/ROU_adm/Judete.shp") %>% st_transform(4326)
 logo <- readPNG("www/png/sigla_anm.png")
 
+# next click on polygons for graphs
+# https://community.rstudio.com/t/shiny-leaflet-link-map-polygons-to-reactive-plotly-graphs/40527/2
+
 
 
 
