@@ -14,7 +14,7 @@ ui_maps <- tabPanel("Maps", icon = icon("globe-europe"), value = "#maps", id = "
                                
                                sidebarLayout(fluid = T,
                                              
-                                             sidebarPanel(width = 2,
+                                             sidebarPanel(width = 4,
                                                           
                                                           selectInput("Parameter", label = "Parameter",
                                                                       c("Mean temperature" =  "tasAdjust", "Precipitation" = "prAdjust",
@@ -43,7 +43,7 @@ ui_maps <- tabPanel("Maps", icon = icon("globe-europe"), value = "#maps", id = "
                                                                          style = "padding: 5px 10px 5px 10px;margin: 5px 5px 5px 5px; ")
                                              ),
                                              
-                                             mainPanel(width = 6,
+                                             mainPanel(width = 8,
                                                        
                                                         fluidRow(
                                                        
