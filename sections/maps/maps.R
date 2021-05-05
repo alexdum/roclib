@@ -90,9 +90,9 @@ plotInput<- reactive ({
                        limits = lim) + 
     labs(caption = "@SUSCAP", title = textvar(), x = "", y = "") +
     theme_bw() + #xlim(20,30) + ylim(43.5, 48.3) +
-    guides(fill = guide_colourbar(barwidth = 1.0, barheight = 10.0, title.position = "top")) +
+    guides(fill = guide_colourbar(barwidth = 1.0, barheight = 9, title.position = "top")) +
     theme(legend.position = c(.9, .75),
-          plot.caption = element_text(vjust = 30, hjust = 0.95),
+          plot.caption = element_text(vjust = 30, hjust = 0.95, size = 3),
           plot.title = element_text(vjust = -7, hjust = 0.5, size = 12),
           #axis.text = element_blank(),
           axis.title = element_blank(),
@@ -113,6 +113,27 @@ output$coolplot <- renderPlot(
   width = 850, height = 650, units="px",res = 100, {
     plotInput()
   })
+
+
+# render plot asimage
+
+# output$imageplot <- renderImage ({
+#   
+#   outfile <- tempfile(fileext='.png')
+#   png(outfile, width = 850, height = 650, units = "px", res = 100)
+#   print(plotInput())
+#   dev.off()
+#   
+#   # Return a list containing the filename
+#   list(src = outfile,
+#        contentType = 'text/svg+xml',
+#        width = 850,
+#        height = 650,
+#        alt = "Map")
+#   
+# }, deleteFile = TRUE)
+#   
+  
 
 # pentru descarcare plot imagine
 output$downloadPlot <- downloadHandler(

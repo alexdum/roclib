@@ -45,16 +45,16 @@ ui_maps <- tabPanel("Maps", icon = icon("globe-europe"), value = "#maps", id = "
                                              
                                              mainPanel(width = 6,
                                                        
-                                                       # fluidRow(width = 6, 
+                                                        fluidRow(
                                                        
                                                        #h5(textOutput("tabtext"), style = "text-align:center;"),
-                                                       #div(
-                                                         plotOutput("coolplot", width = "100%"), 
-                                                         #style = "margin-left:-30px;margin-right:-30px;margin-top:-30px;"
-                                                      # )
+                                                      
+                                                         plotOutput("coolplot"), 
+                                                         #imageOutput("imageplot"),
+                                                     
                                                        
                                                        
-                                                       #),
+                                                       ),#
                                              )
                                              
                                )

@@ -12,7 +12,10 @@ ui <- shinyUI(
                tags$head(
                  
                 # includeHTML("google-analytics.html"),
-                 tags$style(type = "text/css", "body {padding-top: 70px;}"),
+                 tags$style(type = "text/css", 
+                            # responsive images
+                            "img {max-width: 100%; width: 100%; height: auto}"
+                           )
               
                ),
               useShinyjs(),
