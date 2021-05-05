@@ -13,6 +13,7 @@ suppressPackageStartupMessages({
   library(RColorBrewer)
   library(raster)
   library(png)
+  library(shinyWidgets)
 })
 #date1 <- readRDS("www/data/tabs/season+anual_mean_models.rds")
 
