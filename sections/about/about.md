@@ -43,10 +43,10 @@ simulations obtained from ESGF servers .
 -   Coordinate system: WGS 1984 (EPSG:4326);
 
 -   Naming convention:
-    variablename_ROU-11_cmip5experiment_globalmodel_run_regionalmodel_rcmversionid_timefrequency_starttime-endtime.nc;
+    variablename_ROU-11_cmip5experiment_globalmodel_run_regionalmodel_rcmversionid _timefrequency_starttime-endtime.nc;
 
 -   Data source:
-    [\<https://doi.org/10.5281/zenodo.4642464\>](https://doi.org/10.5281/zenodo.4642464){.uri}.
+    [https://doi.org/10.5281/zenodo.4642464](https://doi.org/10.5281/zenodo.4642464){.uri}.
 
 ##### The dashboard is structured in two main sections:
 
