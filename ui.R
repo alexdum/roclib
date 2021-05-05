@@ -9,15 +9,17 @@ ui <- shinyUI(
   
   ui <- function(req) { 
     fluidPage(theme = shinytheme("yeti"),
-               tags$head(
-                 
+              tags$head(
+                
                 # includeHTML("google-analytics.html"),
-                 tags$style(type = "text/css", 
-                            # responsive images
-                            "img {max-width: 100%; width: 100%; height: auto}"
-                           )
-              
-               ),
+                tags$style(
+                  type = "text/css", 
+                  "body {padding-top: 70px;}",
+                  # responsive images
+                  "img {max-width: 100%; width: 100%; height: auto}"
+                )
+                
+              ),
               useShinyjs(),
               navbarPage("RoCliB", collapsible = T, fluid = T, id = "tabs", position =  "fixed-top",
                          selected = "#about",
@@ -29,10 +31,10 @@ ui <- shinyUI(
                          ui_maps,
                          
                          #  NO2 Analysis----------------------------------------------------------
-                        # no2_ui,
+                         # no2_ui,
                          
                          # About -------------------------------------------------------------------
-                        about_ui
+                         about_ui
               )
     )
   }

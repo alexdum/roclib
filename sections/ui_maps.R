@@ -54,7 +54,7 @@ ui_maps <- tabPanel("Maps", icon = icon("globe-europe"), value = "#maps", id = "
                                                      
                                                        
                                                        
-                                                       ),#
+                                                       )
                                              )
                                              
                                )
