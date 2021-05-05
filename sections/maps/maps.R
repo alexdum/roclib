@@ -64,9 +64,9 @@ plotInput<- reactive ({
   # simboluri in functie de parametru
   if (input$Parameter != "prAdjust") {
     ylOrBn <- colorRampPalette( brewer.pal(9,"YlOrRd"), interpolate="linear")
-    brks <- seq(1.5, 5, by = 0.5)
+    brks <- seq(1, 5, by = 0.5)
     cols <- ylOrBn(length(brks) - 1)
-    lim <- c(1, 5.5)
+    lim <- c(0.5, 5.5)
   } else {
     cols <- brewer.pal(6,"BrBG")
     brks <- seq(-20, 20, by = 10)
