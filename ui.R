@@ -8,20 +8,34 @@ source("sections/ui_about.R", local = T)
 ui <- shinyUI(
   
   ui <- function(req) { 
-    fluidPage(theme = shinytheme("simplex"),
+    fluidPage(theme = shinytheme("paper"),
               tags$head(
                 
                 # includeHTML("google-analytics.html"),
                 tags$style(
                   type = "text/css", 
-                  "body {padding-top: 70px;}",
+                  "body {padding-top: 55px;}",
                   # responsive images
-                  "img {max-width: 100%; width: 100%; height: auto}"
+                  "img {max-width: 100%; width: 100%; height: auto}",
+                  # inaltime navbaer
+                  '.navbar-brand{display:none;}'
                 )
                 
               ),
               useShinyjs(),
-              navbarPage("", collapsible = T, fluid = T, id = "tabs", position =  "fixed-top",
+              navbarPage("", 
+                         tags$head(
+                           tags$style(HTML(
+                             ' .navbar-nav>li>a {
+                              padding-top: 5px;
+                           padding-bottom: 5px;
+                           
+                                      }',
+                           '.navbar {min-height:5px !important;}'
+                           ))
+                         ),
+                         
+                         collapsible = T, fluid = T, id = "tabs", position =  "fixed-top",
                          selected = "#about",
                          
                          # Statistics & Facts ------------------------------------------------------
