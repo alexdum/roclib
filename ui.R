@@ -8,7 +8,7 @@ source("sections/ui_about.R", local = T)
 ui <- shinyUI(
   
   ui <- function(req) { 
-    fluidPage(theme = shinytheme("yeti"),
+    fluidPage(theme = shinytheme("simplex"),
               tags$head(
                 
                 # includeHTML("google-analytics.html"),
@@ -21,7 +21,7 @@ ui <- shinyUI(
                 
               ),
               useShinyjs(),
-              navbarPage("RoCliB", collapsible = T, fluid = T, id = "tabs", position =  "fixed-top",
+              navbarPage("", collapsible = T, fluid = T, id = "tabs", position =  "fixed-top",
                          selected = "#about",
                          
                          # Statistics & Facts ------------------------------------------------------
