@@ -46,7 +46,7 @@ simulations obtained from ESGF servers .
     variablename_ROU-11_cmip5experiment_globalmodel_run_ regionalmodel_rcmversionid _timefrequency_starttime-endtime.nc;
 
 -   Data source:
-    [https://doi.org/10.5281/zenodo.4642464](https://doi.org/10.5281/zenodo.4642464).
+    [https://doi.org/10.5281/zenodo.4642464](https://doi.org/10.5281/zenodo.4642464){:target="_blank"}.
 
 ##### The dashboard is structured in two main sections:
 
@@ -55,21 +55,21 @@ simulations obtained from ESGF servers .
 
 ##### Tools
 
--   Visualisation: [shiny](https://shiny.rstudio.com/)
--   Map: [leaflet](https://rstudio.github.io/leaflet/)
+-   Visualisation: [shiny](https://shiny.rstudio.com/){:target="_blank"}
+-   Map: [leaflet](https://rstudio.github.io/leaflet/){:target="_blank"}
 -   NetCDF manipulating:
-    [ncdf4](https://cran.r-project.org/web/packages/ncdf4/index.html)
--   Chart: [plotly](https://plot.ly/r/)
--   Table: [DT](https://rstudio.github.io/DT/)
--   Deployment: via [Drupal](www.drupal.org)
+    [ncdf4](https://cran.r-project.org/web/packages/ncdf4/index.html){:target="_blank"}
+-   Chart: [plotly](https://plot.ly/r/){:target="_blank"}
+-   Table: [DT](https://rstudio.github.io/DT/){:target="_blank"}
+-   Deployment: via [Drupal](www.drupal.org){:target="_blank"}
 
 ##### Source code
 
 Repository:
-[https://github.com/alexdum](https://github.com/alexdum/roclib)
+[https://github.com/alexdum](https://github.com/alexdum/roclib){:target="_blank"}
 
 Report issue(s) or feature(s) request
-[here](https://github.com/alexdum/roclib/issues)
+[here](https://github.com/alexdum/roclib/issues){:target="_blank"}
 
 ##### Developer
 
