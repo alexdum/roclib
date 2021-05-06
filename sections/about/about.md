@@ -6,8 +6,8 @@ editor_options:
 
 ##### Dashboard to present climate change aspects in Romania
 
-Built in [R](https://www.r-project.org/?target=_blank) using
-[Shiny](https://shiny.rstudio.com/?target=_blank), this dashboard aims to provide
+Built in <a href="https://www.r-project.org/", target="_blank"> R </a> using
+<a href="https://shiny.rstudio.com/", target="_top"> Shiny </a>, this dashboard aims to provide
 accurate and relevant facts and statistics about climate change in
 Romania. The application is based on ensemble means computed from 10
 adjusted RCMs data, which are provided via the Zenodo open-access
@@ -46,7 +46,7 @@ simulations obtained from ESGF servers .
     variablename_ROU-11_cmip5experiment_globalmodel_run_ regionalmodel_rcmversionid _timefrequency_starttime-endtime.nc;
 
 -   Data source:
-    [https://doi.org/10.5281/zenodo.4642464](https://doi.org/10.5281/zenodo.4642464?target=_blank)
+    [https://doi.org/10.5281/zenodo.4642464](https://doi.org/10.5281/zenodo.4642464?target=_top)
 
 ##### The dashboard is structured in two main sections:
 
@@ -55,20 +55,20 @@ simulations obtained from ESGF servers .
 
 ##### Tools
 
--   Visualisation: [shiny](https://shiny.rstudio.com/?target=_parent)
--   Map: [leaflet](https://rstudio.github.io/leaflet/?target=_blank)
+-   Visualisation: [shiny](https://shiny.rstudio.com/?target=blank)
+-   Map: [leaflet](https://rstudio.github.io/leaflet/?target=top)
 -   NetCDF manipulating:
     [ncdf4](https://cran.r-project.org/web/packages/ncdf4/index.html?target=_blank)
--   Chart: [plotly](https://plot.ly/r/?target=_blank)
--   Table: [DT](https://rstudio.github.io/DT/?target=_blank)
+-   Chart: [plotly](https://plot.ly/r/?target=_top)
+-   Table: [DT](https://rstudio.github.io/DT/?target=_top)
 
 ##### Source code
 
 Repository:
-[https://github.com/alexdum](https://github.com/alexdum/roclib?target=_blank)
+[https://github.com/alexdum](https://github.com/alexdum/roclib/?target=_top)
 
 Report issue(s) or feature(s) request
-[here](https://github.com/alexdum/roclib/issues?target=_blank)
+[here](https://github.com/alexdum/roclib/issues/?target=_top)
 
 ##### Developer
 
