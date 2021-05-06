@@ -14,6 +14,7 @@ suppressPackageStartupMessages({
   library(raster)
   library(png)
   library(shinyWidgets)
+  library(shinycssloaders)
 })
 #date1 <- readRDS("www/data/tabs/season+anual_mean_models.rds")
 
@@ -30,6 +31,9 @@ suppressPackageStartupMessages({
 
 ## pentru judete limita a se folosit doar o data dupa se pune in comentariu.
 
+
+# Options for Spinner
+options (spinner.color="#0275D8", spinner.color.background="#ffffff", spinner.size = 2)
 judete <- read_sf("www/data/shp/ROU_adm/Judete.shp") %>% st_transform(4326)
 logo <- readPNG("www/png/sigla_anm.png")
 
