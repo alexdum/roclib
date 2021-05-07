@@ -4,8 +4,6 @@ editor_options:
     wrap: 72
 ---
 
-##### Dashboard to present climate change aspects in Romania
-
 Built in <a href="https://www.r-project.org/", target="_blank"> R </a> using
 <a href="https://shiny.rstudio.com/", target="_blank"> Shiny </a>, this dashboard aims to provide
 accurate and relevant facts and statistics about climate change in
@@ -56,10 +54,10 @@ simulations obtained from ESGF servers .
 ##### Tools
 
 -   Visualisation: <a href="https://shiny.rstudio.com/", target="_blank">shiny</a>
--   Map: <a href="https://rstudio.github.io/leaflet/",target="_blank">leaflet</a>
+-   Map: <a href="https://rstudio.github.io/leaflet/", target="_blank">leaflet</a>
 -   NetCDF manipulating: <a href="https://cran.r-project.org/web/packages/ncdf4/index.html", target="_blank">ncdf4</a>
 -   Chart: <a href="https://plot.ly/r/", target="_blank">plotly</a>
--   Table: <a href="https://rstudio.github.io/DT/",target="_blabk">DT</a>
+-   Table: <a href="https://rstudio.github.io/DT/",target="_blank">DT</a>
 
 ##### Source code
 
