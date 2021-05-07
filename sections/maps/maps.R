@@ -80,7 +80,12 @@ plotInput<- reactive ({
     geom_raster(data = rs, aes(x = x, y = y,
                                fill = values),interpolate = F, alpha = 100) +
     geom_sf(fill = "transparent", data = judete) +
-    geom_sf_text(aes(label = JUDET),colour = "darkgrey",size = 3, data = judete) +
+    geom_sf(fill = "lightgrey", color = "grey", data = ctrs) +
+    geom_sf(fill = "lightblue", data = sea) +
+    geom_sf_text(aes(label = name),colour = "darkgrey",size = 3, data = judete) + 
+    geom_vline(xintercept = c(20,22,24,26,28,30), color="#d9d9d9", linetype='dashed') +
+    geom_hline(yintercept = c(44,45,46,47,48), color="#d9d9d9", linetype='dashed') +
+     
     annotation_raster(logo, xmin = 20.525, xmax = 21.525, ymin = 43.3, ymax = 43.9) +
     # make title bold and add space
     # 
@@ -89,9 +94,13 @@ plotInput<- reactive ({
                        breaks = brks,
                        limits = lim) + 
     labs(caption = "@SUSCAP", title = textvar(), x = "", y = "") +
-    theme_bw() + #xlim(20,30) + ylim(43.5, 48.3) +
+    # coord_sf(xlim = c(20,30), ylim = c(43.5, 48.3), expand = F) +
+    theme_bw() + xlim(20,30) + ylim(43.5, 48.3) +
     guides(fill = guide_colourbar(barwidth = 1.0, barheight = 9, title.position = "top")) +
+    scale_linetype_manual(values=c("twodash")) +
+    
     theme(legend.position = c(.9, .75),
+          legend.background = element_rect(fill="lightgrey", colour = "lightgrey"),
           plot.caption = element_text(vjust = 30, hjust = 0.95),
           plot.title = element_text(vjust = -7.5, hjust = 0.5, size = 13),
           #axis.text = element_blank(),

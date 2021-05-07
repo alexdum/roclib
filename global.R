@@ -15,6 +15,7 @@ suppressPackageStartupMessages({
   library(png)
   library(shinyWidgets)
   library(shinycssloaders)
+  library(ggspatial)
 })
 #date1 <- readRDS("www/data/tabs/season+anual_mean_models.rds")
 
@@ -34,7 +35,9 @@ suppressPackageStartupMessages({
 
 # Options for Spinner
 options (spinner.color="#0275D8", spinner.color.background="#ffffff", spinner.size = 2)
-judete <- read_sf("www/data/shp/ROU_adm/Judete.shp") %>% st_transform(4326)
+judete <- read_sf("www/data/shp/counties.shp") %>% st_transform(4326)
+ctrs <- read_sf("www/data/shp/countries.shp") 
+sea <- read_sf("www/data/shp/sea.shp") 
 logo <- readPNG("www/png/sigla_anm.png")
 
 # next click on polygons for graphs
