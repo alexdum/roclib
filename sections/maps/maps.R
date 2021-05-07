@@ -79,8 +79,8 @@ plotInput<- reactive ({
   ggplot() +
     geom_raster(data = rs, aes(x = x, y = y,
                                fill = values),interpolate = F, alpha = 100) +
-    geom_sf(fill = "transparent", data = judete) +
     geom_sf(fill = "lightgrey", color = "grey", data = ctrs) +
+    geom_sf(fill = "transparent", data = judete) +
     geom_sf(fill = "lightblue", data = sea) +
     geom_sf_text(aes(label = name),colour = "darkgrey",size = 3, data = judete) + 
     geom_vline(xintercept = c(20,22,24,26,28,30), color="#ece2f0", linetype='dashed') +
