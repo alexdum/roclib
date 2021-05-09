@@ -81,7 +81,7 @@ plotInput<- reactive ({
                                fill = values),interpolate = F, alpha = 100) +
     geom_sf(fill = "lightgrey", color = "grey", data = ctrs) +
     geom_sf(fill = "transparent", data = judete) +
-    geom_sf(fill = "lightblue", data = sea) +
+    geom_sf(fill = "#a4b9b9", data = sea, color = "lightgrey") +
     geom_sf_text(aes(label = name),colour = "darkgrey",size = 3, data = judete) + 
     geom_vline(xintercept = c(20,22,24,26,28,30), color="#ece2f0", linetype='dashed') +
     geom_hline(yintercept = c(44,45,46,47,48), color="#ece2f0", linetype='dashed') +
