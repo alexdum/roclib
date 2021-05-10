@@ -103,7 +103,7 @@ plotInput<- reactive ({
     theme(legend.position = c(.94, .91),
           legend.justification = c("right", "top"),
           legend.background = element_rect(fill="lightgrey", colour = "lightgrey"),
-          plot.caption = element_text(vjust = 28, hjust = 0.035, size = 8),
+          plot.caption = element_text(vjust = 29, hjust = 0.040, size = 7.5),
           plot.title = element_text(vjust = -7.5, hjust = 0.5, size = 13),
           #axis.text = element_blank(),
           axis.title = element_blank(),
