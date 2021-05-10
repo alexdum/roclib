@@ -86,22 +86,22 @@ plotInput<- reactive ({
     geom_vline(xintercept = c(20,22,24,26,28,30), color="#ece2f0", linetype='dashed') +
     geom_hline(yintercept = c(44,45,46,47,48), color="#ece2f0", linetype='dashed') +
      
-    annotation_raster(logo, xmin = 20.525, xmax = 21.525, ymin = 43.3, ymax = 43.9) +
+    annotation_raster(logo, xmin = 20.525, xmax = 21.525, ymin = 43.9, ymax = 44.5) +
     # make title bold and add space
     # 
     scale_fill_stepsn( colours = cols,
                        name = ifelse(input$Parameter != "prAdjust", "      °C", "      %"), 
                        breaks = brks,
                        limits = lim) + 
-    labs(caption = "@SUSCAP", title = textvar(), x = "", y = "") +
-    # coord_sf(xlim = c(20,30), ylim = c(43.5, 48.3), expand = F) +
-    theme_bw() + xlim(20,30) + ylim(43.5, 48.3) +
+    labs(caption = paste("@SUSCAP", Sys.Date()), title = textvar(), x = "", y = "") +
+    coord_sf(xlim = c(20,30), ylim = c(43.5, 48.5), expand = F) +
+    theme_bw() + #xlim(20,30) + ylim(43.7, 48.3) +
     guides(fill = guide_colourbar(barwidth = 1.0, barheight = 9, title.position = "top")) +
     scale_linetype_manual(values=c("twodash")) +
     
     theme(legend.position = c(.9, .75),
           legend.background = element_rect(fill="lightgrey", colour = "lightgrey"),
-          plot.caption = element_text(vjust = 30, hjust = 0.95),
+          plot.caption = element_text(vjust = 28, hjust = 0.035, size = 8),
           plot.title = element_text(vjust = -7.5, hjust = 0.5, size = 13),
           #axis.text = element_blank(),
           axis.title = element_blank(),
