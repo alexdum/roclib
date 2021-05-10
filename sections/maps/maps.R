@@ -103,7 +103,7 @@ plotInput<- reactive ({
     theme(legend.position = c(.94, .91),
           legend.justification = c("right", "top"),
           legend.background = element_rect(fill="lightgrey", colour = "lightgrey"),
-          plot.caption = element_text(vjust = 29, hjust = 0.040, size = 7.5),
+          plot.caption = element_text(vjust = 30, hjust = 0.040, size = 7.5),
           plot.title = element_text(vjust = -7.5, hjust = 0.5, size = 13),
           #axis.text = element_blank(),
           axis.title = element_blank(),
@@ -113,15 +113,15 @@ plotInput<- reactive ({
           # panel.grid.minor=element_blank(),
           plot.margin = margin(-0.9, 0.5, 0, 0, "cm")
           ) +
-    annotate("text", label = paste("min.:", rg[1] %>% sprintf("%.1f",.)), x=29.1, y = 46, size = 3.5) +
-    annotate("text", label = paste("avg.:", mean(rs$values) %>% round(1)%>% sprintf("%.1f",.)), x=29.1, y = 45.9,  size = 3.5) +
-    annotate("text", label = paste("max.:", rg[2] %>% sprintf("%.1f",.)), x=29.1, y = 45.8, size = 3.5)
+    annotate("text", label = paste("min.:", rg[1] %>% sprintf("%.1f",.)), x=29.1, y = 46, size = 3.3) +
+    annotate("text", label = paste("avg.:", mean(rs$values) %>% round(1)%>% sprintf("%.1f",.)), x = 29.1, y = 45.9,  size = 3.3) +
+    annotate("text", label = paste("max.:", rg[2] %>% sprintf("%.1f",.)), x=29.1, y = 45.8, size = 3.3)
   
 })
 
 # pentru randare plot
 output$coolplot <- renderPlot(
-  width = 850, height = 650, units="px",res = 100, {
+  width = 850, height = 650, units = "px",res = 100, {
     plotInput()
   })
 
