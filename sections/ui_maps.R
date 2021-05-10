@@ -48,13 +48,14 @@ ui_maps <- tabPanel("Maps", icon = icon("globe-europe"), value = "#maps", id = "
                                      mainPanel(width = 8,
                                                
                                                fluidRow(
+                                                 #column(width = 6,
                                                   
                                                   #h5(textOutput("tabtext"), style = "text-align:center;"),
                                                   
                                                   plotOutput("coolplot") %>% withSpinner(size = 0.5)
                                                   #imageOutput("imageplot"),
                                                   
-                                                  
+                                                 #)
                                                )
                                      )
                                      
