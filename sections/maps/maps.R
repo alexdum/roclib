@@ -83,8 +83,8 @@ plotInput<- reactive ({
     geom_sf(fill = "transparent", data = judete) +
     geom_sf(fill = "#a4b9b9", data = sea, color = "lightgrey") +
     geom_sf_text(aes(label = name),colour = "darkgrey",size = 3, data = judete) + 
-    geom_vline(xintercept = c(20,22,24,26,28,30), color="#ece2f0", linetype='dashed') +
-    geom_hline(yintercept = c(44,45,46,47,48), color="#ece2f0", linetype='dashed') +
+    geom_vline(xintercept = c(20,22,24,26,28,30), color="#EBEBEB", linetype='dashed') +
+    geom_hline(yintercept = c(44,45,46,47,48), color="#EBEBEB", linetype='dashed') +
      
     annotation_raster(logo, xmin = 20.525, xmax = 21.525, ymin = 43.9, ymax = 44.5) +
     # make title bold and add space
@@ -96,10 +96,12 @@ plotInput<- reactive ({
     labs(caption = paste("@SUSCAP", Sys.Date()), title = textvar(), x = "", y = "") +
     coord_sf(xlim = c(20,30), ylim = c(43.5, 48.5), expand = F) +
     theme_bw() + #xlim(20,30) + ylim(43.7, 48.3) +
-    guides(fill = guide_colourbar(barwidth = 1.0, barheight = 9, title.position = "top")) +
+    guides(fill =  guide_colourbar(barwidth = 1.0, barheight = 9, title.position = "top",
+                                   label.theme = element_text(size = 10))) +
     scale_linetype_manual(values=c("twodash")) +
     
-    theme(legend.position = c(.9, .75),
+    theme(legend.position = c(.94, .91),
+          legend.justification = c("right", "top"),
           legend.background = element_rect(fill="lightgrey", colour = "lightgrey"),
           plot.caption = element_text(vjust = 28, hjust = 0.035, size = 8),
           plot.title = element_text(vjust = -7.5, hjust = 0.5, size = 13),
@@ -111,9 +113,9 @@ plotInput<- reactive ({
           # panel.grid.minor=element_blank(),
           plot.margin = margin(-0.9, 0.5, 0, 0, "cm")
           ) +
-    annotate("text", label = paste("min.:", rg[1] %>% sprintf("%.1f",.)), x=29.2, y = 46, size = 3) +
-    annotate("text", label = paste("avg.:", mean(rs$values) %>% round(1)%>% sprintf("%.1f",.)), x=29.2, y = 45.9,  size = 3) +
-    annotate("text", label = paste("max.:", rg[2] %>% sprintf("%.1f",.)), x=29.2, y = 45.8, size = 3)
+    annotate("text", label = paste("min.:", rg[1] %>% sprintf("%.1f",.)), x=29.1, y = 46, size = 3.5) +
+    annotate("text", label = paste("avg.:", mean(rs$values) %>% round(1)%>% sprintf("%.1f",.)), x=29.1, y = 45.9,  size = 3.5) +
+    annotate("text", label = paste("max.:", rg[2] %>% sprintf("%.1f",.)), x=29.1, y = 45.8, size = 3.5)
   
 })
 
