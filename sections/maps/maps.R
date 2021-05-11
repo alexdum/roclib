@@ -64,7 +64,7 @@ plotInput<- reactive ({
   names(rm)[3] <- "values"
   rg.mean <- range(rm$values) %>% round(1)
   
-
+  
   # simboluri in functie de parametru
   if (input$Parameter != "prAdjust") {
     ylOrBn <- colorRampPalette( brewer.pal(9,"YlOrRd"), interpolate="linear")
@@ -72,25 +72,35 @@ plotInput<- reactive ({
     cols <- ylOrBn(length(brks) - 1)
     lim <- c(0.5, 5.5)
     # pentru hartile cu schimbarea
-    rmean <- colorRampPalette( brewer.pal(11, "RdYlBu")[3:11], interpolate="linear")
-    brks.mean <- seq(-8, 26, by = 2)
-    cols.mean <- rmean(length(brks.mean) - 1)
-    lim.mean <- c(-6, 24)
+    
+    if (input$Season != "Annual") {
+      rmean <- colorRampPalette( brewer.pal(11, "RdYlBu")[1:9], interpolate="linear")
+      brks.mean <- seq(-6, 24, by = 2)
+      cols.mean <- rev(rmean(length(brks.mean) - 1))
+      lim.mean <- c(-8, 26)
+    } else {
+      rmean <- colorRampPalette( brewer.pal(11, "RdYlBu")[1:7], interpolate="linear")
+      brks.mean <- seq(2, 18, by = 2)
+      cols.mean <- rev(rmean(length(brks.mean) - 1))
+      lim.mean <- c(0, 20)
+    }
     
   } else {
     cols <- brewer.pal(6,"BrBG")
     brks <- seq(-20, 20, by = 10)
     lim <- c(-30,30)
     # pentru hartile cu schimbarea
-    rmean <- colorRampPalette( c(brewer.pal(9, "YlOrBr")[3:9], brewer.pal(9, "BuPu")), interpolate="linear")
+    
     if (input$Season != "Annual") {
-    brks.mean <- c(0,5,10,20,30,40,50,75,100)
-    cols.mean <- rmean(length(brks.mean) - 1)
-    lim.mean <- c(5, 75)
-    } else {
-      brks.mean <- c(300,400,500,600,700,800,900,1000)
+      rmean <- colorRampPalette( brewer.pal(9, "BuPu"), interpolate="linear")
+      brks.mean <- c(100,150,200,250,300,350,400)
       cols.mean <- rmean(length(brks.mean) - 1)
-      lim.mean <- c(400, 900)
+      lim.mean <- c(50, 450)
+    } else {
+      rmean <- colorRampPalette( brewer.pal(9, "BuPu"), interpolate="linear")
+      brks.mean <- c(400,450,500,550,600,650,700,750,800,850,900)
+      cols.mean <- rmean(length(brks.mean) - 1)
+      lim.mean <- c(350, 950)
     }
     
   }
@@ -112,7 +122,7 @@ plotInput<- reactive ({
     # make title bold and add space
     # 
     scale_fill_stepsn( colours = cols.mean,
-                       name = ifelse(input$Parameter != "prAdjust", "      °C", "      %"), 
+                       name = ifelse(input$Parameter != "prAdjust", "      °C", "      mm"), 
                        breaks = brks.mean,
                        limits = lim.mean) + 
     labs(caption = paste("@SUSCAP", Sys.Date()), title = textvar(), x = "", y = "") +
@@ -185,7 +195,7 @@ plotInput<- reactive ({
     annotate("text", label = paste("avg.:", mean(rs$values) %>% round(1)%>% sprintf("%.1f",.)), x = 29.1, y = 45.9,  size = 3.3) +
     annotate("text", label = paste("max.:", rg[2] %>% sprintf("%.1f",.)), x=29.1, y = 45.8, size = 3.3)
   
- list(plot.change = plot.change, plot.mean = plot.mean)
+  list(plot.change = plot.change, plot.mean = plot.mean)
   
 })
 
@@ -237,23 +247,23 @@ output$downrchange <- downloadHandler(
   content = function(file) {
     writeRaster(rs()$change, file, overwrite = T)
   })
-  
-  
-  # pentru descarcare plot imagine
-  output$downpmean <- downloadHandler(
-    filename = function() { paste(textvar() %>% gsub(" " ,"_", . ) %>% gsub("vs.", "vs",.) %>% tolower(), '.png', sep='') },
-    content = function(file) {
-      png(file, width = 900, height = 670, units = "px", res = 110)
-      print(plotInput()$plot.mean)
-      dev.off()
-    })
-  
-  # pentru descarcare fisier Geotiff
-  output$downrmean <- downloadHandler(
-    filename = function() { paste(textvar() %>% gsub(" " ,"_", . ) %>% gsub("vs.", "vs",.) %>% tolower(), '.tif', sep='') },
-    content = function(file) {
-      writeRaster(rs()$mean, file, overwrite = T)
-    })
+
+
+# pentru descarcare plot imagine
+output$downpmean <- downloadHandler(
+  filename = function() { paste(textvar() %>% gsub(" " ,"_", . ) %>% gsub("vs.", "vs",.) %>% tolower(), '.png', sep='') },
+  content = function(file) {
+    png(file, width = 900, height = 670, units = "px", res = 110)
+    print(plotInput()$plot.mean)
+    dev.off()
+  })
+
+# pentru descarcare fisier Geotiff
+output$downrmean <- downloadHandler(
+  filename = function() { paste(textvar() %>% gsub(" " ,"_", . ) %>% gsub("vs.", "vs",.) %>% tolower(), '.tif', sep='') },
+  content = function(file) {
+    writeRaster(rs()$mean, file, overwrite = T)
+  })
 
 
 

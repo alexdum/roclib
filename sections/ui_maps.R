@@ -47,7 +47,7 @@ ui_maps <- tabPanel("Maps", icon = icon("globe-europe"), value = "#maps", id = "
                                              
                                              mainPanel(width = 9,
                                                        
-                                                       fluidRow(style = "border-style: solid;border-color:#F5F5F5",
+                                                       fluidRow(style = "border-style: solid;border: 1px solid #e3e3e3;;border-radius: 4px;",
                                                          column(width = 6, 
                                                                 plotOutput("plot.change", inline = T) %>% withSpinner(size = 0.5),
                                                                 fluidRow(style = "padding-left: 50px;",
