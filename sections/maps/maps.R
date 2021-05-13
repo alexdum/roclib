@@ -1,4 +1,7 @@
-# citeste raster de interes
+
+# netcdf input ------------------------------------------------------------
+
+
 rs <- reactive({
   
   # modificari in situatia cu Annual
@@ -29,12 +32,14 @@ rs <- reactive({
   if (input$Season != "Annual") rmean <- rmean[[which(nms %in% input$Season )]]
   #nlayers(r)
   # returneaza ca lista sa poti duce ambele variabile
-  list(change = r, enmean = rmean)
+  list(change = r, scen.mean = rmean)
 })
 
 
 
-# text titlu si salvare png si fisier
+
+# text titlu si salvare png si fisier -------------------------------------
+
 textvar <- reactive({
   
   if(input$Parameter == "tasAdjust") var1 <- "Tmean"
@@ -46,7 +51,7 @@ textvar <- reactive({
   varf <- paste(var1,input$Season, var2, var3 )
   
   list(
-    change = paste(input$Season, "- changes in", tolower(var1), var2, var3), 
+    change = paste(input$Season, "changes", tolower(var1), var2, var3), 
       mean.scen = paste(input$Season,  tolower(var1), var2, substr(var3,1,9)),
       mean.hist = paste(input$Season, tolower(var1), var2, substr(var3,15,23))
       )
@@ -54,19 +59,18 @@ textvar <- reactive({
 })
 
 
-# # titlu harta
-# output$tabtext <- renderText({
-#   textvar()
-# })
 
-# plot reactive acum pentruutilizare output si download
+# grafice -----------------------------------------------------------------
+
+
 plotInput<- reactive ({
   
+  # schimbare
   rs <- rs()$change %>% rasterToPoints() %>% as_tibble()
   names(rs)[3] <- "values"
   rg <- range(rs$values) %>% round(1)
-  
-  rm <- rs()$enmean %>% rasterToPoints() %>% as_tibble()
+  #scenariu
+  rm <- rs()$scen.mean %>% rasterToPoints() %>% as_tibble()
   names(rm)[3] <- "values"
   rg.mean <- range(rm$values) %>% round(1)
   
@@ -175,7 +179,8 @@ plotInput<- reactive ({
                        name = ifelse(input$Parameter != "prAdjust", "      °C", "      %"), 
                        breaks = brks,
                        limits = lim) + 
-    labs(caption = paste("@SUSCAP", Sys.Date()), title = textvar()$change, x = "", y = "") +
+    labs(caption = paste("@SUSCAP", Sys.Date()), title = textvar()$change %>% gsub("changes", "- changes in", .) , 
+         x = "", y = "") +
     coord_sf(xlim = c(20,30), ylim = c(43.5, 48.5), expand = F) +
     theme_bw() + #xlim(20,30) + ylim(43.7, 48.3) +
     guides(fill =  guide_colourbar(barwidth = 1.0, barheight = 9, title.position = "top",
@@ -238,9 +243,12 @@ output$plot.mean <- renderPlot(
 #   
 
 
+
+# descarcare PNG GeoTIFF --------------------------------------------------
+
 # pentru descarcare plot imagine
 output$downpchange <- downloadHandler(
-  filename = function() { paste(textvar() %>% gsub(" " ,"_", . ) %>% gsub("vs.", "vs",.) %>% tolower(), '.png', sep='') },
+  filename = function() { paste(textvar()$change %>% gsub(" " ,"_", . ) %>% gsub("vs.", "vs",.) %>% tolower(), '.png', sep='') },
   content = function(file) {
     png(file, width = 900, height = 670, units = "px", res = 110)
     print(plotInput()$plot.change)
@@ -249,7 +257,7 @@ output$downpchange <- downloadHandler(
 
 # pentru descarcare fisier Geotiff
 output$downrchange <- downloadHandler(
-  filename = function() { paste(textvar() %>% gsub(" " ,"_", . ) %>% gsub("vs.", "vs",.) %>% tolower(), '.tif', sep='') },
+  filename = function() { paste(textvar()$change %>% gsub(" " ,"_", . ) %>% gsub("vs.", "vs",.) %>% tolower(), '.tif', sep='') },
   content = function(file) {
     writeRaster(rs()$change, file, overwrite = T)
   })
@@ -257,7 +265,7 @@ output$downrchange <- downloadHandler(
 
 # pentru descarcare plot imagine
 output$downpmean <- downloadHandler(
-  filename = function() { paste(textvar() %>% gsub(" " ,"_", . ) %>% gsub("vs.", "vs",.) %>% tolower(), '.png', sep='') },
+  filename = function() { paste(textvar()$mean.scen %>% gsub(" " ,"_", . ) %>% gsub("vs.", "vs",.) %>% tolower(), '.png', sep='') },
   content = function(file) {
     png(file, width = 900, height = 670, units = "px", res = 110)
     print(plotInput()$plot.mean)
@@ -266,9 +274,9 @@ output$downpmean <- downloadHandler(
 
 # pentru descarcare fisier Geotiff
 output$downrmean <- downloadHandler(
-  filename = function() { paste(textvar() %>% gsub(" " ,"_", . ) %>% gsub("vs.", "vs",.) %>% tolower(), '.tif', sep='') },
+  filename = function() { paste(textvar()$mean.scen %>% gsub(" " ,"_", . ) %>% gsub("vs.", "vs",.) %>% tolower(), '.tif', sep='') },
   content = function(file) {
-    writeRaster(rs()$mean, file, overwrite = T)
+    writeRaster(rs()$scen.mean, file, overwrite = T)
   })
 
 
