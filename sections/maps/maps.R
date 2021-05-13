@@ -45,6 +45,12 @@ textvar <- reactive({
   var3 <- ifelse(grepl(2071, input$Period, fixed = TRUE), "2071-2100 vs. 1971-2000", "2021-2050 vs. 1971-2000")
   varf <- paste(var1,input$Season, var2, var3 )
   
+  list(
+    change = paste(input$Season, "- changes in", tolower(var1), var2, var3), 
+      mean.scen = paste(input$Season,  tolower(var1), var2, substr(var3,1,9)),
+      mean.hist = paste(input$Season, tolower(var1), var2, substr(var3,15,23))
+      )
+      
 })
 
 
@@ -125,7 +131,7 @@ plotInput<- reactive ({
                        name = ifelse(input$Parameter != "prAdjust", "      °C", "      mm"), 
                        breaks = brks.mean,
                        limits = lim.mean) + 
-    labs(caption = paste("@SUSCAP", Sys.Date()), title = textvar(), x = "", y = "") +
+    labs(caption = paste("@SUSCAP", Sys.Date()), title = textvar()$mean.scen, x = "", y = "") +
     coord_sf(xlim = c(20,30), ylim = c(43.5, 48.5), expand = F) +
     theme_bw() + #xlim(20,30) + ylim(43.7, 48.3) +
     guides(fill =  guide_colourbar(barwidth = 1.0, barheight = 9, title.position = "top",
@@ -169,7 +175,7 @@ plotInput<- reactive ({
                        name = ifelse(input$Parameter != "prAdjust", "      °C", "      %"), 
                        breaks = brks,
                        limits = lim) + 
-    labs(caption = paste("@SUSCAP", Sys.Date()), title = textvar(), x = "", y = "") +
+    labs(caption = paste("@SUSCAP", Sys.Date()), title = textvar()$change, x = "", y = "") +
     coord_sf(xlim = c(20,30), ylim = c(43.5, 48.5), expand = F) +
     theme_bw() + #xlim(20,30) + ylim(43.7, 48.3) +
     guides(fill =  guide_colourbar(barwidth = 1.0, barheight = 9, title.position = "top",
