@@ -1,7 +1,6 @@
 
+source("sections/maps/maps_settings.R", local = T)
 # netcdf input ------------------------------------------------------------
-
-
 rs <- reactive({
   
   # modificari in situatia cu Annual
@@ -66,10 +65,7 @@ textvar <- reactive({
   
 })
 
-
-
 # grafice -----------------------------------------------------------------
-
 
 plotInput<- reactive ({
   
@@ -154,23 +150,7 @@ plotInput<- reactive ({
     guides(fill =  guide_colourbar(barwidth = 1.0, barheight = 9, title.position = "top",
                                    label.theme = element_text(size = 9.5))) +
     scale_linetype_manual(values=c("twodash")) +
-    
-    theme(
-      legend.position = c(.94, .91),
-      legend.justification = c("right", "top"),
-      legend.background = element_rect(fill="lightgrey", colour = "lightgrey"),
-      plot.caption = element_text(vjust = 30, hjust = 0.040, size = 7.5),
-      plot.title = element_text(vjust = -7.5, hjust = 0.5, size = 13),
-      #plot.title = element_blank(),
-      #plot.caption = element_blank(),
-      #axis.text = element_blank(),
-      axis.title = element_blank(),
-      axis.ticks = element_blank(),
-      #axis.ticks.length = unit(0, "pt"), #length of tick marks
-      panel.grid.major=element_blank(),
-      panel.grid.minor=element_blank(),
-      plot.margin = margin(0, 0, 0, 0, "cm")
-    ) +
+    theme.maps  +
     annotate("text", label = paste("min.:", rg.mean[1] %>% sprintf("%.1f",.)), x=29.1, y = 46, size = 3.3) +
     annotate("text", label = paste("avg.:", mean(rm$values) %>% round(1)%>% sprintf("%.1f",.)), x = 29.1, y = 45.9,  size = 3.3) +
     annotate("text", label = paste("max.:", rg.mean[2] %>% sprintf("%.1f",.)), x=29.1, y = 45.8, size = 3.3)
@@ -198,27 +178,10 @@ plotInput<- reactive ({
                                    label.theme = element_text(size = 9.5))) +
     scale_linetype_manual(values=c("twodash")) +
     
-    theme(
-      legend.position = c(.94, .91),
-      legend.justification = c("right", "top"),
-      legend.background = element_rect(fill="lightgrey", colour = "lightgrey"),
-      plot.caption = element_text(vjust = 30, hjust = 0.040, size = 7.5),
-      plot.title = element_text(vjust = -7.5, hjust = 0.5, size = 13),
-      #plot.title = element_blank(),
-      #plot.caption = element_blank(),
-      #axis.text = element_blank(),
-      axis.title = element_blank(),
-      axis.ticks = element_blank(),
-      #axis.ticks.length = unit(0, "pt"), #length of tick marks
-      panel.grid.major=element_blank(),
-      panel.grid.minor=element_blank(),
-      plot.margin = margin(0, 0, 0, 0, "cm")
-    ) +
+    theme.maps +
     annotate("text", label = paste("min.:", rg.hist[1] %>% sprintf("%.1f",.)), x=29.1, y = 46, size = 3.3) +
     annotate("text", label = paste("avg.:", mean(rh$values) %>% round(1)%>% sprintf("%.1f",.)), x = 29.1, y = 45.9,  size = 3.3) +
     annotate("text", label = paste("max.:", rg.hist[2] %>% sprintf("%.1f",.)), x=29.1, y = 45.8, size = 3.3)
-  
-  
   
   plot.change <- ggplot() +
     geom_raster(data = rs, aes(x = x, y = y,
@@ -245,28 +208,10 @@ plotInput<- reactive ({
                                    label.theme = element_text(size = 10))) +
     scale_linetype_manual(values=c("twodash")) +
     last_plot() + labs(x=NULL, y=NULL) +
-    theme(
-      legend.position = c(.94, .91),
-      legend.justification = c("right", "top"),
-      legend.background = element_rect(fill="lightgrey", colour = "lightgrey"),
-      plot.caption = element_text(vjust = 30, hjust = 0.040, size = 7.5),
-      plot.title = element_text(vjust = -7.5, hjust = 0.5, size = 13),
-      #plot.title = element_blank(),
-      #plot.caption = element_blank(),
-      #axis.text = element_blank(),
-      axis.title = element_blank(),
-      axis.ticks = element_blank(),
-      #axis.ticks.length = unit(0, "pt"), #length of tick marks
-      panel.grid.major=element_blank(),
-      panel.grid.minor=element_blank(),
-      plot.margin = margin(0, 0, 0, 0, "cm")
-    ) +
+    theme.maps +
     annotate("text", label = paste("min.:", rg[1] %>% sprintf("%.1f",.)), x=29.1, y = 46, size = 3.3) +
     annotate("text", label = paste("avg.:", mean(rs$values) %>% round(1)%>% sprintf("%.1f",.)), x = 29.1, y = 45.9,  size = 3.3) +
     annotate("text", label = paste("max.:", rg[2] %>% sprintf("%.1f",.)), x=29.1, y = 45.8, size = 3.3)
-  
-  
-  
   
   list(plot.change = plot.change, plot.scen = plot.scen, plot.hist = plot.hist)
   
@@ -287,29 +232,6 @@ output$plot.scen <- renderPlot(
   width = 900, height = 670, units = "px",res = 110, {
     plotInput()$plot.scen
   })
-
-
-
-
-
-# render plot asimage
-
-# output$imageplot <- renderImage ({
-#   
-#   outfile <- tempfile(fileext='.png')
-#   png(outfile, width = 850, height = 650, units = "px", res = 100)
-#   print(plotInput())
-#   dev.off()
-#   
-#   # Return a list containing the filename
-#   list(src = outfile,
-#        contentType = 'text/svg+xml',
-#        width = 850,
-#        height = 650,
-#        alt = "Map")
-#   
-# }, deleteFile = TRUE)
-#   
 
 
 
