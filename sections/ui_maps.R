@@ -24,7 +24,7 @@ ui_maps <- tabPanel(
           
           selectInput("Parameter", label = "Parameter",
                       c("Mean temperature" =  "tasAdjust", "Precipitation" = "prAdjust",
-                        "Mean min. temperature" = "tasminAdjust", "Mean max. temperature" =  "tasmaxAdjust"),
+                        "Mean min.temperature" = "tasminAdjust", "Mean max.temperature" =  "tasmaxAdjust"),
                       selected = "Temperature", width = "220px"),
           selectInput("Period", label = "Period",
                       c("2071-2100 vs. 1971-2000" =  "20710301-21001130",
