@@ -207,7 +207,8 @@ plotInput<- reactive ({
     guides(fill =  guide_colourbar(barwidth = 1.0, barheight = 9, title.position = "top",
                                    label.theme = element_text(size = 10))) +
     scale_linetype_manual(values=c("twodash")) +
-    last_plot() + labs(x=NULL, y=NULL) +
+    #ggplot2::last_plot() + 
+    labs(x=NULL, y=NULL) +
     theme.maps +
     annotate("text", label = paste("min.:", rg[1] %>% sprintf("%.1f",.)), x=29.1, y = 46, size = 3.3) +
     annotate("text", label = paste("avg.:", mean(rs$values) %>% round(1)%>% sprintf("%.1f",.)), x = 29.1, y = 45.9,  size = 3.3) +

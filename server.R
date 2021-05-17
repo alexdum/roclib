@@ -6,6 +6,7 @@ server <- shinyServer(function(input, output, session) {
      #                             choices = unique(date$NUME[date$CMR==input$RegiuneInput])))
 
   source(file = "sections/maps/maps.R", local = T)
+  source(file = "sections/maps/graphs.R", local = T)
   
   
    

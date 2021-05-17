@@ -16,7 +16,6 @@ suppressPackageStartupMessages({
   library(shinyWidgets)
   library(shinycssloaders)
   library(ggspatial)
-  library(plotly)
 })
 #date1 <- readRDS("www/data/tabs/season+anual_mean_models.rds")
 

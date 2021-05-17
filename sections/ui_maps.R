@@ -55,7 +55,7 @@ ui_maps <- tabPanel(
           fluidRow(
             style = "border-style: solid;border: 1px solid #e3e3e3;;border-radius: 4px;",
             column(
-              width = 12, 
+              width = 6, 
               plotOutput("plot.change", inline = T) %>% withSpinner(size = 0.5),
               fluidRow(
                 style = "padding-left: 50px;",
@@ -63,6 +63,9 @@ ui_maps <- tabPanel(
                 "|",
                 downloadLink('downrchange', 'Download GeoTIFF')
               )
+            ),
+            column(
+              width = 6, plotly::plotlyOutput("plot.anom", inline = T) %>% withSpinner(size = 0.5)
             )
           ),
           
