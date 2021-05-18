@@ -48,38 +48,44 @@ anomPlots <- reactive({
     ) + #breaks = seq(-8,8, 2.0),limits = c(-4,8)) +  
     scale_fill_manual( values = cols) +
     labs( x = "") + theme_bw() +
-    theme(legend.position = "none") 
-  
-  
-  
-  
-  gp <- plotly::ggplotly(gg, dynamicTicks = T)  %>% 
-    plotly::layout(
-      autosize=T,
-     # height = 350,
-      hovermode = "compare", 
-      title = list(
-        text = anom()$anom.tit,
-        y = 0.9, 
-        font = list(size = 13)
-      ),
-      yaxis = list(
-        title = paste0("Anomaly (", ifelse(input$Parameter == "prAdjust", "%", "°C"),")"),
-        titlefont = list(
-          size = 1.5
-        )
-      )
+    theme(
+      legend.position = "none",
+      axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1, size = 9)
     )
-  
-  # gp$x$layout$width <- NULL
-  # gp$x$layout$height <- NULL
-  # gp$width <- NULL
-  # gp$height <- NULL
 
-  
-  
-  list(anom.plotly = gp, anom.ggplot = gg) 
-  
+
+
+gp <- plotly::ggplotly(gg, dynamicTicks = F)  %>% 
+  plotly::layout(
+    autosize=T,
+    # height = 350,
+    hovermode = "compare", 
+    title = list(
+      text = anom()$anom.tit,
+      y = 0.9, 
+      font = list(size = 13)
+    ),
+    yaxis = list(
+      title = paste0("Anomaly (", ifelse(input$Parameter == "prAdjust", "%", "°C"),")"),
+      titlefont = list(
+        size = 11.5
+      )
+    )#,
+    # xaxis = list(
+    # #   type = 'date',
+    #   tickangle = 45
+    # ) 
+  )
+
+# gp$x$layout$width <- NULL
+# gp$x$layout$height <- NULL
+# gp$width <- NULL
+# gp$height <- NULL
+
+
+
+list(anom.plotly = gp, anom.ggplot = gg) 
+
 })
 
 
