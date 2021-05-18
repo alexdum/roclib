@@ -60,11 +60,11 @@ gp <- plotly::ggplotly(gg, dynamicTicks = F)  %>%
     autosize=T,
     # height = 350,
     hovermode = "compare", 
-    title = list(
-      text = anom()$anom.tit,
-      y = 0.9, 
-      font = list(size = 13)
-    ),
+    # title = list(
+    #   text = anom()$anom.tit,
+    #   y = 0.9, 
+    #   font = list(size = 13)
+    # ),
     yaxis = list(
       title = paste0("Anomaly (", ifelse(input$Parameter == "prAdjust", "%", "°C"),")"),
       titlefont = list(
@@ -88,6 +88,10 @@ list(anom.plotly = gp, anom.ggplot = gg)
 
 })
 
+
+output$plot.anom.tit <- renderText({  
+  paste(anom()$anom.tit, " - variability of anomalies")
+        })
 
 output$plot.anom <- plotly::renderPlotly(
   {

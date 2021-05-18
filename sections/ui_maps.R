@@ -66,10 +66,10 @@ ui_maps <- tabPanel(
             ),
             column(
               width = 6, 
-              div(align = "center",
-              plotly::plotlyOutput("plot.anom", inline = F, height = "320px")
-              %>% withSpinner(size = 0.5),
-              ),
+         
+                  h5(textOutput("plot.anom.tit"), style = "text-align:center;"),
+                  plotly::plotlyOutput("plot.anom", inline = F, height = "320px")
+                  %>% withSpinner(size = 0.5),
               fluidRow(
                 style = "padding-left: 50px;",
                 downloadLink('down.plot.anom', label = 'Download  PNG')
@@ -77,7 +77,6 @@ ui_maps <- tabPanel(
             )
           ),
           
-          #h5(textOutput("tabtext"), style = "text-align:center;"),
           
           fluidRow(
             style = "border-style: solid;border: 1px solid #e3e3e3;;border-radius: 4px;",
