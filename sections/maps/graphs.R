@@ -60,7 +60,7 @@ anomPlots <- reactive({
       hovermode = "compare", 
       title = list(
         text = anom()$anom.tit,
-        y = 0.92, 
+        y = 0.9, 
         font = list(size = 14)
       ),
       yaxis = list(
@@ -71,10 +71,10 @@ anomPlots <- reactive({
       )
     )
   
-  gp$x$layout$width <- NULL
-  gp$x$layout$height <- NULL
-  gp$width <- NULL
-  gp$height <- NULL
+  # gp$x$layout$width <- NULL
+  # gp$x$layout$height <- NULL
+  # gp$width <- NULL
+  # gp$height <- NULL
 
   
   

@@ -66,8 +66,8 @@ ui_maps <- tabPanel(
             ),
             column(
               width = 6, 
-              fluidRow(
-              plotly::plotlyOutput("plot.anom", inline = F, height = "350px")
+              div(align = "center",
+              plotly::plotlyOutput("plot.anom", inline = F, height = "320px")
               %>% withSpinner(size = 0.5),
               ),
               fluidRow(
