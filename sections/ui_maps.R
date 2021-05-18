@@ -51,32 +51,48 @@ ui_maps <- tabPanel(
         
         mainPanel(
           width = 9,
-          
           fluidRow(
             style = "border-style: solid;border: 1px solid #e3e3e3;;border-radius: 4px;",
-            column(
-              width = 6, 
-              plotOutput("plot.change", inline = T) %>% withSpinner(size = 0.5),
-              fluidRow(
-                style = "padding-left: 50px;",
-                downloadLink('downpchange', label = 'Download  PNG'),
-                "|",
-                downloadLink('downrchange', 'Download GeoTIFF')
+            fluidRow(
+              # style = "border-style: solid;border: 1px solid #e3e3e3;;border-radius: 4px;",
+              column(
+                width = 6, 
+                plotOutput("plot.change", inline = T) %>% withSpinner(size = 0.5),
+                
+                h5("Calculated change in annual mean temperature (°C) for the period 2071-2100 compared
+                   with 1971-2000. The map is based on an ensemble with nine climate scenarios for the RCP8.5 scenario.
+                   The maps below show more information about the ensembles averages over two period of times.")
+              ),
+              column(
+                width = 6, 
+                
+                #h5(textOutput("plot.anom.tit"), style = "text-align:center;"),
+                # div(
+                plotly::plotlyOutput("plot.anom", inline = T, height = "310px") %>% withSpinner(size = 0.5),
+                #   style="margin-top: 0px;"
+                # ),
+                
+                h5("The diagram shows the calculated change in annual mean temperature (°C) in
+                   Romania during the years 1971-2100 compared with normal (mean for 1971-200).
+                    The bars show historic data from observations. The black line shows the ensemble
+                   mean of ten climate scenarios. The grey field shows the range in variation between
+                   the highest and lowest value for the members of the ensemble.")
               )
             ),
-            column(
-              width = 6, 
-         
-                  h5(textOutput("plot.anom.tit"), style = "text-align:center;"),
-                  plotly::plotlyOutput("plot.anom", inline = F, height = "320px")
-                  %>% withSpinner(size = 0.5),
-              fluidRow(
-                style = "padding-left: 50px;",
-                downloadLink('down.plot.anom', label = 'Download  PNG')
-              )
-            )
+            fluidRow(
+              #style = "border-style: solid;border: 1px solid #e3e3e3;;border-radius: 4px;",
+              column(width = 6,
+                     style = "padding-left: 50px;",
+                     downloadLink('downpchange', label = 'Download  PNG'),
+                     "|",
+                     downloadLink('downrchange', 'Download GeoTIFF')
+              ),
+              column(width = 6,
+                     style = "padding-left: 50px;",
+                     downloadLink('down.plot.anom', label = 'Download  PNG')
+              )     
+            )       
           ),
-          
           
           fluidRow(
             style = "border-style: solid;border: 1px solid #e3e3e3;;border-radius: 4px;",

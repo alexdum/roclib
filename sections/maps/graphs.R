@@ -40,7 +40,7 @@ anomPlots <- reactive({
     
     geom_ribbon(aes(x = data, ymax = scen_anom_max, ymin = scen_anom_min), alpha = 0.5, fill = "gray") +
     geom_line(aes(data, scen_anom_mean),  color = "black", size = 0.8) +
-    scale_x_date(breaks = c(as.Date("1971-01-01"), seq(as.Date("1980-01-01"), as.Date("2100-12-31"), by = "10 years")), date_labels = "%Y") +
+    scale_x_date(breaks = c(as.Date("1971-01-01"), seq(as.Date("2000-01-01"), as.Date("2100-12-31"), by = "20 years")), date_labels = "%Y") +
     geom_bar(aes(x = data, y = obs_anom, fill = symb, group =1),
              stat = "identity", width = 400, show.legend = F,  color = "black") + 
     scale_y_continuous(
@@ -49,49 +49,54 @@ anomPlots <- reactive({
     scale_fill_manual( values = cols) +
     labs( x = "") + theme_bw() +
     theme(
-      legend.position = "none",
-      axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1, size = 9)
+      legend.position = "none"
+      # axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1, size = 9)
     )
-
-
-
-gp <- plotly::ggplotly(gg, dynamicTicks = F)  %>% 
-  plotly::layout(
-    autosize=T,
-    # height = 350,
-    hovermode = "compare", 
-    # title = list(
-    #   text = anom()$anom.tit,
-    #   y = 0.9, 
-    #   font = list(size = 13)
-    # ),
-    yaxis = list(
-      title = paste0("Anomaly (", ifelse(input$Parameter == "prAdjust", "%", "°C"),")"),
-      titlefont = list(
-        size = 11.5
+  
+  
+  
+  gp <- plotly::ggplotly(gg, dynamicTicks = F)  %>% 
+    plotly::layout(
+      autosize=T,
+      # height = 350,
+      hovermode = "compare", 
+      title = list(
+        text = anom()$anom.tit,
+        y = 0.9,
+        font = list(size = 12.5)
+      ),
+      yaxis = list(
+        title = paste0("Anomaly (", ifelse(input$Parameter == "prAdjust", "%", "°C"),")"),
+        titlefont = list(
+          size = 11.5
+        )
+      ),
+      margin = list(
+        b = 0,
+        t = 10
       )
-    )#,
-    # xaxis = list(
-    # #   type = 'date',
-    #   tickangle = 45
-    # ) 
-  )
-
-# gp$x$layout$width <- NULL
-# gp$x$layout$height <- NULL
-# gp$width <- NULL
-# gp$height <- NULL
-
-
-
-list(anom.plotly = gp, anom.ggplot = gg) 
-
+      #,
+      # xaxis = list(
+      # #   type = 'date',
+      #   tickangle = 45
+      # ) 
+    ) %>% config(displayModeBar = FALSE)
+  
+  # gp$x$layout$width <- NULL
+  # gp$x$layout$height <- NULL
+  # gp$width <- NULL
+  # gp$height <- NULL
+  
+  
+  
+  list(anom.plotly = gp, anom.ggplot = gg) 
+  
 })
 
 
-output$plot.anom.tit <- renderText({  
-  paste(anom()$anom.tit, " - variability of anomalies")
-        })
+# output$plot.anom.tit <- renderText({  
+#   paste(anom()$anom.tit, " - anomalies")
+# })
 
 output$plot.anom <- plotly::renderPlotly(
   {
