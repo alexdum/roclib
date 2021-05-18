@@ -65,7 +65,15 @@ ui_maps <- tabPanel(
               )
             ),
             column(
-              width = 6, plotly::plotlyOutput("plot.anom", inline = T) %>% withSpinner(size = 0.5)
+              width = 6, 
+              fluidRow( style =  "padding-top: 25px;",
+              plotly::plotlyOutput("plot.anom", inline = T)
+              %>% withSpinner(size = 0.5),
+              ),
+              fluidRow(
+                style = "padding-left: 50px;",
+                downloadLink('down.plot.anom', label = 'Download  PNG')
+              )
             )
           ),
           
