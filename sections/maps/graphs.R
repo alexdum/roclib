@@ -53,8 +53,10 @@ anomPlots <- reactive({
   
   
   
-  gp <- plotly::ggplotly(gg, dynamicTicks = T) %>% 
+  gp <- plotly::ggplotly(gg, dynamicTicks = T)  %>% 
     plotly::layout(
+      autosize=T,
+     # height = 350,
       hovermode = "compare", 
       title = list(
         text = anom()$anom.tit,
@@ -68,6 +70,12 @@ anomPlots <- reactive({
         )
       )
     )
+  
+  gp$x$layout$width <- NULL
+  gp$x$layout$height <- NULL
+  gp$width <- NULL
+  gp$height <- NULL
+
   
   
   list(anom.plotly = gp, anom.ggplot = gg) 
