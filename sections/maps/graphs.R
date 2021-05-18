@@ -61,12 +61,12 @@ anomPlots <- reactive({
       title = list(
         text = anom()$anom.tit,
         y = 0.9, 
-        font = list(size = 14)
+        font = list(size = 13)
       ),
       yaxis = list(
         title = paste0("Anomaly (", ifelse(input$Parameter == "prAdjust", "%", "°C"),")"),
         titlefont = list(
-          size = 12
+          size = 1.5
         )
       )
     )
