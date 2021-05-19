@@ -22,7 +22,7 @@ text.maps <- reactive({
   over two period of times.")
   
  text.anom <- paste("The diagram shows the calculated change in" ,season, param, "(",unit,") in 
-                    Romania during the years 1971-2100 compared with normal (mean for 1971-200). 
+                    Romania during the years 1971-2100 compared with normal (mean for 1971-2100). 
                     The bars show historic data from observations. The black line shows the ensemble
                     mean of ten climate scenarios. The grey field shows the range in variation between the highest 
                     and lowest value for the members of the ensemble.")

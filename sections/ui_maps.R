@@ -8,7 +8,7 @@ ui_maps <- tabPanel(
   tags$br(""),
   tabsetPanel( 
     tabPanel(
-      h5("CVs"),
+      h5("Climate variables"),
       tags$h6(" "),
       HTML("The climate variables' (CVs) changes are computed for each season and at
            the annual scale as differences between future periods (2021-2050 and 2071-2100)
@@ -54,39 +54,37 @@ ui_maps <- tabPanel(
           width = 9,
           fluidRow(
             style = "border-style: solid;border: 1px solid #e3e3e3;;border-radius: 4px;",
-            fluidRow(
-              # style = "border-style: solid;border: 1px solid #e3e3e3;;border-radius: 4px;",
-              column(
-                width = 6, 
-                plotOutput("plot.change", inline = T) %>% withSpinner(size = 0.5),
+            column(
+              width = 6, 
+              plotOutput("plot.change", inline = T) %>% withSpinner(size = 0.5),
+              
+             
+              fluidRow(
+                #style = "border-style: solid;border: 1px solid #e3e3e3;;border-radius: 4px;",
                 
-                p(textOutput("text.change"), style = "text-align:justify;"),
+                style = "padding-left: 50px;",
+                downloadLink('downpchange', label = 'Download  PNG'),
+                "|",
+                downloadLink('downrchange', 'Download GeoTIFF')
               ),
-              column(
-                width = 6, 
-                
-                h5(textOutput("plot.anom.tit"), style = "text-align:center;"),
-                # div(
-                plotly::plotlyOutput("plot.anom", inline = T, height = "310px") %>% withSpinner(size = 0.5),
-                #   style="margin-top: 0px;"
-                # ),
-                
-                p(textOutput("text.anom"), style = "text-align:justify;")
-              )
+              p(textOutput("text.change"), style = "text-align:justify;")
             ),
-            fluidRow(
-              #style = "border-style: solid;border: 1px solid #e3e3e3;;border-radius: 4px;",
-              column(width = 6,
-                     style = "padding-left: 50px;",
-                     downloadLink('downpchange', label = 'Download  PNG'),
-                     "|",
-                     downloadLink('downrchange', 'Download GeoTIFF')
-              ),
-              column(width = 6,
-                     style = "padding-left: 50px;",
-                     downloadLink('down.plot.anom', label = 'Download  PNG')
-              )     
-            )       
+            column(
+              width = 6, 
+              
+              h5(textOutput("plot.anom.tit"), style = "text-align:center;"),
+              # div(
+              plotly::plotlyOutput("plot.anom", inline = T, height = "310px") %>% withSpinner(size = 0.5),
+              #   style="margin-top: 0px;"
+              # ),
+              
+             
+              fluidRow(
+                style = "padding-left: 50px;",
+                downloadLink('down.plot.anom', label = 'Download  PNG')
+              ),    
+              p(textOutput("text.anom"), style = "text-align:justify;")
+            )
           ),
           
           fluidRow(
