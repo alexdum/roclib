@@ -54,21 +54,24 @@ ui_maps <- tabPanel(
           width = 9,
           fluidRow(
             style = "border-style: solid;border: 1px solid #e3e3e3;;border-radius: 4px;",
+            
             column(
               width = 6, 
+              
               plotOutput("plot.change", inline = T) %>% withSpinner(size = 0.5),
               
-             
-              fluidRow(
-                #style = "border-style: solid;border: 1px solid #e3e3e3;;border-radius: 4px;",
-                
-                style = "padding-left: 50px;",
-                downloadLink('downpchange', label = 'Download  PNG'),
-                "|",
-                downloadLink('downrchange', 'Download GeoTIFF')
-              ),
-              p(textOutput("text.change"), style = "text-align:justify;")
+              p(textOutput("text.change"), style = "text-align:justify;"),
+              #style = "border-style: solid;border: 1px solid #e3e3e3;;border-radius: 4px;",
+              
+              
+              #style = "padding-left: 50px;",
+              downloadLink('downpchange', label = 'Download  PNG'),
+              "|",
+              downloadLink('downrchange', 'Download GeoTIFF')
+              
+              
             ),
+            
             column(
               width = 6, 
               
@@ -77,13 +80,15 @@ ui_maps <- tabPanel(
               plotly::plotlyOutput("plot.anom", inline = T, height = "310px") %>% withSpinner(size = 0.5),
               #   style="margin-top: 0px;"
               # ),
+              p(textOutput("text.anom"), style = "text-align:justify;"),
               
-             
-              fluidRow(
-                style = "padding-left: 50px;",
-                downloadLink('down.plot.anom', label = 'Download  PNG')
-              ),    
-              p(textOutput("text.anom"), style = "text-align:justify;")
+              
+              #fluidRow(
+              tags$div(class = "header",
+                       downloadLink('down.plot.anom', label = 'Download  PNG')
+              )    
+              #  )
+              # )
             )
           ),
           
@@ -91,22 +96,20 @@ ui_maps <- tabPanel(
             style = "border-style: solid;border: 1px solid #e3e3e3;;border-radius: 4px;",
             column(
               width = 6, plotOutput("plot.scen", inline = T) %>% withSpinner(size = 0.5),
-              fluidRow(
-                style = "padding-left: 50px; padding-top: 0px;",
-                downloadLink('downpmean', label = 'Download  PNG'),
-                "|",
-                downloadLink('downrmean', 'Download GeoTIFF')
-              )
+            
+              downloadLink('downpmean', label = 'Download  PNG'),
+              "|",
+              downloadLink('downrmean', 'Download GeoTIFF')
+              
             ),
             column(
               width = 6, plotOutput("plot.hist", inline = T) %>% withSpinner(size = 0.5),
-              fluidRow(
-                style = "padding-left: 50px; padding-top: 0px;",
-                downloadLink('downphist', label = 'Download  PNG'),
-                "|",
-                downloadLink('downrhist', 'Download GeoTIFF')
-                
-              )
+              
+              downloadLink('downphist', label = 'Download  PNG'),
+              "|",
+              downloadLink('downrhist', 'Download GeoTIFF')
+              
+              
             )
           )
         )

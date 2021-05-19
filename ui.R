@@ -14,6 +14,19 @@ ui <- shinyUI(
                 # includeHTML("google-analytics.html"),
                 tags$style(
                   type = "text/css", 
+                  "header {
+                    border: 1px solid blue;
+                    height: 150px;
+                    display: flex;                   /* defines flexbox */
+                      flex-direction: column;          /* top to bottom */
+                      justify-content: space-between;  /* first item at start, last at end */
+                  }",
+                  "section {
+                    border: 1px solid blue;
+                    height: 150px;
+                    display: flex;                   /* defines flexbox */
+                      align-items: flex-end;           /* bottom of the box */
+                  }",
                   "body {padding-top: 70px;}",
                   # responsive images
                   "img {max-width: 100%; width: 100%; height: auto}",
