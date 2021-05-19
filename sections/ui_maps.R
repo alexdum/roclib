@@ -60,9 +60,7 @@ ui_maps <- tabPanel(
                 width = 6, 
                 plotOutput("plot.change", inline = T) %>% withSpinner(size = 0.5),
                 
-                # h5("Calculated change in annual mean temperature (°C) for the period 2071-2100 compared
-                #    with 1971-2000. The map is based on an ensemble with nine climate scenarios for the RCP8.5 scenario.
-                #    The maps below show more information about the ensembles averages over two period of times.")
+                p(textOutput("text.change"), style = "text-align:justify;"),
               ),
               column(
                 width = 6, 
@@ -73,11 +71,7 @@ ui_maps <- tabPanel(
                 #   style="margin-top: 0px;"
                 # ),
                 
-                # h5("The diagram shows the calculated change in annual mean temperature (°C) in
-                #    Romania during the years 1971-2100 compared with normal (mean for 1971-200).
-                #     The bars show historic data from observations. The black line shows the ensemble
-                #    mean of ten climate scenarios. The grey field shows the range in variation between
-                #    the highest and lowest value for the members of the ensemble.")
+                p(textOutput("text.anom"), style = "text-align:justify;")
               )
             ),
             fluidRow(
