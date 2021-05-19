@@ -9,8 +9,10 @@ server <- shinyServer(function(input, output, session) {
   source(file = "sections/maps/texts.R", local = T)
   source(file = "sections/maps/maps.R", local = T)
   source(file = "sections/maps/graphs.R", local = T)
+  
+  # run code before accesing section
   outputOptions(output, "plot.anom.tit", suspendWhenHidden = FALSE)
-  outputOptions(output, ,"plot.anom", suspendWhenHidden = FALSE)
+  outputOptions(output, "plot.anom", suspendWhenHidden = FALSE)
   outputOptions(output, "text.anom", suspendWhenHidden = FALSE)
    
 })
