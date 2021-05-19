@@ -60,11 +60,11 @@ anomPlots <- reactive({
       autosize=T,
       # height = 350,
       hovermode = "compare", 
-      title = list(
-        text = anom()$anom.tit,
-        y = 0.9,
-        font = list(size = 12.5)
-      ),
+      # title = list(
+      #   text = anom()$anom.tit,
+      #   y = 0.9,
+      #   font = list(size = 12.5)
+      # ),
       yaxis = list(
         title = paste0("Anomaly (", ifelse(input$Parameter == "prAdjust", "%", "°C"),")"),
         titlefont = list(
@@ -94,9 +94,9 @@ anomPlots <- reactive({
 })
 
 
-# output$plot.anom.tit <- renderText({  
-#   paste(anom()$anom.tit, " - anomalies")
-# })
+output$plot.anom.tit <- renderText({
+  paste(anom()$anom.tit, " - anomalies")
+})
 
 output$plot.anom <- plotly::renderPlotly(
   {

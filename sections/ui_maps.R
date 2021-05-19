@@ -59,24 +59,24 @@ ui_maps <- tabPanel(
                 width = 6, 
                 plotOutput("plot.change", inline = T) %>% withSpinner(size = 0.5),
                 
-                h5("Calculated change in annual mean temperature (°C) for the period 2071-2100 compared
-                   with 1971-2000. The map is based on an ensemble with nine climate scenarios for the RCP8.5 scenario.
-                   The maps below show more information about the ensembles averages over two period of times.")
+                # h5("Calculated change in annual mean temperature (°C) for the period 2071-2100 compared
+                #    with 1971-2000. The map is based on an ensemble with nine climate scenarios for the RCP8.5 scenario.
+                #    The maps below show more information about the ensembles averages over two period of times.")
               ),
               column(
                 width = 6, 
                 
-                #h5(textOutput("plot.anom.tit"), style = "text-align:center;"),
+                h5(textOutput("plot.anom.tit"), style = "text-align:center;"),
                 # div(
                 plotly::plotlyOutput("plot.anom", inline = T, height = "310px") %>% withSpinner(size = 0.5),
                 #   style="margin-top: 0px;"
                 # ),
                 
-                h5("The diagram shows the calculated change in annual mean temperature (°C) in
-                   Romania during the years 1971-2100 compared with normal (mean for 1971-200).
-                    The bars show historic data from observations. The black line shows the ensemble
-                   mean of ten climate scenarios. The grey field shows the range in variation between
-                   the highest and lowest value for the members of the ensemble.")
+                # h5("The diagram shows the calculated change in annual mean temperature (°C) in
+                #    Romania during the years 1971-2100 compared with normal (mean for 1971-200).
+                #     The bars show historic data from observations. The black line shows the ensemble
+                #    mean of ten climate scenarios. The grey field shows the range in variation between
+                #    the highest and lowest value for the members of the ensemble.")
               )
             ),
             fluidRow(
