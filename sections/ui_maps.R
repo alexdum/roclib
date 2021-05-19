@@ -2,17 +2,18 @@ ui_maps <- tabPanel(
   "Maps", icon = icon("globe-europe"), value = "#maps", id = "#maps",
   h4("Maps"),
   
-  HTML("Here are shown relevant maps for essential climate variables and indicators that can 
+  HTML("Here are shown relevant maps for essential climate variables (CVs) and indicators that can 
                          be used for climate change analysis in Romania. The maps can be downloaded as PNG file, and
                          the raster data used to compute the maps can be downloaded for each visualised variable in GeoTIFF format."),
   tags$br(""),
   tabsetPanel( 
     tabPanel(
-      h5("Changes"),
+      h5("CVs"),
       tags$h6(" "),
-      HTML("The changes are computed as differences between future periods (2021-2050 and 2071-2100) and the 
-                       historical period (1971-2000). The changes are computed as absolute (°C) for air temperature and reltaive for 
-                       precipitation (%)."),
+      HTML("The climate variables' (CVs) changes are computed for each season and at
+           the annual scale as differences between future periods (2021-2050 and 2071-2100)
+           and the historical period (1971-2000). The changes are computed as absolute (°C) 
+           for air temperature and relative (%) for precipitation."),
       
       tags$br(""),
       
