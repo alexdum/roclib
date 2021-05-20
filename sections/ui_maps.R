@@ -22,7 +22,7 @@ ui_maps <- tabPanel(
         
         sidebarPanel(
           width = 3,
-          
+          h5("Selection Options"),
           selectInput("Parameter", label = "Parameter",
                       c("Mean temperature" =  "tasAdjust", "Precipitation" = "prAdjust",
                         "Mean min.temperature" = "tasminAdjust", "Mean max.temperature" =  "tasmaxAdjust"),
@@ -39,7 +39,7 @@ ui_maps <- tabPanel(
                       width = "220px",
                       selected = "RCP4.5"),
           
-          selectInput("Season", label = "Annual/Season",
+          selectInput("Season", label = "Season",
                       c("Annual" = "Annual", "DJF" =  "DJF", "MAM" =  "MAM", 
                         "JJA" =  "JJA", "SON" = "SON" ),
                       width = "220px", selected = "Annual"),
@@ -77,8 +77,9 @@ ui_maps <- tabPanel(
               
               h5(textOutput("plot.anom.tit"), style = "text-align:center;"),
               # div(
-              plotly::plotlyOutput("plot.anom", inline = T, height = "250px") %>% withSpinner(size = 0.5),
-              #   style="margin-top: 0px;"
+              plotly::plotlyOutput("plot.anom", inline = T, height = "240px") %>% 
+             withSpinner(size = 0.5),
+              # 
               # ),
               p(textOutput("text.anom"), style = "text-align:justify;"),
               
