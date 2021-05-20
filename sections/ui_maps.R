@@ -77,7 +77,7 @@ ui_maps <- tabPanel(
               
               h5(textOutput("plot.anom.tit"), style = "text-align:center;"),
               # div(
-              plotly::plotlyOutput("plot.anom", inline = T, height = "310px") %>% withSpinner(size = 0.5),
+              plotly::plotlyOutput("plot.anom", inline = T, height = "250px") %>% withSpinner(size = 0.5),
               #   style="margin-top: 0px;"
               # ),
               p(textOutput("text.anom"), style = "text-align:justify;"),
