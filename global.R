@@ -33,7 +33,7 @@ suppressPackageStartupMessages({
 ## pentru judete limita a se folosit doar o data dupa se pune in comentariu.
 
 # Options for Spinner
-options (spinner.color="#0275D8", spinner.color.background="#ffffff", spinner.size = 2)
+options(spinner.color = "#0275D8", spinner.color.background = "#ffffff", spinner.size = 2)
 judete <- read_sf("www/data/shp/counties.shp") %>% st_transform(4326)
 ctrs <- read_sf("www/data/shp/countries.shp") 
 sea <- read_sf("www/data/shp/sea.shp") 

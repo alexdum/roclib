@@ -22,7 +22,7 @@ ui_maps <- tabPanel(
         
         sidebarPanel(
           width = 3,
-          h5("Selection Options"),
+          h4("Selection Options"),
           selectInput("Parameter", label = "Parameter",
                       c("Mean temperature" =  "tasAdjust", "Precipitation" = "prAdjust",
                         "Mean min.temperature" = "tasminAdjust", "Mean max.temperature" =  "tasmaxAdjust"),
