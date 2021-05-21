@@ -111,15 +111,15 @@ plotInput<- reactive ({
     # pentru hartile cu schimbarea
     
     if (input$Season != "Annual") {
-      rmean <- colorRampPalette( brewer.pal(9, "BuPu"), interpolate="linear")
+      rmean <- colorRampPalette( brewer.pal(9, "GnBu"), interpolate="linear")
       brks.mean <- c(100,150,200,250,300,350,400)
       cols.mean <- rmean(length(brks.mean) - 1)
       lim.mean <- c(50, 450)
     } else {
-      rmean <- colorRampPalette( brewer.pal(9, "BuPu"), interpolate="linear")
-      brks.mean <- c(400,450,500,550,600,650,700,750,800,850,900)
+      rmean <- colorRampPalette( brewer.pal(9, "GnBu"), interpolate="linear")
+      brks.mean <- c(400,500,600,700,800,900,1000,1100,1200)
       cols.mean <- rmean(length(brks.mean) - 1)
-      lim.mean <- c(350, 950)
+      lim.mean <- c(300, 1300)
     }
     
   }
