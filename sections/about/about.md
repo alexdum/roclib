@@ -2,10 +2,13 @@
 editor_options: 
   markdown: 
     wrap: 72
+output: 
+  html_document: 
+    smart: no
 ---
 
-Built in \<a href="<https://www.r-project.org/>", target="\_blank"\> R
-</a> using \<a href="<https://shiny.rstudio.com/>", target="\_blank"\>
+Built in <a href="https://www.r-project.org/", target="_blank"> R </a> using 
+<a href="https://shiny.rstudio.com/", target="_blank">
 Shiny </a>, this dashboard aims to provide accurate and relevant facts
 and statistics about climate change in Romania. The application is based
 on ensemble means computed from 10 adjusted RCMs data, which are
@@ -44,8 +47,8 @@ the original EURO-CORDEX simulations obtained from ESGF servers .
     variablename_ROU-11_cmip5experiment_globalmodel_run\_
     regionalmodel_rcmversionid \_timefrequency_starttime-endtime.nc;
 
--   Data source: \<a href="<https://doi.org/10.5281/zenodo.4642464>",
-    target="\_blank"\>doi.org/10.5281</a>
+-   Data source: <a href="https://doi.org/10.5281/zenodo.4642464",
+    target="_blank">doi.org/10.5281</a>
 
 ##### The dashboard is structured in two main sections:
 
@@ -54,34 +57,34 @@ the original EURO-CORDEX simulations obtained from ESGF servers .
 
 ##### Tools
 
--   Visualisation: \<a href="<https://shiny.rstudio.com/>",
-    target="\_blank"\>shiny</a>
--   Map: \<a href="<https://rstudio.github.io/leaflet/>",
-    target="\_blank"\>leaflet</a>
--   NetCDF manipulating: \<a
-    href="<https://cran.r-project.org/web/packages/ncdf4/index.html>",
-    target="\_blank"\>ncdf4</a>
--   Chart: \<a href="<https://plot.ly/r/>", target="\_blank"\>plotly</a>
--   Table: \<a
-    href="<https://rstudio.github.io/DT/>",target="\_blank"\>DT</a>
+-   Visualisation: <a href="https://shiny.rstudio.com/",
+    target="_blank">shiny</a>
+-   Map: <a href="https://rstudio.github.io/leaflet/",
+    target="_blank">leaflet</a>
+-   NetCDF manipulating: <a
+    href="https://cran.r-project.org/web/packages/ncdf4/index.html",
+    target="_blank">ncdf4</a>
+-   Chart: <a href="https://plot.ly/r/", target="_blank">plotly</a>
+-   Table: <a
+    href="https://rstudio.github.io/DT/",target="_blank">DT</a>
 
 ##### Source code
 
-Repository: \<a href="<https://github.com/alexdum>",
-target="\_blank"\>https://github.com/alexdum/roclib</a>
+Repository: <a href="https://github.com/alexdum",
+target="_blank">https://github.com/alexdum/roclib</a>
 
-Report issue(s) or feature(s) request \<a
-href="<https://github.com/alexdum/roclib/issues>",
-target="\_blank"\>here</a>
+Report issue(s) or feature(s) request <a
+href="https://github.com/alexdum/roclib/issues",
+target="_blank">here</a>
 
 ##### Developers
 
 Alexandru Dumitrescu:
-[dumitrescu\@meteoromania.ro](mailto:dumitrescu@meteoromania.ro); Vlad
+[dumitrescu@meteoromania.ro](mailto:dumitrescu@meteoromania.ro); Vlad
 Amihaesei:
-[vlad.amihaesei\@meteoromania.ro](mailto:vlad.amihaesei@meteoromania.r)
+[vlad.amihaesei@meteoromania.ro](mailto:vlad.amihaesei@meteoromania.r)
 
 ------------------------------------------------------------------------
 
-(c) 2021 SUSCAP MeteoRomania \|[MIT
-    License](https://github.com/alexdum/roclib/blob/master/LICENSE)
+(c) 2021 SUSCAP MeteoRomania | <a href = "https://github.com/alexdum/roclib/blob/main/LICENSE",
+target="_blank"> MIT  License </a>
