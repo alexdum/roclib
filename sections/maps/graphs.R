@@ -104,7 +104,7 @@ output$plot.anom <- plotly::renderPlotly(
   })
 
 output$down.plot.anom <- downloadHandler(
-  filename = function() { paste(textvar()$mean.hist %>% gsub(" " ,"_", . ) %>% tolower() ,"1971-2100.png", sep='') },
+  filename = function() {paste0(anom()$anom.tit %>% gsub(" " ,"_", .) %>% gsub("-_" ,"", .) %>% tolower() ,".png")},
   content = function(file) {
     png(file, width = 800, height = 400, units = "px", res = 100)
     print(anomPlots()$anom.ggplot)
