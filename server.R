@@ -5,7 +5,6 @@ server <- shinyServer(function(input, output, session) {
     #            updateSelectInput(session, "judetInput", "Judet",
      #                             choices = unique(date$NUME[date$CMR==input$RegiuneInput])))
 
-
   source(file = "sections/maps/texts.R", local = T)
   source(file = "sections/maps/maps.R", local = T)
   source(file = "sections/maps/graphs.R", local = T)
