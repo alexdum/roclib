@@ -1,4 +1,5 @@
 theme.maps <- theme(
+  
   legend.position = c(.94, .91),
   legend.justification = c("right", "top"),
   legend.background = element_rect(fill="lightgrey", colour = "lightgrey"),
