@@ -66,12 +66,13 @@ the original EURO-CORDEX simulations obtained from ESGF servers .
     target="_blank">ncdf4</a>
 -   Chart: <a href="https://plot.ly/r/", target="_blank">plotly</a>
 -   Table: <a
-    href="https://rstudio.github.io/DT/",target="_blank">DT</a>
+    href="https://rstudio.github.io/DT/", target="_blank">DT</a>
 
 ##### Source code
 
-Repository: <a href="https://github.com/alexdum",
-target="_blank">https://github.com/alexdum/roclib</a>
+Repository: <a
+href="https://github.com/alexdum/roclib",
+target="_blank">github.com/alexdum/roclib</a>
 
 Report issue(s) or feature(s) request <a
 href="https://github.com/alexdum/roclib/issues",
