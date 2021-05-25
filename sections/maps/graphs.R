@@ -2,7 +2,6 @@
 # tabs input ------------------------------------------------------------
 anom <- reactive({
   
-
   # dateele
   # modificari in situatia cu Annual
   period <- ifelse(input$Season == "Annual", "annual", "seasons")
