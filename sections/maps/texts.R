@@ -30,7 +30,6 @@ text.maps <- reactive({
   list(
     text.change = text.change,
     text.anom = text.anom
-      
   )
   
 })
