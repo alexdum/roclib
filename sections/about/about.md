@@ -11,7 +11,7 @@ Built in <a href="https://www.r-project.org/", target="_blank"> R </a> using
 <a href="https://shiny.rstudio.com/", target="_blank">
 Shiny </a>, this dashboard aims to provide accurate and relevant facts
 and statistics about climate change in Romania. The application is based
-on ensemble means computed from 10 adjusted RCMs data, which are
+on ensemble means computed from 10 adjusted (bias-corrected) RCMs data, which are
 provided via the Zenodo open-access repository (RoCliB). The data are
 archived in a netCDF CF-1.4-compliant format using netCDF4 compression.
 For each variable and scenario distinct files were created: 4 climate
@@ -46,6 +46,19 @@ the original EURO-CORDEX simulations obtained from ESGF servers .
 -   Naming convention:
     variablename_ROU-11_cmip5experiment_globalmodel_run\_
     regionalmodel_rcmversionid \_timefrequency_starttime-endtime.nc;
+    
+- RMCs (Institution or working group, RCM Model, GCM Institute, GCM  Driving):
+
+    - Climate Limited-area Modelling Community (CLMcom) CCLM4-8-17 CNRM-CERFACSCNRM-CM5
+    - Royal Netherlands Meteorological Institute (KNMI) RACMO22E CNRM-CERFACS CNRM-CM5
+    - Swedish Meteorological and Hydrological Institute (SMHI) RCA4CNRM-CERFACS CNRM-CM5
+    - Climate Limited-area Modelling Community (CLMcom) CCLM4-8-17 ICHECEC-EARTH
+    - Swedish Meteorological and Hydrological Institute (SMHI) RCA4I CHECEC-EARTH
+    - Royal Netherlands Meteorological Institute (KNMI) RACMO22E ICHECEC-EARTH
+    - Danish Meteorological Institute (DMI) HIRHAM5 ICHECEC-EARTH
+    - Climate Limited-area Modelling Community (CLMcom) CCLM4-8-17 MPI-MMPI-ESM-LR
+    - Swedish Meteorological and Hydrological Institute (SMHI) RCA4 MPI-MMPI-ESM-LR
+    - Climate Service Center Germany (GERICS) REMO2015 NCC NorESM1-M
 
 -   Data source: <a href="https://doi.org/10.5281/zenodo.4642464",
     target="_blank">doi.org/10.5281</a>
