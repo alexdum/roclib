@@ -72,14 +72,19 @@ anomPlots <- reactive({
       ),
       margin = list(
         b = 0,
-        t = 10
+        t = 20
       )
       #,
       # xaxis = list(
       # #   type = 'date',
       #   tickangle = 45
       # ) 
-    ) %>% config(displayModeBar = FALSE)
+    ) %>% config(
+      displaylogo = FALSE,
+      modeBarButtonsToRemove = c("zoomIn2d", "zoomOut2d", "lasso2d", "zoom", "toggleSpikelines", "zoom", "select2d",
+                                 "hoverCompareCartesian", "hoverClosestCartesian","autoscale"),
+      displayModeBar = T
+    )
   
   # gp$x$layout$width <- NULL
   # gp$x$layout$height <- NULL
