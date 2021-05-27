@@ -144,7 +144,7 @@ plotInput<- reactive ({
                        name = ifelse(input$Parameter != "prAdjust", "      °C", "      mm"), 
                        breaks = brks.mean,
                        limits = lim.mean) + 
-    labs(caption = paste("@SUSCAP", Sys.Date()), title = textvar()$mean.scen, x = "", y = "") +
+    labs(caption = paste("@SUSCAP", Sys.Date()), title = textvar()$mean.scen) +
     coord_sf(xlim = c(20,30), ylim = c(43.5, 48.5), expand = F) +
     theme_bw() + #xlim(20,30) + ylim(43.7, 48.3) +
     guides(fill =  guide_colourbar(barwidth = 1.0, barheight = 9, title.position = "top",
@@ -171,7 +171,7 @@ plotInput<- reactive ({
       breaks = brks.mean,
       limits = lim.mean
     ) + 
-    labs(caption = paste("@SUSCAP", Sys.Date()), title = textvar()$mean.hist, x = "", y = "") +
+    labs(caption = paste("@SUSCAP", Sys.Date()), title = textvar()$mean.hist) +
     coord_sf(xlim = c(20,30), ylim = c(43.5, 48.5), expand = F) +
     theme_bw() + #xlim(20,30) + ylim(43.7, 48.3) +
     guides(fill =  guide_colourbar(barwidth = 1.0, barheight = 9, title.position = "top",
@@ -200,8 +200,7 @@ plotInput<- reactive ({
                        name = ifelse(input$Parameter != "prAdjust", "      °C", "      %"), 
                        breaks = brks,
                        limits = lim) + 
-    labs(caption = paste("@SUSCAP", Sys.Date()), title = textvar()$change %>% gsub("changes", "- changes in", .) , 
-         x = "", y = "") +
+    labs(caption = paste("@SUSCAP", Sys.Date()), title = textvar()$change %>% gsub("changes", "- changes in", .)) +
     coord_sf(xlim = c(20,30), ylim = c(43.5, 48.5), expand = F) +
     theme_bw() + #xlim(20,30) + ylim(43.7, 48.3) +
     guides(fill =  guide_colourbar(barwidth = 1.0, barheight = 9, title.position = "top",
