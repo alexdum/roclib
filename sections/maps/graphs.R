@@ -99,7 +99,7 @@ anomPlots <- reactive({
     ) %>% config(
       displaylogo = FALSE,
       modeBarButtonsToRemove = c("zoomIn2d", "zoomOut2d", "lasso2d", "zoom", "toggleSpikelines", "zoom", "select2d",
-                                 "hoverCompareCartesian", "hoverClosestCartesian","autoscale"),
+                                 "hoverCompareCartesian", "hoverClosestCartesian","autoScale2d"),
       displayModeBar = T
     )
   
