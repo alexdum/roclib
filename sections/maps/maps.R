@@ -144,16 +144,17 @@ plotInput<- reactive ({
                        name = ifelse(input$Parameter != "prAdjust", "      °C", "      mm"), 
                        breaks = brks.mean,
                        limits = lim.mean) + 
-    labs(caption = paste("@SUSCAP", Sys.Date()), title = textvar()$mean.scen) +
+    labs(title = textvar()$mean.scen) +
     coord_sf(xlim = c(20,30), ylim = c(43.5, 48.5), expand = F) +
     theme_bw() + #xlim(20,30) + ylim(43.7, 48.3) +
     guides(fill =  guide_colourbar(barwidth = 1.0, barheight = 9, title.position = "top",
                                    label.theme = element_text(size = 9.5))) +
-    scale_linetype_manual(values=c("twodash")) +
+    scale_linetype_manual(values = c("twodash")) +
     theme.maps  +
-    annotate("text", label = paste("min.:", rg.mean[1] %>% sprintf("%.1f",.)), x=29.1, y = 46, size = 3.3) +
-    annotate("text", label = paste("avg.:", mean(rm$values) %>% round(1)%>% sprintf("%.1f",.)), x = 29.1, y = 45.9,  size = 3.3) +
-    annotate("text", label = paste("max.:", rg.mean[2] %>% sprintf("%.1f",.)), x=29.1, y = 45.8, size = 3.3)
+    annotate("text", label = paste("min.:", rg.mean[1] %>% sprintf("%.1f",.)), x = 29.1, y = 46, size = 3.3) +
+    annotate("text", label = paste("avg.:", mean(rm$values) %>% round(1) %>% sprintf("%.1f",.)), x = 29.1, y = 45.9,  size = 3.3) +
+    annotate("text", label = paste("max.:", rg.mean[2] %>% sprintf("%.1f",.)), x = 29.1, y = 45.8, size = 3.3) +
+    annotate("text", label = paste("@SUSCAP", Sys.Date()), x = 21, y = 43.85, size = 2.5, fontface = 'italic')
   
   plot.hist <- ggplot() +
     geom_raster(data = rh, aes(x = x, y = y,
@@ -171,7 +172,7 @@ plotInput<- reactive ({
       breaks = brks.mean,
       limits = lim.mean
     ) + 
-    labs(caption = paste("@SUSCAP", Sys.Date()), title = textvar()$mean.hist) +
+    labs(title = textvar()$mean.hist) +
     coord_sf(xlim = c(20,30), ylim = c(43.5, 48.5), expand = F) +
     theme_bw() + #xlim(20,30) + ylim(43.7, 48.3) +
     guides(fill =  guide_colourbar(barwidth = 1.0, barheight = 9, title.position = "top",
@@ -181,7 +182,8 @@ plotInput<- reactive ({
     theme.maps +
     annotate("text", label = paste("min.:", rg.hist[1] %>% sprintf("%.1f",.)), x=29.1, y = 46, size = 3.3) +
     annotate("text", label = paste("avg.:", mean(rh$values) %>% round(1)%>% sprintf("%.1f",.)), x = 29.1, y = 45.9,  size = 3.3) +
-    annotate("text", label = paste("max.:", rg.hist[2] %>% sprintf("%.1f",.)), x=29.1, y = 45.8, size = 3.3)
+    annotate("text", label = paste("max.:", rg.hist[2] %>% sprintf("%.1f",.)), x=29.1, y = 45.8, size = 3.3) +
+    annotate("text", label = paste("@SUSCAP", Sys.Date()), x = 21, y = 43.85, size = 2.5, fontface = 'italic')
   
   plot.change <- ggplot() +
     geom_raster(data = rs, aes(x = x, y = y,
@@ -200,18 +202,18 @@ plotInput<- reactive ({
                        name = ifelse(input$Parameter != "prAdjust", "      °C", "      %"), 
                        breaks = brks,
                        limits = lim) + 
-    labs(caption = paste("@SUSCAP", Sys.Date()), title = textvar()$change %>% gsub("changes", "- changes in", .)) +
+    labs(title = textvar()$change %>% gsub("changes", "- changes in", .)) +
     coord_sf(xlim = c(20,30), ylim = c(43.5, 48.5), expand = F) +
     theme_bw() + #xlim(20,30) + ylim(43.7, 48.3) +
     guides(fill =  guide_colourbar(barwidth = 1.0, barheight = 9, title.position = "top",
                                    label.theme = element_text(size = 10))) +
     scale_linetype_manual(values=c("twodash")) +
     #ggplot2::last_plot() + 
-    labs(x=NULL, y=NULL) +
     theme.maps +
     annotate("text", label = paste("min.:", rg[1] %>% sprintf("%.1f",.)), x=29.1, y = 46, size = 3.3) +
     annotate("text", label = paste("avg.:", mean(rs$values) %>% round(1)%>% sprintf("%.1f",.)), x = 29.1, y = 45.9,  size = 3.3) +
-    annotate("text", label = paste("max.:", rg[2] %>% sprintf("%.1f",.)), x=29.1, y = 45.8, size = 3.3)
+    annotate("text", label = paste("max.:", rg[2] %>% sprintf("%.1f",.)), x=29.1, y = 45.8, size = 3.3) +
+    annotate("text", label = paste("@SUSCAP", Sys.Date()), x = 21, y = 43.85, size = 2.5, fontface = 'italic')
   
   list(plot.change = plot.change, plot.scen = plot.scen, plot.hist = plot.hist)
   
