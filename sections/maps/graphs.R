@@ -38,10 +38,10 @@ anomPlots <- reactive({
   gg <- ggplot(anom()$anom) + 
     
     geom_ribbon(aes(x = data, ymax = scen_anom_max, ymin = scen_anom_min), alpha = 0.5, fill = "gray") +
-    geom_line(aes(data, scen_anom_mean),  color = "black", size = 0.8) +
     scale_x_date(breaks = c(as.Date("1971-01-01"), seq(as.Date("2000-01-01"), as.Date("2100-12-31"), by = "20 years")), date_labels = "%Y") +
     geom_bar(aes(x = data, y = obs_anom, fill = symb, group =1),
              stat = "identity", width = 400, show.legend = F,  color = "black") + 
+    geom_line(aes(data, scen_anom_mean),  color = "black", size = 0.8) +
     scale_y_continuous(
       paste0("Anomaly (", ifelse(input$Parameter == "prAdjust", "%", "°C"),")")
     ) + #breaks = seq(-8,8, 2.0),limits = c(-4,8)) +  
@@ -82,7 +82,7 @@ anomPlots <- reactive({
     ) %>% config(
       displaylogo = FALSE,
       modeBarButtonsToRemove = c("zoomIn2d", "zoomOut2d", "lasso2d", "zoom", "toggleSpikelines", "zoom", "select2d",
-                                 "hoverCompareCartesian", "hoverClosestCartesian","autoscale"),
+                                 "hoverCompareCartesian", "hoverClosestCartesian","autoScale2d"),
       displayModeBar = T
     )
   
