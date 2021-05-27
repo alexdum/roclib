@@ -271,7 +271,6 @@ output$downrmean <- downloadHandler(
     writeRaster(rs()$scen.mean, file, overwrite = T)
   })
 
-
 # pentru descarcare plot imagine
 output$downphist<- downloadHandler(
   filename = function() { paste(textvar()$mean.hist %>% gsub(" " ,"_", . ) %>% gsub("vs.", "vs",.) %>% tolower(), '.png', sep='') },
