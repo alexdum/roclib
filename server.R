@@ -13,6 +13,7 @@ server <- shinyServer(function(input, output, session) {
   outputOptions(output, "plot.anom.tit", suspendWhenHidden = FALSE)
   outputOptions(output, "plot.anom", suspendWhenHidden = FALSE)
   outputOptions(output, "text.anom", suspendWhenHidden = FALSE)
+  outputOptions(output, "down.plot.anom", suspendWhenHidden = FALSE)
    
 })
 
