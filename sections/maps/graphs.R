@@ -5,7 +5,7 @@ anom <- reactive({
   # modificari in situatia cu Annual
   period <- ifelse(input$Season == "Annual", "annual", "seasons")
   
-  anom <- paste0("www/data/tabs/anomalies/anomalies_", period, "_", input$Parameter,"_",input$Scenario,"_1971_2100.rds") %>%
+  anom <- paste0("www/data/tabs/anomalies/variables/anomalies_", period, "_", input$Parameter,"_",input$Scenario,"_1971_2100.rds") %>%
     readRDS()
   # filtreaza daca ai date sezoniere
   if(input$Season != "Annual") anom <- anom %>% filter(season == input$Season)
