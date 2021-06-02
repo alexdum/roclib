@@ -62,7 +62,7 @@ anomPlots <- reactive({
     ) 
   gpl <- gg + 
     annotation_raster(logo, interpolate = T, 
-                      ymin = plot_box$ymax - plot_box$yrange*0.29, 
+                      ymin = plot_box$ymax - plot_box$yrange*0.285, 
                       ymax = anom()$anom$scen_anom_max %>% max(), 
                       xmin = 750, 
                       xmax = 5300) +
