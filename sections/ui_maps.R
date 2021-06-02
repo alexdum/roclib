@@ -78,7 +78,7 @@ ui_maps <- tabPanel(
               h5(textOutput("plot.anom.tit"), style = "text-align:center;"),
               # div(
               plotly::plotlyOutput("plot.anom", inline = T, height = "240px") %>% 
-             withSpinner(size = 0.5),
+                withSpinner(size = 0.5),
               # 
               # ),
               p(textOutput("text.anom"), style = "text-align:justify;"),
@@ -97,7 +97,7 @@ ui_maps <- tabPanel(
             style = "border-style: solid;border: 1px solid #e3e3e3;;border-radius: 4px;",
             column(
               width = 6, plotOutput("plot.scen", inline = T) %>% withSpinner(size = 0.5),
-            
+              
               downloadLink('downpmean', label = 'Download  PNG'),
               "|",
               downloadLink('downrmean', 'Download GeoTIFF')
@@ -113,6 +113,75 @@ ui_maps <- tabPanel(
               
             )
           )
+        )
+      )
+    ),
+
+# Indicators --------------------------------------------------------------
+
+    tabPanel(
+      h5("Indicators"),
+      tags$h6(" "),
+      HTML("The climate variables' (CVs) changes are computed for each season and at
+           the annual scale as differences between future periods (2021-2050 and 2071-2100)
+           and the historical period (1971-2000). The changes are computed as absolute (°C) 
+           for air temperature and relative (%) for precipitation."),
+      tags$br(""),
+      
+      sidebarLayout(
+        fluid = T,
+        
+        sidebarPanel(
+          width = 3,
+          h4("Selection Options"),
+          selectInput("Indicator", label = "Indicator",
+                      c("Cold units" =  "coldu", "Frost units 10" = "frostu 10", "Frost units 15" = "frostu 15",
+                        "Frost units 20" = "frostu 20"),
+                      selected = "Cold units", width = "220px"),
+          selectInput("Period", label = "Period",
+                      c("2071-2100 vs. 1971-2000" =  "20710301-21001130",
+                        "2021-2050 vs. 1971-2000" =  "20210301-20501130"),  
+                      width = "220px",
+                      selected = "2071-2100 vs. 1971-2000"),
+          
+          selectInput("Scenario.ind", label = "Scenario",
+                      c("RCP4.5" =  "rcp45",
+                        "RCP8.5" =  "rcp85") ,
+                      width = "220px",
+                      selected = "RCP4.5")
+       
+          # downloadButton('downloadPlot', 'Download   PNG', 
+          #                style = "padding: 5px 20px 5px 24px;margin: 5px 5px 5px 5px; "),
+          # h5(""),
+          # downloadButton('downloadRaster', 'Download GeoTIFF',
+          #                style = "padding: 5px 10px 5px 10px;margin: 5px 5px 5px 5px; ")
+        ),
+        
+        mainPanel(
+          width = 9,
+          fluidRow(
+            column(
+              width = 12, 
+              
+              h5(textOutput("plot.anom.tit.ind"), style = "text-align:center;"),
+              # div(
+              plotly::plotlyOutput("plot.anom.ind", inline = T, height = "240px") %>% 
+                withSpinner(size = 0.5),
+              # 
+              # ),
+              p(textOutput("text.anom.ind"), style = "text-align:justify;"),
+              
+              
+              #fluidRow(
+              tags$div(class = "header",
+                       downloadLink('down.plot.anom.ind', label = 'Download  PNG')
+              )    
+              #  )
+              # )
+            )
+          ),
+          
+         
         )
       )
     )
