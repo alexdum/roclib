@@ -16,9 +16,9 @@ rs <- reactive({
   }
   
   if (input$Parameter != "prAdjust") {
-    path <- paste0("www/data/ncs/changes_ensemble/bc_",input$Parameter,"_",input$Scenario,"_",period, smean)
+    path <- paste0("www/data/ncs/variables/changes_ensemble/bc_",input$Parameter,"_",input$Scenario,"_",period, smean)
   } else {
-    path <- paste0("www/data/ncs/changes_ensemble/bc_",input$Parameter,"_",input$Scenario,"_",period, ssum)
+    path <- paste0("www/data/ncs/variables/changes_ensemble/bc_",input$Parameter,"_",input$Scenario,"_",period, ssum)
   }
   
   # print(path)
