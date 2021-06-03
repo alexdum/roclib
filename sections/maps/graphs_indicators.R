@@ -128,7 +128,7 @@ output$down.plot.anom.ind <- downloadHandler(
   filename = function() {paste0(anom.ind()$anom.tit %>% gsub(" " ,"_", .) %>% gsub("-_" ,"", .) %>% tolower() ,".png")},
   content = function(file) {
     png(file, width = 800, height = 400, units = "px", res = 100)
-    print(anomPlots()$anom.ggplot)
+    print(anomPlots.ind()$anom.ggplot)
     dev.off()
   })
 
