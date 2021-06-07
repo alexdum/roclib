@@ -7,7 +7,7 @@ rs.ind <- reactive({
   period <- input$Period.ind
  
 
-  path <- paste0("www/data/ncs/indicators/changes_ensemble/bc_",gsub(" ", "",input$Indicator),"_",input$Scenario.ind,"_",period, ".nc")
+  path <- paste0("www/data/ncs/indicators/changes_ensemble/",gsub(" ", "",input$Indicator),"_",input$Scenario.ind,"_",period, ".nc")
  
   # print(path)
   r <- brick(path)
@@ -26,6 +26,23 @@ rs.ind <- reactive({
   list(change = r, scen.mean = rscen, hist.mean = rhist)
 })
 
+
+# text titlu si salvare png si fisier -------------------------------------
+
+textvar.ind <- reactive({
+  var1 <- toupper(input$Indicator)
+  var2 <- ifelse (input$Scenario.ind == "rcp45",  "RCP4.5", "RCP8.5")
+  var3 <- ifelse(grepl(2071, input$Period.ind, fixed = TRUE), "2071-2100 vs. 1971-2000", "2021-2050 vs. 1971-2000")
+  varf <- paste(var1, var2, var3 )
+  
+  list(
+    change = paste("changes", var1, var2, var3), 
+    mean.scen = paste(input$Season,  var1, var2, substr(var3,1,9)),
+    mean.hist = paste(input$Season, tolower(var1), "Historical", substr(var3,15,23))
+    
+  )
+  x
+})
 
 
 
@@ -108,7 +125,7 @@ plotInput.ind <- reactive ({
     #                    name = ifelse(input$Parameter != "prAdjust", "      °C", "      mm"), 
     #                    breaks = brks.mean,
     #                    limits = lim.mean) + 
-    labs(title = textvar()$mean.scen) +
+    labs(title = textvar.ind()$mean.scen) +
     coord_sf(xlim = c(20,30), ylim = c(43.5, 48.5), expand = F) +
     theme_bw() + #xlim(20,30) + ylim(43.7, 48.3) +
     guides(fill =  guide_colourbar(barwidth = 1.0, barheight = 9, title.position = "top",
@@ -137,7 +154,7 @@ plotInput.ind <- reactive ({
     #   breaks = brks.mean,
     #   limits = lim.mean
     # ) + 
-    labs(title = textvar()$mean.hist) +
+    labs(title = textvar.ind()$mean.hist) +
     coord_sf(xlim = c(20,30), ylim = c(43.5, 48.5), expand = F) +
     theme_bw() + #xlim(20,30) + ylim(43.7, 48.3) +
     guides(fill =  guide_colourbar(barwidth = 1.0, barheight = 9, title.position = "top",
@@ -168,7 +185,7 @@ plotInput.ind <- reactive ({
     #                    name = ifelse(input$Parameter != "prAdjust", "      °C", "      %"), 
     #                    breaks = brks,
     #                    limits = lim) + 
-    labs(title = textvar()$change %>% gsub("changes", "- changes in", .)) +
+    labs(title = textvar.ind()$change %>% gsub("changes", "- changes in", .)) +
     coord_sf(xlim = c(20,30), ylim = c(43.5, 48.5), expand = F) +
     theme_bw() + #xlim(20,30) + ylim(43.7, 48.3) +
     guides(fill =  guide_colourbar(barwidth = 1.0, barheight = 9, title.position = "top",
@@ -207,7 +224,7 @@ output$plot.scen.ind <- renderPlot(
 
 # pentru descarcare plot imagine
 output$downpchange.ind <- downloadHandler(
-  filename = function() { paste(textvar()$change %>% gsub(" " ,"_", . ) %>% gsub("vs.", "vs",.) %>% tolower(), '.png', sep='') },
+  filename = function() { paste(textvar.ind()$change %>% gsub(" " ,"_", . ) %>% gsub("vs.", "vs",.) %>% tolower(), '.png', sep='') },
   content = function(file) {
     png(file, width = 900, height = 670, units = "px", res = 110)
     print(plotInput.ind()$plot.change)
@@ -216,7 +233,7 @@ output$downpchange.ind <- downloadHandler(
 
 # pentru descarcare fisier Geotiff
 output$downrchange.ind <- downloadHandler(
-  filename = function() { paste(textvar()$change %>% gsub(" " ,"_", . ) %>% gsub("vs.", "vs",.) %>% tolower(), '.tif', sep='') },
+  filename = function() { paste(textvar.ind()$change %>% gsub(" " ,"_", . ) %>% gsub("vs.", "vs",.) %>% tolower(), '.tif', sep='') },
   content = function(file) {
     writeRaster(rs.ind()$change, file, overwrite = T)
   })
@@ -224,7 +241,7 @@ output$downrchange.ind <- downloadHandler(
 
 # pentru descarcare plot imagine
 output$downpmean.ind <- downloadHandler(
-  filename = function() { paste(textvar()$mean.scen %>% gsub(" " ,"_", . ) %>% gsub("vs.", "vs",.) %>% tolower(), '.png', sep='') },
+  filename = function() { paste(textvar.ind()$mean.scen %>% gsub(" " ,"_", . ) %>% gsub("vs.", "vs",.) %>% tolower(), '.png', sep='') },
   content = function(file) {
     png(file, width = 900, height = 670, units = "px", res = 110)
     print(plotInput()$plot.scen)
@@ -233,14 +250,14 @@ output$downpmean.ind <- downloadHandler(
 
 # pentru descarcare fisier Geotiff
 output$downrmean.ind <- downloadHandler(
-  filename = function() { paste(textvar()$mean.scen %>% gsub(" " ,"_", . ) %>% gsub("vs.", "vs",.) %>% tolower(), '.tif', sep='') },
+  filename = function() { paste(textvar.ind()$mean.scen %>% gsub(" " ,"_", . ) %>% gsub("vs.", "vs",.) %>% tolower(), '.tif', sep='') },
   content = function(file) {
     writeRaster(rs.ind()$scen.mean, file, overwrite = T)
   })
 
 # pentru descarcare plot imagine
 output$downphist.ind <- downloadHandler(
-  filename = function() { paste(textvar()$mean.hist %>% gsub(" " ,"_", . ) %>% gsub("vs.", "vs",.) %>% tolower(), '.png', sep='') },
+  filename = function() { paste(textvar.ind()$mean.hist %>% gsub(" " ,"_", . ) %>% gsub("vs.", "vs",.) %>% tolower(), '.png', sep='') },
   content = function(file) {
     png(file, width = 900, height = 670, units = "px", res = 110)
     print(plotInput()$plot.hist)
@@ -249,7 +266,7 @@ output$downphist.ind <- downloadHandler(
 
 # pentru descarcare fisier Geotiff
 output$downrhist.ind<- downloadHandler(
-  filename = function() { paste(textvar()$mean.hist %>% gsub(" " ,"_", . ) %>% gsub("vs.", "vs",.) %>% tolower(), '.tif', sep='') },
+  filename = function() { paste(textvar.ind()$mean.hist %>% gsub(" " ,"_", . ) %>% gsub("vs.", "vs",.) %>% tolower(), '.tif', sep='') },
   content = function(file) {
     writeRaster(rs.ind()$hist.mean, file, overwrite = T)
   })

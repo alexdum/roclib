@@ -172,7 +172,7 @@ ui_maps <- tabPanel(
               
               plotOutput("plot.change.ind", inline = T) %>% withSpinner(size = 0.5),
               
-              p(textOutput("text.change"), style = "text-align:justify;"),
+              #p(textOutput("text.change"), style = "text-align:justify;"),
               #style = "border-style: solid;border: 1px solid #e3e3e3;;border-radius: 4px;",
               
               
@@ -193,7 +193,7 @@ ui_maps <- tabPanel(
                 withSpinner(size = 0.5),
               # 
               # ),
-              p(textOutput("text.anom"), style = "text-align:justify;"),
+              #p(textOutput("text.anom"), style = "text-align:justify;"),
               
               
               #fluidRow(
