@@ -7,6 +7,7 @@ server <- shinyServer(function(input, output, session) {
 
   source(file = "sections/maps/texts.R", local = T)
   source(file = "sections/maps/maps.R", local = T)
+  source(file = "sections/maps/maps_indicators.R", local = T)
   source(file = "sections/maps/graphs.R", local = T)
   source(file = "sections/maps/graphs_indicators.R", local = T)
   
