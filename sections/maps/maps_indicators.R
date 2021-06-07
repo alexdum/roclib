@@ -16,7 +16,7 @@ rs.ind <- reactive({
   rscen <- brick(gsub("changes_ensemble", "multiannual_means", path))
   
   rhist <- brick(
-    path %>% gsub("changes_ensemble", "multiannual_means",.) %>% gsub(input$Scenario,"hist",.) %>%
+    path %>% gsub("changes_ensemble", "multiannual_means",.) %>% gsub(input$Scenario.ind,"hist",.) %>%
       gsub("_2021|_2071", "_1971",.) %>%   gsub("-2050|-2100", "-2000",.)
   )
 
@@ -41,7 +41,7 @@ textvar.ind <- reactive({
     mean.hist = paste(input$Season, tolower(var1), "Historical", substr(var3,15,23))
     
   )
-  x
+  
 })
 
 
@@ -120,7 +120,7 @@ plotInput.ind <- reactive ({
     
     annotation_raster(logo, xmin = 20.525, xmax = 21.525, ymin = 43.9, ymax = 44.5) +
     # make title bold and add space
-    scale_fill_stepsn() +
+    scale_fill_stepsn(colours = terrain.colors(10)) +
     # scale_fill_stepsn( colours = cols.mean,
     #                    name = ifelse(input$Parameter != "prAdjust", "      °C", "      mm"), 
     #                    breaks = brks.mean,
@@ -147,7 +147,7 @@ plotInput.ind <- reactive ({
     geom_vline(xintercept = c(20,22,24,26,28,30), color="#EBEBEB", linetype='dashed') +
     geom_hline(yintercept = c(44,45,46,47,48), color="#EBEBEB", linetype='dashed') +
     annotation_raster(logo, xmin = 20.525, xmax = 21.525, ymin = 43.9, ymax = 44.5) +
-    scale_fill_stepsn() +
+    scale_fill_stepsn(colours = terrain.colors(10)) +
     # scale_fill_stepsn( 
     #   colours = cols.mean,
     #   name = ifelse(input$Parameter != "prAdjust", "      °C", "      mm"), 
@@ -179,7 +179,7 @@ plotInput.ind <- reactive ({
     
     annotation_raster(logo, xmin = 20.525, xmax = 21.525, ymin = 43.9, ymax = 44.5) +
     # make title bold and add space
-    scale_fill_stepsn() +
+    scale_fill_stepsn(colours = terrain.colors(10)) +
     # 
     # scale_fill_stepsn( colours = cols,
     #                    name = ifelse(input$Parameter != "prAdjust", "      °C", "      %"), 
