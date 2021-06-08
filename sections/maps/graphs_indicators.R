@@ -10,7 +10,8 @@ anom.ind <- reactive({
   # filtreaza daca ai date sezoniere
   
   # textul pentru titlu
-  var1 <- toupper(input$Indicator)
+  var1 <-  tools::toTitleCase(input$Indicator) %>% gsub("u", " Units", .) %>%
+           gsub("  ", " ", .)
   
   var2 <- ifelse(input$Scenario.ind == "rcp45",  "RCP4.5", "RCP8.5")
   

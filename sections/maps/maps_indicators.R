@@ -5,13 +5,13 @@ rs.ind <- reactive({
   
   # modificari in situatia cu Annual
   period <- input$Period.ind
- 
-
+  
+  
   path <- paste0("www/data/ncs/indicators/changes_ensemble/",gsub(" ", "",input$Indicator),"_",input$Scenario.ind,"_",period, ".nc")
- 
+  
   # print(path)
   r <- brick(path)
- 
+  
   
   rscen <- brick(gsub("changes_ensemble", "multiannual_means", path))
   
@@ -19,7 +19,7 @@ rs.ind <- reactive({
     path %>% gsub("changes_ensemble", "multiannual_means",.) %>% gsub(input$Scenario.ind,"hist",.) %>%
       gsub("_2021|_2071", "_1971",.) %>%   gsub("-2050|-2100", "-2000",.)
   )
-
+  
   # nlayers(r)
   # print(names(rhist))
   # returneaza ca lista sa poti duce ambele variabile
@@ -30,15 +30,16 @@ rs.ind <- reactive({
 # text titlu si salvare png si fisier -------------------------------------
 
 textvar.ind <- reactive({
-  var1 <- toupper(input$Indicator)
+  var1 <- tools::toTitleCase(input$Indicator) %>% gsub("u", " Units", .) %>%
+    gsub("  ", " ", .)
   var2 <- ifelse (input$Scenario.ind == "rcp45",  "RCP4.5", "RCP8.5")
   var3 <- ifelse(grepl(2071, input$Period.ind, fixed = TRUE), "2071-2100 vs. 1971-2000", "2021-2050 vs. 1971-2000")
   varf <- paste(var1, var2, var3 )
   
   list(
-    change = paste("changes", var1, var2, var3), 
-    mean.scen = paste(input$Season,  var1, var2, substr(var3,1,9)),
-    mean.hist = paste(input$Season, tolower(var1), "Historical", substr(var3,15,23))
+    change = paste("Changes in", var1, var2, var3), 
+    mean.scen = paste( var1, var2, substr(var3,1,9)),
+    mean.hist = paste(var1, "Historical", substr(var3,15,23))
     
   )
   

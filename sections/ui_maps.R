@@ -16,9 +16,9 @@ ui_maps <- tabPanel(
            for air temperature and relative (%) for precipitation."),
       
       tags$br(""),
-
-# Variables ---------------------------------------------------------------
-
+      
+      # Variables ---------------------------------------------------------------
+      
       sidebarLayout(
         fluid = T,
         
@@ -118,9 +118,9 @@ ui_maps <- tabPanel(
         )
       )
     ),
-
-# Indicators --------------------------------------------------------------
-
+    
+    # Indicators --------------------------------------------------------------
+    
     tabPanel(
       h5("Indicators"),
       tags$h6(" "),
@@ -154,7 +154,7 @@ ui_maps <- tabPanel(
                         "RCP8.5" =  "rcp85") ,
                       width = "220px",
                       selected = "RCP4.5")
-       
+          
           # downloadButton('downloadPlot', 'Download   PNG', 
           #                style = "padding: 5px 20px 5px 24px;margin: 5px 5px 5px 5px; "),
           # h5(""),
@@ -166,27 +166,19 @@ ui_maps <- tabPanel(
           width = 9,
           fluidRow(
             style = "border-style: solid;border: 1px solid #e3e3e3;;border-radius: 4px;",
-            
             column(
               width = 6, 
-              
               plotOutput("plot.change.ind", inline = T) %>% withSpinner(size = 0.5),
-              
               #p(textOutput("text.change"), style = "text-align:justify;"),
               #style = "border-style: solid;border: 1px solid #e3e3e3;;border-radius: 4px;",
-              
-              
               #style = "padding-left: 50px;",
               downloadLink('downpchange.ind', label = 'Download  PNG'),
               "|",
               downloadLink('downrchange.ind', 'Download GeoTIFF')
-              
-              
             ),
             
             column(
-              width = 6, 
-              
+              width = 6,
               h5(textOutput("plot.anom.tit.ind"), style = "text-align:center;"),
               # div(
               plotly::plotlyOutput("plot.anom.ind", inline = T, height = "240px") %>% 
@@ -194,8 +186,6 @@ ui_maps <- tabPanel(
               # 
               # ),
               #p(textOutput("text.anom"), style = "text-align:justify;"),
-              
-              
               #fluidRow(
               tags$div(class = "header",
                        downloadLink('down.plot.anom.ind', label = 'Download  PNG')
@@ -203,10 +193,30 @@ ui_maps <- tabPanel(
               #  )
               # )
             )
+          ),
+          fluidRow(
+            style = "border-style: solid;border: 1px solid #e3e3e3;;border-radius: 4px;",
+            column(
+              width = 6, plotOutput("plot.scen.ind", inline = T) %>% withSpinner(size = 0.5),
+              
+              downloadLink('downpmean.ind', label = 'Download  PNG'),
+              "|",
+              downloadLink('downrmean.ind', 'Download GeoTIFF')
+              
+            ),
+            column(
+              width = 6, plotOutput("plot.hist.ind", inline = T) %>% withSpinner(size = 0.5),
+              
+              downloadLink('downphist.ind', label = 'Download  PNG'),
+              "|",
+              downloadLink('downrhist.ind', 'Download GeoTIFF')
+              
+              
+            )
           )
           
           
-         
+          
         )
       )
     )
