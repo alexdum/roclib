@@ -137,10 +137,11 @@ ui_maps <- tabPanel(
           h4("Selection Options"),
           selectInput("Indicator", label = "Indicator",
                       c(
-                        "Frost units 20" = "frostu 20", "Heat units Fall" = "heat u fall",
+                         "Heat units Fall" = "heat u fall",
                         "Heat units Spring" = "heat u spring", "Precipitation Fall" = "pr fall",
                         "Scorch number of days" = "scorch no", "Scorch units" = "scorch u",
-                        "Cold units" =  "coldu", "Frost units 10" = "frostu 10", "Frost units 15" = "frostu 15",
+                        "Cold units" =  "coldu", "Frost units 20" = "frostu 20",
+                        "Frost units 10" = "frostu 10", "Frost units 15" = "frostu 15",
                         "Precipitation vegetation" = "pr veget",  "Precipitation Winter" = "pr winter"
                         ),
                       selected = "Cold units", width = "220px"),
