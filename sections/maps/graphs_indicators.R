@@ -11,7 +11,7 @@ anom.ind <- reactive({
   
   # textul pentru titlu
   var1 <-  tools::toTitleCase(input$Indicator) %>% gsub("u", " Units", .) %>%
-           gsub("  ", " ", .)
+           gsub("  ", " ", .) %>% gsub("Pr", "Precipitation", .) %>% gsub("No", "number of days", .)
   
   var2 <- ifelse(input$Scenario.ind == "rcp45",  "RCP4.5", "RCP8.5")
   

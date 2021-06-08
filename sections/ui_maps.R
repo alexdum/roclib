@@ -122,12 +122,11 @@ ui_maps <- tabPanel(
     # Indicators --------------------------------------------------------------
     
     tabPanel(
-      h5("Indicators"),
+      h5("Indices"),
       tags$h6(" "),
-      HTML("The climate variables' (CVs) changes are computed for each season and at
-           the annual scale as differences between future periods (2021-2050 and 2071-2100)
-           and the historical period (1971-2000). The changes are computed as absolute (°C) 
-           for air temperature and relative (%) for precipitation."),
+      HTML("The climate indices are computed at the annual scale as differences between future periods (2021-2050 and 2071-2100)
+           and the historical period (1971-2000). The changes are computed as relative (%) for precipitation and as 
+           absolute ( Σ°C, number of days) for the rest of the indices"),
       tags$br(""),
       
       sidebarLayout(
@@ -137,11 +136,13 @@ ui_maps <- tabPanel(
           width = 3,
           h4("Selection Options"),
           selectInput("Indicator", label = "Indicator",
-                      c("Cold units" =  "coldu", "Frost units 10" = "frostu 10", "Frost units 15" = "frostu 15",
+                      c(
                         "Frost units 20" = "frostu 20", "Heat units Fall" = "heat u fall",
-                        "Heat units Spring" = "heat u spring", "Precipitation amount Fall" = "pr fall",
-                        "Precipitation vegetation" = "pr veget",  "Precipitation Winter" = "pr winter",
-                        "Scorch number of days" = "scorch no", "Scorch units" = "scorch u"),
+                        "Heat units Spring" = "heat u spring", "Precipitation Fall" = "pr fall",
+                        "Scorch number of days" = "scorch no", "Scorch units" = "scorch u",
+                        "Cold units" =  "coldu", "Frost units 10" = "frostu 10", "Frost units 15" = "frostu 15",
+                        "Precipitation vegetation" = "pr veget",  "Precipitation Winter" = "pr winter"
+                        ),
                       selected = "Cold units", width = "220px"),
           selectInput("Period.ind", label = "Period",
                       c("2071-2100 vs. 1971-2000" =  "2071-2100",

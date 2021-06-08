@@ -1,5 +1,6 @@
-
+# pentru culori si setare harta
 source("sections/maps/maps_settings.R", local = T)
+
 # netcdf input ------------------------------------------------------------
 rs.ind <- reactive({
   
@@ -31,7 +32,7 @@ rs.ind <- reactive({
 
 textvar.ind <- reactive({
   var1 <- tools::toTitleCase(input$Indicator) %>% gsub("u", " Units", .) %>%
-    gsub("  ", " ", .)
+    gsub("  ", " ", .) %>% gsub("Pr", "Precipitation", .) %>% gsub("No", "number of days", .)
   var2 <- ifelse (input$Scenario.ind == "rcp45",  "RCP4.5", "RCP8.5")
   var3 <- ifelse(grepl(2071, input$Period.ind, fixed = TRUE), "2071-2100 vs. 1971-2000", "2021-2050 vs. 1971-2000")
   varf <- paste(var1, var2, var3 )
@@ -65,142 +66,101 @@ plotInput.ind <- reactive ({
   names(rh)[3] <- "values"
   rg.hist <- range(rh$values) %>% round(1)
   
+  # culori harti
+  source("sections/maps/maps_indicators_settings.R", local = T) 
+
+plot.scen <- ggplot() +
+  geom_raster(data = rm, aes(x = x, y = y,
+                             fill = values),interpolate = F, alpha = 100) +
+  geom_sf(fill = "lightgrey", color = "grey", data = ctrs) +
+  geom_sf(fill = "transparent", data = judete) +
+  geom_sf(fill = "#a4b9b9", data = sea, color = "lightgrey", lwd = 0.4) +
+  geom_sf_text(aes(label = name),colour = "darkgrey",size = 3, data = judete) + 
+  geom_vline(xintercept = c(20,22,24,26,28,30), color="#EBEBEB", linetype='dashed') +
+  geom_hline(yintercept = c(44,45,46,47,48), color="#EBEBEB", linetype='dashed') +
   
-  # # simboluri in functie de parametru
-  # if (input$Parameter != "prAdjust") {
-  #   ylOrBn <- colorRampPalette( brewer.pal(9,"YlOrRd"), interpolate="linear")
-  #   brks <- seq(1, 5, by = 0.5)
-  #   cols <- ylOrBn(length(brks) - 1)
-  #   lim <- c(0.5, 5.5)
-  #   # pentru hartile cu schimbarea
-  #   
-  #   if (input$Season != "Annual") {
-  #     rmean <- colorRampPalette( brewer.pal(11, "RdYlBu")[1:9], interpolate="linear")
-  #     brks.mean <- seq(-6, 24, by = 2)
-  #     cols.mean <- rev(rmean(length(brks.mean) - 1))
-  #     lim.mean <- c(-8, 26)
-  #   } else {
-  #     rmean <- colorRampPalette( brewer.pal(11, "RdYlBu")[1:7], interpolate="linear")
-  #     brks.mean <- seq(2, 18, by = 2)
-  #     cols.mean <- rev(rmean(length(brks.mean) - 1))
-  #     lim.mean <- c(0, 20)
-  #   }
-  #   
-  # } else {
-  #   cols <- brewer.pal(6,"BrBG")
-  #   brks <- seq(-20, 20, by = 10)
-  #   lim <- c(-30,30)
-  #   # pentru hartile cu schimbarea
-  #   
-  #   if (input$Season != "Annual") {
-  #     rmean <- colorRampPalette( brewer.pal(9, "GnBu"), interpolate="linear")
-  #     brks.mean <- c(100,150,200,250,300,350,400)
-  #     cols.mean <- rmean(length(brks.mean) - 1)
-  #     lim.mean <- c(50, 450)
-  #   } else {
-  #     rmean <- colorRampPalette( brewer.pal(9, "GnBu"), interpolate="linear")
-  #     brks.mean <- c(400,500,600,700,800,900,1000,1100,1200)
-  #     cols.mean <- rmean(length(brks.mean) - 1)
-  #     lim.mean <- c(300, 1300)
-  #   }
-  #   
-  # }
+  annotation_raster(logo, xmin = 20.525, xmax = 21.525, ymin = 43.9, ymax = 44.5) +
+  # make title bold and add space
+  #scale_fill_stepsn(colours = terrain.colors(10)) +
+  scale_fill_stepsn( colours = cols.mean,
+                     name = tit.legenda, # vezi maps_indicators_settings.R
+                     breaks = brks.mean,
+                     limits = lim.mean) +
+  labs(title = textvar.ind()$mean.scen) +
+  coord_sf(xlim = c(20,30), ylim = c(43.5, 48.5), expand = F) +
+  theme_bw() + #xlim(20,30) + ylim(43.7, 48.3) +
+  guides(fill =  guide_colourbar(barwidth = 1.0, barheight = 9, title.position = "top",
+                                 label.theme = element_text(size = 9.5))) +
+  scale_linetype_manual(values = c("twodash")) +
+  theme.maps  +
+  annotate("text", label = paste("min.:", rg.mean[1] %>% sprintf("%.1f",.)), x = 29.1, y = 46, size = 3.3) +
+  annotate("text", label = paste("avg.:", mean(rm$values) %>% round(1) %>% sprintf("%.1f",.)), x = 29.1, y = 45.9,  size = 3.3) +
+  annotate("text", label = paste("max.:", rg.mean[2] %>% sprintf("%.1f",.)), x = 29.1, y = 45.8, size = 3.3) +
+  annotate("text", label = paste("@SUSCAP", Sys.Date()), x = 21, y = 43.85, size = 2.5, fontface = 'italic')
+
+plot.hist <- ggplot() +
+  geom_raster(data = rh, aes(x = x, y = y,
+                             fill = values),interpolate = F, alpha = 100) +
+  geom_sf(fill = "lightgrey", color = "grey", data = ctrs) +
+  geom_sf(fill = "transparent", data = judete) +
+  geom_sf(fill = "#a4b9b9", data = sea, color = "lightgrey", lwd = 0.4) +
+  geom_sf_text(aes(label = name),colour = "darkgrey",size = 3, data = judete) + 
+  geom_vline(xintercept = c(20,22,24,26,28,30), color="#EBEBEB", linetype='dashed') +
+  geom_hline(yintercept = c(44,45,46,47,48), color="#EBEBEB", linetype='dashed') +
+  annotation_raster(logo, xmin = 20.525, xmax = 21.525, ymin = 43.9, ymax = 44.5) +
+  # scale_fill_stepsn(colours = terrain.colors(10)) +
+  scale_fill_stepsn(
+    colours = cols.mean,
+    name = tit.legenda, # vezi maps_indicators_settings.R
+    breaks = brks.mean,
+    limits = lim.mean
+  ) +
+  labs(title = textvar.ind()$mean.hist) +
+  coord_sf(xlim = c(20,30), ylim = c(43.5, 48.5), expand = F) +
+  theme_bw() + #xlim(20,30) + ylim(43.7, 48.3) +
+  guides(fill =  guide_colourbar(barwidth = 1.0, barheight = 9, title.position = "top",
+                                 label.theme = element_text(size = 9.5))) +
+  scale_linetype_manual(values=c("twodash")) +
   
-  #print(cols)
-  #print(rg)
+  theme.maps +
+  annotate("text", label = paste("min.:", rg.hist[1] %>% sprintf("%.1f",.)), x=29.1, y = 46, size = 3.3) +
+  annotate("text", label = paste("avg.:", mean(rh$values) %>% round(1)%>% sprintf("%.1f",.)), x = 29.1, y = 45.9,  size = 3.3) +
+  annotate("text", label = paste("max.:", rg.hist[2] %>% sprintf("%.1f",.)), x=29.1, y = 45.8, size = 3.3) +
+  annotate("text", label = paste("@SUSCAP", Sys.Date()), x = 21, y = 43.85, size = 2.5, fontface = 'italic')
+
+plot.change <- ggplot() +
+  geom_raster(data = rs, aes(x = x, y = y,
+                             fill = values),interpolate = F, alpha = 100) +
+  geom_sf(fill = "lightgrey", color = "grey", data = ctrs) +
+  geom_sf(fill = "transparent", data = judete) +
+  geom_sf(fill = "#a4b9b9", data = sea, color = "lightgrey", lwd = 0.4) +
+  geom_sf_text(aes(label = name),colour = "darkgrey",size = 3, data = judete) + 
+  geom_vline(xintercept = c(20,22,24,26,28,30), color="#EBEBEB", linetype='dashed') +
+  geom_hline(yintercept = c(44,45,46,47,48), color="#EBEBEB", linetype='dashed') +
   
-  plot.scen <- ggplot() +
-    geom_raster(data = rm, aes(x = x, y = y,
-                               fill = values),interpolate = F, alpha = 100) +
-    geom_sf(fill = "lightgrey", color = "grey", data = ctrs) +
-    geom_sf(fill = "transparent", data = judete) +
-    geom_sf(fill = "#a4b9b9", data = sea, color = "lightgrey", lwd = 0.4) +
-    geom_sf_text(aes(label = name),colour = "darkgrey",size = 3, data = judete) + 
-    geom_vline(xintercept = c(20,22,24,26,28,30), color="#EBEBEB", linetype='dashed') +
-    geom_hline(yintercept = c(44,45,46,47,48), color="#EBEBEB", linetype='dashed') +
-    
-    annotation_raster(logo, xmin = 20.525, xmax = 21.525, ymin = 43.9, ymax = 44.5) +
-    # make title bold and add space
-    scale_fill_stepsn(colours = terrain.colors(10)) +
-    # scale_fill_stepsn( colours = cols.mean,
-    #                    name = ifelse(input$Parameter != "prAdjust", "      °C", "      mm"), 
-    #                    breaks = brks.mean,
-    #                    limits = lim.mean) + 
-    labs(title = textvar.ind()$mean.scen) +
-    coord_sf(xlim = c(20,30), ylim = c(43.5, 48.5), expand = F) +
-    theme_bw() + #xlim(20,30) + ylim(43.7, 48.3) +
-    guides(fill =  guide_colourbar(barwidth = 1.0, barheight = 9, title.position = "top",
-                                   label.theme = element_text(size = 9.5))) +
-    scale_linetype_manual(values = c("twodash")) +
-    theme.maps  +
-    annotate("text", label = paste("min.:", rg.mean[1] %>% sprintf("%.1f",.)), x = 29.1, y = 46, size = 3.3) +
-    annotate("text", label = paste("avg.:", mean(rm$values) %>% round(1) %>% sprintf("%.1f",.)), x = 29.1, y = 45.9,  size = 3.3) +
-    annotate("text", label = paste("max.:", rg.mean[2] %>% sprintf("%.1f",.)), x = 29.1, y = 45.8, size = 3.3) +
-    annotate("text", label = paste("@SUSCAP", Sys.Date()), x = 21, y = 43.85, size = 2.5, fontface = 'italic')
-  
-  plot.hist <- ggplot() +
-    geom_raster(data = rh, aes(x = x, y = y,
-                               fill = values),interpolate = F, alpha = 100) +
-    geom_sf(fill = "lightgrey", color = "grey", data = ctrs) +
-    geom_sf(fill = "transparent", data = judete) +
-    geom_sf(fill = "#a4b9b9", data = sea, color = "lightgrey", lwd = 0.4) +
-    geom_sf_text(aes(label = name),colour = "darkgrey",size = 3, data = judete) + 
-    geom_vline(xintercept = c(20,22,24,26,28,30), color="#EBEBEB", linetype='dashed') +
-    geom_hline(yintercept = c(44,45,46,47,48), color="#EBEBEB", linetype='dashed') +
-    annotation_raster(logo, xmin = 20.525, xmax = 21.525, ymin = 43.9, ymax = 44.5) +
-    scale_fill_stepsn(colours = terrain.colors(10)) +
-    # scale_fill_stepsn( 
-    #   colours = cols.mean,
-    #   name = ifelse(input$Parameter != "prAdjust", "      °C", "      mm"), 
-    #   breaks = brks.mean,
-    #   limits = lim.mean
-    # ) + 
-    labs(title = textvar.ind()$mean.hist) +
-    coord_sf(xlim = c(20,30), ylim = c(43.5, 48.5), expand = F) +
-    theme_bw() + #xlim(20,30) + ylim(43.7, 48.3) +
-    guides(fill =  guide_colourbar(barwidth = 1.0, barheight = 9, title.position = "top",
-                                   label.theme = element_text(size = 9.5))) +
-    scale_linetype_manual(values=c("twodash")) +
-    
-    theme.maps +
-    annotate("text", label = paste("min.:", rg.hist[1] %>% sprintf("%.1f",.)), x=29.1, y = 46, size = 3.3) +
-    annotate("text", label = paste("avg.:", mean(rh$values) %>% round(1)%>% sprintf("%.1f",.)), x = 29.1, y = 45.9,  size = 3.3) +
-    annotate("text", label = paste("max.:", rg.hist[2] %>% sprintf("%.1f",.)), x=29.1, y = 45.8, size = 3.3) +
-    annotate("text", label = paste("@SUSCAP", Sys.Date()), x = 21, y = 43.85, size = 2.5, fontface = 'italic')
-  
-  plot.change <- ggplot() +
-    geom_raster(data = rs, aes(x = x, y = y,
-                               fill = values),interpolate = F, alpha = 100) +
-    geom_sf(fill = "lightgrey", color = "grey", data = ctrs) +
-    geom_sf(fill = "transparent", data = judete) +
-    geom_sf(fill = "#a4b9b9", data = sea, color = "lightgrey", lwd = 0.4) +
-    geom_sf_text(aes(label = name),colour = "darkgrey",size = 3, data = judete) + 
-    geom_vline(xintercept = c(20,22,24,26,28,30), color="#EBEBEB", linetype='dashed') +
-    geom_hline(yintercept = c(44,45,46,47,48), color="#EBEBEB", linetype='dashed') +
-    
-    annotation_raster(logo, xmin = 20.525, xmax = 21.525, ymin = 43.9, ymax = 44.5) +
-    # make title bold and add space
-    scale_fill_stepsn(colours = terrain.colors(10)) +
-    # 
-    # scale_fill_stepsn( colours = cols,
-    #                    name = ifelse(input$Parameter != "prAdjust", "      °C", "      %"), 
-    #                    breaks = brks,
-    #                    limits = lim) + 
-    labs(title = textvar.ind()$change %>% gsub("changes", "- changes in", .)) +
-    coord_sf(xlim = c(20,30), ylim = c(43.5, 48.5), expand = F) +
-    theme_bw() + #xlim(20,30) + ylim(43.7, 48.3) +
-    guides(fill =  guide_colourbar(barwidth = 1.0, barheight = 9, title.position = "top",
-                                   label.theme = element_text(size = 10))) +
-    scale_linetype_manual(values=c("twodash")) +
-    #ggplot2::last_plot() + 
-    theme.maps +
-    annotate("text", label = paste("min.:", rg[1] %>% sprintf("%.1f",.)), x=29.1, y = 46, size = 3.3) +
-    annotate("text", label = paste("avg.:", mean(rs$values) %>% round(1)%>% sprintf("%.1f",.)), x = 29.1, y = 45.9,  size = 3.3) +
-    annotate("text", label = paste("max.:", rg[2] %>% sprintf("%.1f",.)), x=29.1, y = 45.8, size = 3.3) +
-    annotate("text", label = paste("@SUSCAP", Sys.Date()), x = 21, y = 43.85, size = 2.5, fontface = 'italic')
-  
-  list(plot.change = plot.change, plot.scen = plot.scen, plot.hist = plot.hist)
-  
+  annotation_raster(logo, xmin = 20.525, xmax = 21.525, ymin = 43.9, ymax = 44.5) +
+  # make title bold and add space
+  # scale_fill_stepsn(colours = terrain.colors(10)) +
+  # 
+  scale_fill_stepsn( colours = cols,
+                     name = tit.legenda, # vezi maps_indicators_settings.R
+                     breaks = brks,
+                     limits = lim) +
+  labs(title = textvar.ind()$change %>% gsub("changes", "- changes in", .)) +
+  coord_sf(xlim = c(20,30), ylim = c(43.5, 48.5), expand = F) +
+  theme_bw() + #xlim(20,30) + ylim(43.7, 48.3) +
+  guides(fill =  guide_colourbar(barwidth = 1.0, barheight = 9, title.position = "top",
+                                 label.theme = element_text(size = 10))) +
+  scale_linetype_manual(values=c("twodash")) +
+  #ggplot2::last_plot() + 
+  theme.maps +
+  annotate("text", label = paste("min.:", rg[1] %>% sprintf("%.1f",.)), x=29.1, y = 46, size = 3.3) +
+  annotate("text", label = paste("avg.:", mean(rs$values) %>% round(1)%>% sprintf("%.1f",.)), x = 29.1, y = 45.9,  size = 3.3) +
+  annotate("text", label = paste("max.:", rg[2] %>% sprintf("%.1f",.)), x=29.1, y = 45.8, size = 3.3) +
+  annotate("text", label = paste("@SUSCAP", Sys.Date()), x = 21, y = 43.85, size = 2.5, fontface = 'italic')
+
+list(plot.change = plot.change, plot.scen = plot.scen, plot.hist = plot.hist)
+
 })
 
 # pentru randare plot
