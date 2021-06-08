@@ -126,7 +126,7 @@ ui_maps <- tabPanel(
       tags$h6(" "),
       HTML("The climate indices are computed at the annual scale as differences between future periods (2021-2050 and 2071-2100)
            and the historical period (1971-2000). The changes are computed as relative (%) for precipitation and as 
-           absolute ( Σ°C, number of days) for the rest of the indices"),
+           absolute ( Σ°C, number of days) for the rest of the indices."),
       tags$br(""),
       
       sidebarLayout(
@@ -137,12 +137,12 @@ ui_maps <- tabPanel(
           h4("Selection Options"),
           selectInput("Indicator", label = "Indicator",
                       c(
-                         "Heat units Fall" = "heat u fall",
-                        "Heat units Spring" = "heat u spring", "Precipitation Fall" = "pr fall",
+                        "Heat units Spring" = "heat u spring","Heat units Fall" = "heat u fall",
                         "Scorch number of days" = "scorch no", "Scorch units" = "scorch u",
                         "Cold units" =  "coldu", "Frost units 20" = "frostu 20",
                         "Frost units 10" = "frostu 10", "Frost units 15" = "frostu 15",
-                        "Precipitation vegetation" = "pr veget",  "Precipitation Winter" = "pr winter"
+                        "Precipitation vegetation" = "pr veget", "Precipitation Fall" = "pr fall",
+                        "Precipitation Winter" = "pr winter"
                         ),
                       selected = "Cold units", width = "220px"),
           selectInput("Period.ind", label = "Period",
