@@ -138,13 +138,15 @@ ui_maps <- tabPanel(
           selectInput("Indicator", label = "Indicator",
                       c(
                         "Heat units Spring" = "heat u spring","Heat units Fall" = "heat u fall",
-                        "Scorch number of days" = "scorch no", "Scorch units" = "scorch u",
+                        "Scorching number of days" = "scorch no", "Scorching units" = "scorch u",
                         "Cold units" =  "coldu", "Frost units 10" = "frostu 10",
                          "Frost units 15" = "frostu 15","Frost units 20" = "frostu 20",
                         "Precipitation vegetation" = "pr veget", "Precipitation Fall" = "pr fall",
                         "Precipitation Winter" = "pr winter"
-                        ),
-                      selected = "Cold units", width = "220px"),
+                        ), selected = "Heat units Spring", width = "220px"),
+                      
+                      p(textOutput("text.desc.ind"), style = "text-align:justify;"),
+                     
           selectInput("Period.ind", label = "Period",
                       c("2071-2100 vs. 1971-2000" =  "2071-2100",
                         "2021-2050 vs. 1971-2000" =  "2021-2050"),  
@@ -156,7 +158,6 @@ ui_maps <- tabPanel(
                         "RCP8.5" =  "rcp85") ,
                       width = "220px",
                       selected = "RCP4.5")
-          
           # downloadButton('downloadPlot', 'Download   PNG', 
           #                style = "padding: 5px 20px 5px 24px;margin: 5px 5px 5px 5px; "),
           # h5(""),

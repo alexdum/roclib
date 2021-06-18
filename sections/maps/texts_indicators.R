@@ -23,9 +23,22 @@ text.maps.ind <- reactive({
                     mean of ten climate scenarios. The grey field shows the range in variation between the highest 
                     and lowest value for the members of the ensemble.")
     
+    if(input$Indicator == "heat u spring") text.desc <- "Cumulative heat units (ΣTmed. > °C) in the period 01 February - 10 April"
+    if(input$Indicator == "heat u fall") text.desc <- "Cumulative heat units (ΣTmed. > °C) in the period 01 September - 31 October"
+    if(input$Indicator == "scorch u") text.desc <- "Scorching heat units (ΣTmax. ≥ 32°C) from 1 June to 31 August"
+    if(input$Indicator == "scorch no") text.desc <- "Scorching heat number of days (Tmax. ≥ 32°C) from 1 June to 31 August"
+    if(input$Indicator == "coldu") text.desc <- "Cold units (ΣTmed. < 0°C) cumulated during the period 01 November - 31 March"
+    if(input$Indicator == "frostu 10") text.desc <- "Frost units (ΣTmin. ≤ -10°C) cumulated in the period 01 December - 28/29 February"
+    if(input$Indicator == "frostu 15") text.desc <- "Frost units (ΣTmin. ≤ -15°C) cumulated in the period 01 December - 28/29 February"
+    if(input$Indicator == "frostu 20") text.desc <- "Frost units (ΣTmin. ≤ -20°C) cumulated in the period 01 December - 28/29 February"
+    if(input$Indicator == "pr veget") text.desc <- "Precipitatin amounts (l/m²) during the autumn wheat growing season, 01 September to 30 June"
+    if(input$Indicator == "pr fall") text.desc <- "Precipitation amounts (l/m²) during the autumn sowing period, 01 September - 31 October"
+    if(input$Indicator == "pr winter") text.desc <- "Precipitation amounts (l/m²) during the soil water accumulation period, 01 November - 31 March"
+    
     list(
       text.change = text.change,
-      text.anom = text.anom
+      text.anom = text.anom, 
+      text.desc = text.desc
     )
     
 })
@@ -36,4 +49,8 @@ output$text.change.ind <- renderText({
 
 output$text.anom.ind <- renderText({
   text.maps.ind()$text.anom
+})
+
+output$text.desc.ind <- renderText({
+  text.maps.ind()$text.desc
 })
