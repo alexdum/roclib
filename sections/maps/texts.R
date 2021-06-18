@@ -17,7 +17,7 @@ text.maps <- reactive({
   unit <- ifelse(param == "precipitation", "%", "°C")
   
  text.change <-  paste0("Calculated change in" ,season," ",param, " (",unit,") for the period ",period ,"
-                        compared with 1971-2000. The map is based on an ensemble with ten climate scenarios 
+                        compared with 1971-2000. The map is based on an ensemble of 10 RCMs 
   for the ",scen," scenario. The maps below show more information about the ensembles averages 
   over two period of times.")
   
