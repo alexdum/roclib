@@ -205,7 +205,7 @@ output$downpmean.ind <- downloadHandler(
   filename = function() { paste(textvar.ind()$mean.scen %>% gsub(" " ,"_", . ) %>% gsub("vs.", "vs",.) %>% tolower(), '.png', sep='') },
   content = function(file) {
     png(file, width = 900, height = 670, units = "px", res = 110)
-    print(plotInput()$plot.scen)
+    print(plotInput.ind()$plot.scen)
     dev.off()
   })
 
@@ -221,7 +221,7 @@ output$downphist.ind <- downloadHandler(
   filename = function() { paste(textvar.ind()$mean.hist %>% gsub(" " ,"_", . ) %>% gsub("vs.", "vs",.) %>% tolower(), '.png', sep='') },
   content = function(file) {
     png(file, width = 900, height = 670, units = "px", res = 110)
-    print(plotInput()$plot.hist)
+    print(plotInput.ind()$plot.hist)
     dev.off()
   })
 
