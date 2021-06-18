@@ -124,7 +124,7 @@ ui_maps <- tabPanel(
     tabPanel(
       h5("Indices"),
       tags$h6(" "),
-      HTML("The climate indices are computed at the annual scale as differences between future periods (2021-2050 and 2071-2100)
+      HTML("The climate indices changes are computed at the annual scale as differences between future periods (2021-2050 and 2071-2100)
            and the historical period (1971-2000). The changes are computed as relative (%) for precipitation and as 
            absolute ( Σ°C, number of days) for the rest of the indices."),
       tags$br(""),
