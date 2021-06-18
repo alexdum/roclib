@@ -16,8 +16,7 @@ text.maps.ind <- reactive({
     
     text.change <-  paste0("Calculated change in ",param, " (",unit,") for the period ",period ,"
                         compared with 1971-2000. The map is based on an ensemble with ten climate scenarios 
-  for the ",scen," scenario. The maps below show more information about the ensembles averages 
-  over two period of times.")
+  for the ",scen," scenario. The maps below show more information about the ensembles averages.")
     
     text.anom <- paste0("The diagram shows the calculated change in ",param, " (",unit,") in 
                     Romania during the years 1971-2100 compared with normal (mean for 1971-2100).The black line shows the ensemble
