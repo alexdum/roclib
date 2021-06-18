@@ -139,8 +139,8 @@ ui_maps <- tabPanel(
                       c(
                         "Heat units Spring" = "heat u spring","Heat units Fall" = "heat u fall",
                         "Scorch number of days" = "scorch no", "Scorch units" = "scorch u",
-                        "Cold units" =  "coldu", "Frost units 20" = "frostu 20",
-                        "Frost units 10" = "frostu 10", "Frost units 15" = "frostu 15",
+                        "Cold units" =  "coldu", "Frost units 10" = "frostu 10",
+                         "Frost units 15" = "frostu 15","Frost units 20" = "frostu 20",
                         "Precipitation vegetation" = "pr veget", "Precipitation Fall" = "pr fall",
                         "Precipitation Winter" = "pr winter"
                         ),
