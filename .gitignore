@@ -4,6 +4,7 @@
 # Compiled class file
 *.class
 rsconnect*
+misc*
 # Log file
 *.log
 
