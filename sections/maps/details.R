@@ -6,15 +6,17 @@
 level_ag <- reactive({
   
   # selectare regiune
-  region <- as.numeric(input$regional_ag)
-  reg_param <- input$param_regio
+  region <- as.numeric(input$regio_ag)
+  reg_param <- input$regio_param
+  reg_period <- input$regio_period
+  reg_scen <- input$regio_scen
   reg_season <- input$regio_season
-  reg_period <- input$time_period
   
-  dat1 <- readRDS(paste0("www/data/tabs/anomalies/variables/",c("region","county", "uat")[region],"_anomalies_annual_",reg_param,"_rcp45_1971_2100.rds"))
+  
+  dat1 <- readRDS(paste0("www/data/tabs/anomalies/variables/",c("region","county", "uat")[region],"_anomalies_annual_",reg_param,"_",reg_scen,"_1971_2100.rds"))
   dat1$changes <- data.frame(dat1$changes[, "name"], season = "Annual", 
                              dat1$changes[, c("mean_hist", "mean_2021_2050", "mean_2071_2100", "change_2021_2050", "change_2071_2050")])
-  dat2 <- readRDS(paste0("www/data/tabs/anomalies/variables/",c("region","county", "uat")[region],"_anomalies_seasons_",reg_param,"_rcp45_1971_2100.rds"))
+  dat2 <- readRDS(paste0("www/data/tabs/anomalies/variables/",c("region","county", "uat")[region],"_anomalies_seasons_",reg_param,"_",reg_scen,"_1971_2100.rds"))
   
   dat_changes <- rbind(dat1$changes,  dat2$changes) %>% dplyr:: filter(season ==  reg_season)
   
@@ -27,9 +29,7 @@ level_ag <- reactive({
   )
   shape$values <- shape %>% data.frame() %>% dplyr::select(matches(reg_period)) %>% unlist()
   
-  bins <- seq(round_any(min(shape$values), 100, floor), round_any(max(shape$values), 100, ceiling), by = 100)
-  pal <- colorBin("YlOrRd", domain = shape$values, bins = bins)
-  pal2 <- colorBin("YlOrRd", domain = shape$values, bins = bins, reverse = T)
+  source("sections/maps/details_settings.R", local = T)
   
   # returneaza ca lista sa poti duce ambele variabile
   list(shape = shape, pal = pal, pal2 = pal2)
@@ -100,14 +100,14 @@ observe({
   
   opacy <- input$transp
   data <- level_ag()$shape
-  pal <- level_ag()$pal
+  palm <- level_ag()$pal
   
   leafletProxy("map",  data = data) %>% 
     clearShapes() %>%
     addPolygons (
-      fillColor = ~pal(values), 
+      fillColor = ~palm(values), 
       color = "grey",
-      weight = 0.2, smoothFactor = 0.5,
+      weight = 0.2, smoothFactor = 0,
       opacity = 0.5, 
       fillOpacity = opacy ,
       layerId = ~ code,

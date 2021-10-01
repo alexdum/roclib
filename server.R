@@ -11,6 +11,7 @@ server <- shinyServer(function(input, output, session) {
   source(file = "sections/maps/maps_indicators.R", local = T)
   source(file = "sections/maps/graphs.R", local = T)
   source(file = "sections/maps/graphs_indicators.R", local = T)
+  source(file = "sections/maps/details.R", local = T)
 
   
   # run code before accesing section
@@ -23,6 +24,8 @@ server <- shinyServer(function(input, output, session) {
   outputOptions(output, "plot.anom.tit.ind", suspendWhenHidden = FALSE)
   outputOptions(output, "plot.scen.ind", suspendWhenHidden = FALSE)
   outputOptions(output, "plot.hist.ind", suspendWhenHidden = FALSE)
+  # explore in details
+  outputOptions(output, "map", suspendWhenHidden = FALSE)
    
 })
 

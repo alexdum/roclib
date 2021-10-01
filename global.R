@@ -1,4 +1,5 @@
 suppressPackageStartupMessages({
+  library(leaflet)
   library(shinythemes)
   library(shinyjs)
   library(shiny)
@@ -18,7 +19,9 @@ suppressPackageStartupMessages({
   library(ggspatial)
   library(markdown)
   library(ncdf4)
+  
 })
+source("utils/utils.R")
 #date1 <- readRDS("www/data/tabs/season+anual_mean_models.rds")
 
 ### calcul anual din sezoniere 
@@ -40,7 +43,14 @@ judete <- read_sf("www/data/shp/counties.shp") %>% st_transform(4326)
 ctrs <- read_sf("www/data/shp/countries.shp") 
 sea <- read_sf("www/data/shp/sea.shp") 
 logo <- readPNG("www/png/sigla_anm.png")
-
+# Citeste datele pentru explore in Deails
+shape_uat <- readRDS(file = "www/data/shp/uat_ro.rds")
+shape_region <- readRDS(file = "www/data/shp/region_ro.rds")
+shape_county <- readRDS(file = "www/data/shp/county_ro.rds")
+start_county <- readRDS("www/data/tabs/anomalies/variables/county_anomalies_annual_prAdjust_rcp45_1971_2100.rds")
+# pentru map de start la leafletProxy
+start_county <- shape_county %>% right_join(start_county$changes, by = c("code" = "name"))
+start_county$values <- start_county$mean_2021_2050
 # next click on polygons for graphs
 # https://community.rstudio.com/t/shiny-leaflet-link-map-polygons-to-reactive-plotly-graphs/40527/2
 
