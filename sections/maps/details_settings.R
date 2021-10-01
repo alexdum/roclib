@@ -24,7 +24,7 @@ if (reg_param != "prAdjust" & strsplit(reg_period,"_")[[1]][1] == "mean") {
 
 # pentru temperatura change
 if (reg_param != "prAdjust" & strsplit(reg_period,"_")[[1]][1] != "mean") {
-  bins <- seq(round_even(min(shape$values), 1, 0), round_even(max(shape$values), 1, 1), by = 0.5)
+  bins <- seq(round_even(min(shape$values), 0.5, 0), round_even(max(shape$values), 0.5, 1), by = 0.5)
   cols <- change.tt.col$cols[change.tt.col$vals >= bins[2] &  change.tt.col$vals <= max(bins)]
   
   pal <- colorBin(cols, domain = shape$values, bins = bins)
