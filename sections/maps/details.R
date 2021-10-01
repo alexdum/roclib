@@ -107,10 +107,10 @@ observe({
     addPolygons (
       fillColor = ~palm(values), 
       color = "grey",
-      weight = 0.2, smoothFactor = 0,
+      weight = 0.5, smoothFactor = 0.1,
       opacity = 0.5, 
       fillOpacity = opacy ,
-      layerId = ~ code,
+      layerId = ~code,
       #options = leafletOptions(pane = "pol"),
       group = "region",
       highlightOptions = highlightOptions(
