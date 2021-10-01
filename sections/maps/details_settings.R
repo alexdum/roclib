@@ -34,6 +34,38 @@ if (reg_param != "prAdjust" & strsplit(reg_period,"_")[[1]][1] != "mean") {
   print(range(shape$values))
 }
 
+
+colint <- colorRampPalette( brewer.pal(9, "GnBu") , interpolate="linear")
+mean.pp.col.year <- data.frame(cols = colint(11), vals = seq(200,1200, 100))
+mean.pp.col.month <- data.frame(cols = colint(13), vals = seq(50,350, 25))
+
+
+colint <- colorRampPalette( brewer.pal(10,"RdYlBu") , interpolate="linear")
+change.pp.col <- data.frame(cols = rev(colint(25)), vals = seq(-6,6, 0.5))
+# image(1:11,1,as.matrix(1:11),col= colint(11),xlab="Greens (sequential)",
+#       xylab="",xaxt="n",yaxt="n",bty="n")
+# pentru precipitatii medii
+if (reg_param == "prAdjust" & strsplit(reg_period,"_")[[1]][1] == "mean") {
+  if (reg_season != "Annual") {
+    bins <- seq(round_even(min(shape$values),  50, 0), round_even(max(shape$values),50, 1), by = 25)
+    cols <- mean.pp.col.month$cols[mean.pp.col.month$vals >= bins[2] &  mean.pp.col.month$vals <= max(bins)]
+  } else {
+    bins <- seq(round_even(min(shape$values), 100, 0), round_even(max(shape$values), 100, 1), by =  100)
+    cols <- mean.pp.col.year$cols[mean.pp.col.year$vals >= bins[2] & mean.pp.col.year$vals <= max(bins)]
+  }
+  pal <- colorBin(cols, domain = shape$values, bins = bins)
+  pal2 <- colorBin(cols, domain = shape$values, bins = bins, reverse = T)
+  print(bins)
+  print(cols)
+  print(range(shape$values))
+}
+
+
+# image(1:25,1,as.matrix(1:25),col= rev(colint(25)),xlab="Greens (sequential)",
+#       ylab="",xaxt="n",yaxt="n",bty="n")
+# simboluri in functie de parametru
+
+
 # 
 # # pentru hartile cu schimbarea
 # 
