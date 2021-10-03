@@ -278,7 +278,10 @@ ui_maps <- tabPanel(
              
              mainPanel(
                width = 9,
-               wellPanel(textOutput("cnty")),
+               
+               wellPanel(htmlOutput("params_name"),
+             
+                         textOutput("cnty")),
                
                
                leafletOutput("map")
