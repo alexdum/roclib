@@ -40,7 +40,7 @@ mean.pp.col.month <- data.frame(cols = colint(13), vals = seq(50,350, 25))
 # pentru precipitatii medii
 if (reg_param == "prAdjust" & strsplit(reg_period,"_")[[1]][1] == "mean") {
   if (reg_season != "Annual") {
-    bins <- seq(round_even(min(shape$values),  50, 0), round_even(max(shape$values),50, 1), by = 25)
+    bins <- seq(round_even(min(shape$values),  25, 0), round_even(max(shape$values),25, 1), by = 25)
     cols <- mean.pp.col.month$cols[mean.pp.col.month$vals >= bins[2] &  mean.pp.col.month$vals <= max(bins)]
   } else {
     bins <- seq(round_even(min(shape$values), 100, 0), round_even(max(shape$values), 100, 1), by =  100)
@@ -48,6 +48,9 @@ if (reg_param == "prAdjust" & strsplit(reg_period,"_")[[1]][1] == "mean") {
   }
   pal <- colorBin(cols, domain = shape$values, bins = bins)
   pal2 <- colorBin(cols, domain = shape$values, bins = bins, reverse = T)
+  print(bins)
+  print(cols)
+  print(range(shape$values))
 }
 
 #colint <- colorRampPalette(brewer.pal(11,"BrBG") , interpolate="linear")
@@ -75,6 +78,27 @@ if (reg_param != "prAdjust" & strsplit(reg_period,"_")[[1]][1] == "mean") {
 } else {
   leaflet_titleg <-  "°C"
 }
+
+
+# region name -------------------------------------------------------------
+
+switch(region,
+       reg_name <- "NUTS2",
+       reg_name <- "NUTS3",
+       reg_name <- "LAU (UAT)"
+)
+#print(reg_name)
+
+
+# parameter name ----------------------------------------------------------
+switch (
+  which(c("tasAdjust","tasminAdjust","tasmaxAdjust","prAdjust" ) %in%  reg_param ),
+  reg_paramnam  <- "Tmean",
+  reg_paramnam <- "Tmin",
+  reg_paramnam <- "Tmax",
+  reg_paramnam <- "Precipitation"
+)
+#var2 <- ifelse (input$Scenario == "rcp45",  "RCP4.5", "RCP8.5")
 
 # image(1:25,1,as.matrix(1:25),col= rev(colint(25)),xlab="Greens (sequential)",
 #       ylab="",xaxt="n",yaxt="n",bty="n")
