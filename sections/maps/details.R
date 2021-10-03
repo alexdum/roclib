@@ -24,17 +24,23 @@ level_ag <- reactive({
          shape <- shape_region %>% right_join(dat_changes, by = c("code" = "name")),
          shape <- shape_county %>% right_join(dat_changes, by = c("code" = "name")),
          shape <- shape_uat %>% right_join(  dat_changes, by = c("code" = "name"))
-         
-         
   )
+  
+  
   shape$values <- shape %>% data.frame() %>% dplyr::select(matches(reg_period)) %>% unlist()
   
   source("sections/maps/details_settings.R", local = T)
   
+  print( paste(reg_param, region))
+
+  
   # returneaza ca lista sa poti duce ambele variabile
-  list(shape = shape, pal = pal, pal2 = pal2,leaflet_titleg = leaflet_titleg )
+  list(shape = shape, pal = pal, pal2 = pal2, leaflet_titleg = leaflet_titleg,  reg_paramnam  = reg_paramnam ,
+       reg_name = reg_name)
+  
   
 })
+
 
 
 
@@ -136,12 +142,15 @@ observe({
   #   labFormat = labelFormat(transform = function(x) sort(x, decreasing = TRUE))
   # ) 
   # 
+  
+  
 }) 
 
 #Use a separate observer to recreate the legend as needed.
 observe({
+
+
   
-  req(input$tab_being_displayed == "Explore in detail") # Only display if tab is 'Map Tab'
   proxy <- leafletProxy( "map", data = start_county)
   # Remove any existing legend, and only if the legend is
   # enabled, create a new one.
@@ -170,13 +179,22 @@ observe({
 })
 
 
+
+
+
+
 observe({ 
   
-  #event <- input$map_shape_click
+ 
+  output$params_name <- renderUI(
+    HTML(paste("<b>Region</b>",level_ag()$reg_name,"<b>Parameter</b>",level_ag()$reg_paramnam))
+  )
+  
+  event <- input$map_shape_click
   event <- input$map_shape_mouseover
   output$cnty <- renderText(
-    paste(round(level_ag()$shape$values[level_ag()$shape$code == event$id], 1), 
-          level_ag()$shape$name[level_ag()$shape$code == event$id])
+    paste( round(level_ag()$shape$values[level_ag()$shape$code == event$id], 1), 
+           level_ag()$shape$name[level_ag()$shape$code == event$id])
   )
   
 })
