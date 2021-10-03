@@ -29,9 +29,6 @@ if (reg_param != "prAdjust" & strsplit(reg_period,"_")[[1]][1] != "mean") {
   
   pal <- colorBin(cols, domain = shape$values, bins = bins)
   pal2 <- colorBin(cols, domain = shape$values, bins = bins, reverse = T)
-  print(bins)
-  print(cols)
-  print(range(shape$values))
 }
 
 
@@ -40,10 +37,6 @@ mean.pp.col.year <- data.frame(cols = colint(11), vals = seq(200,1200, 100))
 mean.pp.col.month <- data.frame(cols = colint(13), vals = seq(50,350, 25))
 
 
-colint <- colorRampPalette( brewer.pal(10,"RdYlBu") , interpolate="linear")
-change.pp.col <- data.frame(cols = rev(colint(25)), vals = seq(-6,6, 0.5))
-# image(1:11,1,as.matrix(1:11),col= colint(11),xlab="Greens (sequential)",
-#       xylab="",xaxt="n",yaxt="n",bty="n")
 # pentru precipitatii medii
 if (reg_param == "prAdjust" & strsplit(reg_period,"_")[[1]][1] == "mean") {
   if (reg_season != "Annual") {
@@ -55,11 +48,20 @@ if (reg_param == "prAdjust" & strsplit(reg_period,"_")[[1]][1] == "mean") {
   }
   pal <- colorBin(cols, domain = shape$values, bins = bins)
   pal2 <- colorBin(cols, domain = shape$values, bins = bins, reverse = T)
-  print(bins)
-  print(cols)
-  print(range(shape$values))
 }
 
+#colint <- colorRampPalette(brewer.pal(11,"BrBG") , interpolate="linear")
+change.pp.col <- data.frame(cols = brewer.pal(11,"BrBG"), vals = seq(-25,25, 5))
+# image(1:10,1,as.matrix(1:10),col= colint(10),xlab="Greens (sequential)",
+#       xylab="",xaxt="n",yaxt="n",bty="n")§
+# pentru precipitation change change
+if (reg_param == "prAdjust" & strsplit(reg_period,"_")[[1]][1] != "mean") {
+  bins <- seq(round_even(min(shape$values), 5, 0), round_even(max(shape$values), 5, 1), by = 5)
+  cols <- change.pp.col$cols[change.pp.col$vals >= bins[1] &  change.pp.col$vals < max(bins)]
+  
+  pal <- colorBin(cols, domain = shape$values, bins = bins)
+  pal2 <- colorBin(cols, domain = shape$values, bins = bins, reverse = T)
+}
 
 # image(1:25,1,as.matrix(1:25),col= rev(colint(25)),xlab="Greens (sequential)",
 #       ylab="",xaxt="n",yaxt="n",bty="n")
