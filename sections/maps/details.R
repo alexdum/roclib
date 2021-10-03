@@ -66,7 +66,7 @@ output$map <- renderLeaflet ({
     addLayersControl(baseGroups = "CartoDB.PositronNoLabels",
                      overlayGroups = c("map labels",
                                        "region"))  %>% 
-    leaflet.extras::addSearchOSM(
+    leaflet.extras::addSearchOSM (
       options = 
         leaflet.extras::searchOptions(
           collapsed = T,
@@ -75,6 +75,15 @@ output$map <- renderLeaflet ({
           hideMarkerOnCollapse = TRUE
         )
     ) 
+  # leaflet.extras2::addEasyprint(
+  #   options =
+  #     leaflet.extras2::easyprintOptions(
+  #       title = 'Print map',
+  #       position = 'topleft',
+  #       exportOnly = T,
+  #       sizeModes = c('A4Landscape', 'A4 Landscape')
+  #     )
+  # )
   #%>%
   #leaflet.extras::addResetMapButton() %>%
   # leaflet.extras::addSearchFeatures(
@@ -102,7 +111,7 @@ observe({
   data <- level_ag()$shape
   palm <- level_ag()$pal
   
-  leafletProxy("map",  data = data) %>% 
+  leafletProxy("map",  data = data)  %>%
     clearShapes() %>%
     addPolygons (
       fillColor = ~palm(values), 
@@ -120,7 +129,7 @@ observe({
         bringToFront = TRUE,
         sendToBack = TRUE
       ) 
-    )  
+    ) 
   # %>%
   # addLegend(
   #   "bottomright", pal = level_ag()$pal2, values = level_ag()$shape$values, opacity = 1,
@@ -138,13 +147,28 @@ observe({
   # enabled, create a new one.
   proxy %>% clearControls()
   #if (input$legend) {
-  proxy %>% 
+  proxy%>%
+    leaflet.extras2::addEasyprint(
+      options =
+        leaflet.extras2::easyprintOptions(
+          title = 'Print map',
+          position = 'bottomleft',
+          exportOnly = T,
+          sizeModes = list('Current'),#'A4Landscape', 'A4Portrait'),
+          hideControlContainer = F,
+          hideClasses = list('leaflet-control-zoom')
+          
+          
+        )
+    ) %>% 
     addLegend(
       "bottomright", pal = level_ag()$pal2, values = ~values, opacity = 1,
       labFormat = labelFormat(transform = function(x) sort(x, decreasing = TRUE))
-    )
+    ) 
   #}
 })
+
+
 observe({ 
   
   #event <- input$map_shape_click
