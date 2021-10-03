@@ -63,6 +63,19 @@ if (reg_param == "prAdjust" & strsplit(reg_period,"_")[[1]][1] != "mean") {
   pal2 <- colorBin(cols, domain = shape$values, bins = bins, reverse = T)
 }
 
+
+# titlu legenda -----------------------------------------------------------
+
+if (reg_param != "prAdjust" & strsplit(reg_period,"_")[[1]][1] == "mean") {
+  leaflet_titleg  <- "°C"
+} else if (reg_param == "prAdjust" & strsplit(reg_period,"_")[[1]][1] == "mean") {
+  leaflet_titleg <- "l/m²"
+} else if (reg_param == "prAdjust" & strsplit(reg_period,"_")[[1]][1] != "mean") {
+  leaflet_titleg <- "%"
+} else {
+  leaflet_titleg <-  "°C"
+}
+
 # image(1:25,1,as.matrix(1:25),col= rev(colint(25)),xlab="Greens (sequential)",
 #       ylab="",xaxt="n",yaxt="n",bty="n")
 # simboluri in functie de parametru

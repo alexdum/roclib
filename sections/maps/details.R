@@ -32,7 +32,7 @@ level_ag <- reactive({
   source("sections/maps/details_settings.R", local = T)
   
   # returneaza ca lista sa poti duce ambele variabile
-  list(shape = shape, pal = pal, pal2 = pal2)
+  list(shape = shape, pal = pal, pal2 = pal2,leaflet_titleg = leaflet_titleg )
   
 })
 
@@ -162,6 +162,7 @@ observe({
         )
     ) %>% 
     addLegend(
+      title = paste0("<html>", gsub(",","",toString(rep("&nbsp;", 5))),level_ag()$leaflet_titleg,"</html>"),
       "bottomright", pal = level_ag()$pal2, values = ~values, opacity = 1,
       labFormat = labelFormat(transform = function(x) sort(x, decreasing = TRUE))
     ) 
