@@ -48,9 +48,9 @@ if (reg_param == "prAdjust" & strsplit(reg_period,"_")[[1]][1] == "mean") {
   }
   pal <- colorBin(cols, domain = shape$values, bins = bins)
   pal2 <- colorBin(cols, domain = shape$values, bins = bins, reverse = T)
-  print(bins)
-  print(cols)
-  print(range(shape$values))
+  # print(bins)
+  # print(cols)
+  # print(range(shape$values))
 }
 
 #colint <- colorRampPalette(brewer.pal(11,"BrBG") , interpolate="linear")
