@@ -186,19 +186,41 @@ observe({
 observe({ 
   
   
-  output$params_name <- renderUI(
-    HTML(
-      paste(
-        "<b>Region</b>",level_ag()$reg_name,"<b>Climate Scenario</b>",level_ag()$reg_scenform,"<b>Parameter</b>",level_ag()$reg_season, level_ag()$reg_paramnam
-      )
-    )
-  )
+  # output$params_name <- renderUI(
+  #   HTML(
+  #     paste(
+  #       "<b>Region</b>",level_ag()$reg_name,"<b>Climate Scenario</b>",level_ag()$reg_scenform,"<b>Parameter</b>",level_ag()$reg_season, level_ag()$reg_paramnam)
+  #   )
+  # )
   
   event <- input$map_shape_click
   event <- input$map_shape_mouseover
-  output$cnty <- renderText(
-    paste( round(level_ag()$shape$values[level_ag()$shape$code == event$id], 1), 
-           level_ag()$shape$name[level_ag()$shape$code == event$id])
+  output$cnty <- renderUI(
+    HTML(
+      paste(
+        "<table>
+        <caption>",
+        level_ag()$reg_name,level_ag()$reg_scenform,level_ag()$reg_season,level_ag()$reg_paramnam
+        ,"</caption>
+      <tr>
+      <th style='padding:5px 10px 5px 5px'>Name Region</th>
+      <th style='padding:5px 10px 5px 5px'>Mean 1971-2010</th>
+      <th style='padding:5px 10px 5px 5px'>Mean 2021-2050</th>
+      <th style='padding:5px 10px 5px 5px'>Mean 2071-2100</th>
+      <th style='padding:5px 10px 5px 5px'>Change 2021-2050</th>
+      <th style='padding:5px 10px 5px 5px'>Change 2071-2100</th>
+      </tr>
+      <tr>
+      <td style='padding:5px 10px 5px 5px'>",level_ag()$shape$name[level_ag()$shape$code == event$id],"</td>
+      <td style='padding:5px 10px 5px 5px'>",round(level_ag()$shape$mean_hist[level_ag()$shape$code == event$id], 1),"</td>
+      <td style='padding:5px 10px 5px 5px'>",round(level_ag()$shape$mean_2021_2050[level_ag()$shape$code == event$id], 1),"</td>
+      <td style='padding:5px 10px 5px 5px'>",round(level_ag()$shape$mean_2071_2100[level_ag()$shape$code == event$id], 1),"</td>
+      <td style='padding:5px 10px 5px 5px'>",round(level_ag()$shape$change_2021_2050[level_ag()$shape$code == event$id],1),"</td>
+      <td style='padding:5px 10px 5px 5px'>",round(level_ag()$shape$change_2071_2050[level_ag()$shape$code == event$id], 1),"</td>
+      </tr>
+      </table>"
+      )
+    )
   )
   
 })
