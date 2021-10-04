@@ -12,6 +12,7 @@ level_ag <- reactive({
   reg_scen <- input$regio_scen
   reg_season <- input$regio_season
   
+  reg_scenform <- ifelse(reg_scen  == "rcp45",  "RCP4.5", "RCP8.5")
   
   dat1 <- readRDS(paste0("www/data/tabs/anomalies/variables/",c("region","county", "uat")[region],"_anomalies_annual_",reg_param,"_",reg_scen,"_1971_2100.rds"))
   dat1$changes <- data.frame(dat1$changes[, "name"], season = "Annual", 
@@ -32,12 +33,11 @@ level_ag <- reactive({
   source("sections/maps/details_settings.R", local = T)
   
   print( paste(reg_param, region))
-
+  
   
   # returneaza ca lista sa poti duce ambele variabile
   list(shape = shape, pal = pal, pal2 = pal2, leaflet_titleg = leaflet_titleg,  reg_paramnam  = reg_paramnam ,
-       reg_name = reg_name)
-  
+       reg_name = reg_name, reg_season = reg_season, reg_scenform = reg_scenform)
   
 })
 
@@ -148,8 +148,8 @@ observe({
 
 #Use a separate observer to recreate the legend as needed.
 observe({
-
-
+  
+  
   
   proxy <- leafletProxy( "map", data = start_county)
   # Remove any existing legend, and only if the legend is
@@ -185,9 +185,13 @@ observe({
 
 observe({ 
   
- 
+  
   output$params_name <- renderUI(
-    HTML(paste("<b>Region</b>",level_ag()$reg_name,"<b>Parameter</b>",level_ag()$reg_paramnam))
+    HTML(
+      paste(
+        "<b>Region</b>",level_ag()$reg_name,"<b>Climate Scenario</b>",level_ag()$reg_scenform,"<b>Parameter</b>",level_ag()$reg_season, level_ag()$reg_paramnam
+      )
+    )
   )
   
   event <- input$map_shape_click

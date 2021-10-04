@@ -80,7 +80,10 @@ if (reg_param != "prAdjust" & strsplit(reg_period,"_")[[1]][1] == "mean") {
 }
 
 
-# region name -------------------------------------------------------------
+# info mouseover ----------------------------------------------------------
+
+
+# region name 
 
 switch(region,
        reg_name <- "NUTS2",
@@ -90,7 +93,7 @@ switch(region,
 #print(reg_name)
 
 
-# parameter name ----------------------------------------------------------
+# parameter name 
 switch (
   which(c("tasAdjust","tasminAdjust","tasmaxAdjust","prAdjust" ) %in%  reg_param ),
   reg_paramnam  <- "Tmean",
