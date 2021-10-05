@@ -254,7 +254,7 @@ ui_maps <- tabPanel(
                              "2021-2050" = "mean_2021_2050",
                              "2071-2100" = "mean_2071_2100",
                              "2021-2050 vs. 1971-2000" =  "change_2021_2050",
-                             "2071-2100 vs. 1971-2000" =  "change_2071_2050"
+                             "2071-2100 vs. 1971-2000" =  "change_2071_2100"
                            ),
                            selected = "mean_2021_2050", width = "220px"),
                selectInput("regio_scen", label = "Scenario",
