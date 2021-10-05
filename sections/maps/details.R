@@ -12,14 +12,24 @@ level_ag <- reactive({
   reg_scen <- input$regio_scen
   reg_season <- input$regio_season
   
+  # region <- 1
+  # reg_param <- "tasAdjust"
+  # reg_period <- "mean_2021_2050"
+  # reg_scen <-  "rcp45"
+  # reg_season <- "Annual"
+  
+  
   reg_scenform <- ifelse(reg_scen  == "rcp45",  "RCP4.5", "RCP8.5")
   
   dat1 <- readRDS(paste0("www/data/tabs/anomalies/variables/",c("region","county", "uat")[region],"_anomalies_annual_",reg_param,"_",reg_scen,"_1971_2100.rds"))
   dat1$changes <- data.frame(dat1$changes[, "name"], season = "Annual", 
-                             dat1$changes[, c("mean_hist", "mean_2021_2050", "mean_2071_2100", "change_2021_2050", "change_2071_2050")])
+                             dat1$changes[, c("mean_hist", "mean_2021_2050", "mean_2071_2100", "change_2021_2050", "change_2071_2100")])
   dat2 <- readRDS(paste0("www/data/tabs/anomalies/variables/",c("region","county", "uat")[region],"_anomalies_seasons_",reg_param,"_",reg_scen,"_1971_2100.rds"))
   
   dat_changes <- rbind(dat1$changes,  dat2$changes) %>% dplyr:: filter(season ==  reg_season)
+  # rotunjire
+  dat_changes[,3:7] <- round(dat_changes[,3:7],1)
+  
   
   switch(region,
          shape <- shape_region %>% right_join(dat_changes, by = c("code" = "name")),
@@ -216,7 +226,7 @@ observe({
       <td style='padding:5px 10px 5px 5px'>",round(level_ag()$shape$mean_2021_2050[level_ag()$shape$code == event$id], 1),"</td>
       <td style='padding:5px 10px 5px 5px'>",round(level_ag()$shape$mean_2071_2100[level_ag()$shape$code == event$id], 1),"</td>
       <td style='padding:5px 10px 5px 5px'>",round(level_ag()$shape$change_2021_2050[level_ag()$shape$code == event$id],1),"</td>
-      <td style='padding:5px 10px 5px 5px'>",round(level_ag()$shape$change_2071_2050[level_ag()$shape$code == event$id], 1),"</td>
+      <td style='padding:5px 10px 5px 5px'>",round(level_ag()$shape$change_2071_2100[level_ag()$shape$code == event$id], 1),"</td>
       </tr>
       </table>"
       )
