@@ -16,7 +16,7 @@ level_ag <- reactive({
   # reg_param <- "tasAdjust"
   # reg_period <- "mean_2021_2050"
   # reg_scen <-  "rcp45"
-  # reg_season <- "Annual"
+  # reg_season <- "DJF"
   
   
   reg_scenform <- ifelse(reg_scen  == "rcp45",  "RCP4.5", "RCP8.5")
@@ -29,7 +29,7 @@ level_ag <- reactive({
   
   if(reg_season  != "Annual") { 
     dat_changes <- dat_changes[dat_changes$season == reg_season, ] 
-    # dat_anomalies <- lapply(dat_anomalies, function(x) { x[ x$season ==  reg_season, ] })
+    #dat_anomalies <- lapply(dat_anomalies, function(x) { x[ x$season ==  reg_season, ] })
   }
   
   dat$changes[,c("mean_hist", "mean_2021_2050", "mean_2071_2100", "change_2021_2050", "change_2071_2100")] <- round(dat$changes[,c("mean_hist", "mean_2021_2050", "mean_2071_2100", "change_2021_2050", "change_2071_2100")],1)
@@ -236,31 +236,28 @@ observe({
 })
 
 # mouse click data --------------------------------------------------------
-values  <- reactiveValues( id= "181")
 
-observeEvent(input$map_shape_click, { 
-  
-  #leafletProxy("map")
-  
-  values<- input$map_shape_click
-  
-})
+# validate_event <- reactive({
+#   # I have used OR condition here, you can use AND also
+#   req(input$map_shape_click) | req(input$regio_ag)
+# })
+
+
+values  <- reactiveValues(id = 5)
+
+observeEvent(input$map_shape_click$id,{ 
+  values$id <- which(names(level_ag()$dat_anomalies) %in% input$map_shape_click$id)
+}) 
+
 
 output$sum <- renderPrint({
-regio_anom <- level_ag()$dat_anomalies[[values$id]]
-
-if(level_ag()$reg_season  != "Annual") { 
-  regio_anom <- regio_anom[regio_anom$season == level_ag()$reg_season, ] 
-  # dat_anomalies <- lapply(dat_anomalies, function(x) { x[ x$season ==  reg_season, ] })
-}
-
-
-
-
   
-  summary(regio_anom )
-})
-
+  dd <- level_ag()$dat_anomalies[[values$id]]
+  if(level_ag()$reg_season != "Annual") dd <- dd[dd$season == level_ag()$reg_season,]
+  #print(values$id
+  
+  summary( dd ) 
+}) 
 # }
 # 
 # # Run the application 
