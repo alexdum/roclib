@@ -42,7 +42,7 @@ level_ag <- reactive({
   
   source("sections/maps/details_settings.R", local = T)
   
-  print( paste(reg_param, region))
+  #print( paste(reg_param, region))
   
   
   # returneaza ca lista sa poti duce ambele variabile
