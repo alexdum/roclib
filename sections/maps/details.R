@@ -31,7 +31,7 @@ level_ag <- reactive({
   switch(region,
          shape <- shape_region %>% right_join(dat_changes, by = c("code" = "name")),
          shape <- shape_county %>% right_join(dat_changes, by = c("code" = "name")),
-         shape <- shape_uat %>% right_join(  dat_changes, by = c("code" = "name"))
+         shape <- shape_uat %>% right_join( dat_changes, by = c("code" = "name"))
   )
   
   
@@ -187,6 +187,7 @@ observe({
 
 observe({ 
   
+  req(input$tab_being_displayed == "Explore in detail") # Only display if tab is 'Explore in detail'
   
   # output$params_name <- renderUI(
   #   HTML(
