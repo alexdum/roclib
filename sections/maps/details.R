@@ -17,17 +17,23 @@ level_ag <- reactive({
   # reg_period <- "mean_2021_2050"
   # reg_scen <-  "rcp45"
   # reg_season <- "Annual"
-
+  
   
   reg_scenform <- ifelse(reg_scen  == "rcp45",  "RCP4.5", "RCP8.5")
   
   dat <- readRDS(paste0("www/data/tabs/anomalies/variables/",c("region","county", "uat")[region],"_anomalies_",ifelse(reg_season == "Annual", "annual", "seasons"),"_",reg_param,"_",reg_scen,"_1971_2100.rds"))
-
+  
   dat_changes <- dat$changes 
-  if(reg_season  != "Annual")  dat_changes <- dat_changes[dat_changes$season == reg_season, ]
-    
+  dat_anomalies <- dat$anomalies
+  # subseteaza data frame si lista cad ai sezoane
+  
+  if(reg_season  != "Annual") { 
+    dat_changes <- dat_changes[dat_changes$season == reg_season, ] 
+    # dat_anomalies <- lapply(dat_anomalies, function(x) { x[ x$season ==  reg_season, ] })
+  }
+  
   dat$changes[,c("mean_hist", "mean_2021_2050", "mean_2071_2100", "change_2021_2050", "change_2071_2100")] <- round(dat$changes[,c("mean_hist", "mean_2021_2050", "mean_2071_2100", "change_2021_2050", "change_2071_2100")],1)
-
+  
   switch(region,
          shape <- shape_region %>% right_join(dat_changes, by = c("code" = "name")),
          shape <- shape_county %>% right_join(dat_changes, by = c("code" = "name")),
@@ -42,7 +48,7 @@ level_ag <- reactive({
   #print( paste(reg_param, region))
   # returneaza ca lista sa poti duce ambele variabile
   list(shape = shape, pal = pal, pal2 = pal2, leaflet_titleg = leaflet_titleg,  reg_paramnam  = reg_paramnam ,
-       reg_name = reg_name, reg_season = reg_season, reg_scenform = reg_scenform)
+       reg_name = reg_name, reg_season = reg_season, reg_scenform = reg_scenform, dat_anomalies = dat_anomalies)
   
 })
 
@@ -151,6 +157,7 @@ observe({
 #Use a separate observer to recreate the legend as needed.
 observe({
   
+  req(input$tab_being_displayed == "Explore in detail") # Only display if tab is 'Explore in detail'
   
   
   proxy <- leafletProxy( "map", data = start_county)
@@ -182,12 +189,13 @@ observe({
 
 
 
+# mouseover data ----------------------------------------------------------
 
 
 
 observe({ 
   
-  req(input$tab_being_displayed == "Explore in detail") # Only display if tab is 'Explore in detail'
+  #req(input$tab_being_displayed == "Explore in detail") # Only display if tab is 'Explore in detail'
   
   # output$params_name <- renderUI(
   #   HTML(
@@ -196,7 +204,6 @@ observe({
   #   )
   # )
   
-  event <- input$map_shape_click
   event <- input$map_shape_mouseover
   output$cnty <- renderUI(
     HTML(
@@ -227,6 +234,33 @@ observe({
   )
   
 })
+
+# mouse click data --------------------------------------------------------
+values  <- reactiveValues( id= "181")
+
+observeEvent(input$map_shape_click, { 
+  
+  #leafletProxy("map")
+  
+  values<- input$map_shape_click
+  
+})
+
+output$sum <- renderPrint({
+regio_anom <- level_ag()$dat_anomalies[[values$id]]
+
+if(level_ag()$reg_season  != "Annual") { 
+  regio_anom <- regio_anom[regio_anom$season == level_ag()$reg_season, ] 
+  # dat_anomalies <- lapply(dat_anomalies, function(x) { x[ x$season ==  reg_season, ] })
+}
+
+
+
+
+  
+  summary(regio_anom )
+})
+
 # }
 # 
 # # Run the application 

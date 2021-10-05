@@ -285,7 +285,8 @@ ui_maps <- tabPanel(
                ),
                
                
-               leafletOutput("map")
+               leafletOutput("map"),
+               verbatimTextOutput("sum")
                
              ) 
              
