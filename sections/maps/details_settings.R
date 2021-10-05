@@ -1,6 +1,6 @@
 #display.brewer.pal(9,"YlOrRd")
 colint <- colorRampPalette( brewer.pal(9,"YlOrRd") , interpolate="linear")
-mean.tt.col <- data.frame(cols = c(rev(brewer.pal(9,"Blues")),colint(10)), vals = seq(-16,20, 2))
+mean.tt.col <- data.frame(cols = c(rev(brewer.pal(4,"Blues")),colint(17)), vals = seq(-8,32, 2))
 
 colint <- colorRampPalette( brewer.pal(10,"RdYlBu") , interpolate="linear")
 change.tt.col <- data.frame(cols = rev(colint(25)), vals = seq(-6,6, 0.5))
@@ -12,7 +12,7 @@ change.tt.col <- data.frame(cols = rev(colint(25)), vals = seq(-6,6, 0.5))
 # pentru temperatura medii
 if (reg_param != "prAdjust" & strsplit(reg_period,"_")[[1]][1] == "mean") {
   bins <- seq(round_even(min(shape$values), 2, 0), round_even(max(shape$values), 2, 1), by = 2)
-  cols <- mean.tt.col$cols[mean.tt.col$vals >= bins[2] &  mean.tt.col$vals <= max(bins)]
+  cols <- mean.tt.col$cols[mean.tt.col$vals >= bins[1] &  mean.tt.col$vals <= max(bins)]
   
   pal <- colorBin(cols, domain = shape$values, bins = bins)
   pal2 <- colorBin(cols, domain = shape$values, bins = bins, reverse = T)

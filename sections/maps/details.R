@@ -12,25 +12,22 @@ level_ag <- reactive({
   reg_scen <- input$regio_scen
   reg_season <- input$regio_season
   
-  # region <- 1
+  # region <- 3
   # reg_param <- "tasAdjust"
   # reg_period <- "mean_2021_2050"
   # reg_scen <-  "rcp45"
   # reg_season <- "Annual"
-  
+
   
   reg_scenform <- ifelse(reg_scen  == "rcp45",  "RCP4.5", "RCP8.5")
   
-  dat1 <- readRDS(paste0("www/data/tabs/anomalies/variables/",c("region","county", "uat")[region],"_anomalies_annual_",reg_param,"_",reg_scen,"_1971_2100.rds"))
-  dat1$changes <- data.frame(dat1$changes[, "name"], season = "Annual", 
-                             dat1$changes[, c("mean_hist", "mean_2021_2050", "mean_2071_2100", "change_2021_2050", "change_2071_2100")])
-  dat2 <- readRDS(paste0("www/data/tabs/anomalies/variables/",c("region","county", "uat")[region],"_anomalies_seasons_",reg_param,"_",reg_scen,"_1971_2100.rds"))
-  
-  dat_changes <- rbind(dat1$changes,  dat2$changes) %>% dplyr:: filter(season ==  reg_season)
-  # rotunjire
-  dat_changes[,3:7] <- round(dat_changes[,3:7],1)
-  
-  
+  dat <- readRDS(paste0("www/data/tabs/anomalies/variables/",c("region","county", "uat")[region],"_anomalies_",ifelse(reg_season == "Annual", "annual", "seasons"),"_",reg_param,"_",reg_scen,"_1971_2100.rds"))
+
+  dat_changes <- dat$changes 
+  if(reg_season  != "Annual")  dat_changes <- dat_changes[dat_changes$season == reg_season, ]
+    
+  dat$changes[,c("mean_hist", "mean_2021_2050", "mean_2071_2100", "change_2021_2050", "change_2071_2100")] <- round(dat$changes[,c("mean_hist", "mean_2021_2050", "mean_2071_2100", "change_2021_2050", "change_2071_2100")],1)
+
   switch(region,
          shape <- shape_region %>% right_join(dat_changes, by = c("code" = "name")),
          shape <- shape_county %>% right_join(dat_changes, by = c("code" = "name")),
@@ -43,16 +40,11 @@ level_ag <- reactive({
   source("sections/maps/details_settings.R", local = T)
   
   #print( paste(reg_param, region))
-  
-  
   # returneaza ca lista sa poti duce ambele variabile
   list(shape = shape, pal = pal, pal2 = pal2, leaflet_titleg = leaflet_titleg,  reg_paramnam  = reg_paramnam ,
        reg_name = reg_name, reg_season = reg_season, reg_scenform = reg_scenform)
   
 })
-
-
-
 
 output$map <- renderLeaflet ({
   leaflet(start_county,
