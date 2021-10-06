@@ -286,7 +286,12 @@ ui_maps <- tabPanel(
                
                
                leafletOutput("map"),
-               verbatimTextOutput("sum")
+               
+               plotly::plotlyOutput("plot_regio_evo"),
+               tableOutput("data")
+               #
+               
+               #verbatimTextOutput("sum")
                
              ) 
              

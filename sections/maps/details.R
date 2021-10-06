@@ -244,22 +244,36 @@ observe({
 # })
 
 
-values  <- reactiveValues(id = NULL)
-observe({values$id <- level_ag()$reg_val})
+values  <- reactiveValues(id = NULL, param = NULL)
+observe({
+  values$id <- level_ag()$reg_val
+  values$param <-  input$regio_param
+  })
 
 observeEvent(input$map_shape_click$id,{ 
   values$id <- which(names(level_ag()$dat_anomalies) %in% input$map_shape_click$id)
 }) 
 
 
-output$sum <- renderPrint({
+output$plot_regio_evo<- renderPlotly({
   
   dd <- level_ag()$dat_anomalies[[values$id]]
   if(level_ag()$reg_season != "Annual") dd <- dd[dd$season == level_ag()$reg_season,]
-  print(values$id)
   
-  summary( dd ) 
-}) 
+  print(values$param)
+
+  gg <- plotly_evolution(dd, "obs_anom", "scen_anom_min", "scen_anom_mean","scen_anom_max", parameter = values$param)
+  gg
+  
+  })
+# output$sum <- renderPrint({
+#   
+#   dd <- level_ag()$dat_anomalies[[values$id]]
+#   if(level_ag()$reg_season != "Annual") dd <- dd[dd$season == level_ag()$reg_season,]
+#   print(values$id)
+#   
+#   summary( dd ) 
+# }) 
 # }
 # 
 # # Run the application 
