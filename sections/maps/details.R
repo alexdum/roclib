@@ -48,7 +48,8 @@ level_ag <- reactive({
   #print( paste(reg_param, region))
   # returneaza ca lista sa poti duce ambele variabile
   list(shape = shape, pal = pal, pal2 = pal2, leaflet_titleg = leaflet_titleg,  reg_paramnam  = reg_paramnam ,
-       reg_name = reg_name, reg_season = reg_season, reg_scenform = reg_scenform, dat_anomalies = dat_anomalies)
+       reg_name = reg_name, reg_season = reg_season, reg_scenform = reg_scenform, dat_anomalies = dat_anomalies, 
+       reg_val = length(names(dat_anomalies)))
   
 })
 
@@ -66,11 +67,6 @@ output$map <- renderLeaflet ({
     addProviderTiles(
       "CartoDB.PositronNoLabels"
     )   %>% 
-    addProviderTiles(
-      "CartoDB.PositronOnlyLabels",
-      # options = leafletOptions(pane = "maplabels"),
-      group = "map labels"
-    )  %>% 
     addEasyButton(
       easyButton (
         icon    = "glyphicon glyphicon-home", title = "Reset zoom",
@@ -139,10 +135,15 @@ observe({
       highlightOptions = highlightOptions(
         weight = 2,
         color = "#666",
-        fillOpacity = 1,
+        fillOpacity = 0.2,
         bringToFront = TRUE,
         sendToBack = TRUE
       ) 
+    )   %>% 
+    addProviderTiles(
+      "CartoDB.PositronOnlyLabels",
+      # options = leafletOptions(pane = "maplabels"),
+      group = "map labels"
     ) 
   # %>%
   # addLegend(
@@ -243,7 +244,8 @@ observe({
 # })
 
 
-values  <- reactiveValues(id = 5)
+values  <- reactiveValues(id = NULL)
+observe({values$id <- level_ag()$reg_val})
 
 observeEvent(input$map_shape_click$id,{ 
   values$id <- which(names(level_ag()$dat_anomalies) %in% input$map_shape_click$id)
@@ -254,7 +256,7 @@ output$sum <- renderPrint({
   
   dd <- level_ag()$dat_anomalies[[values$id]]
   if(level_ag()$reg_season != "Annual") dd <- dd[dd$season == level_ag()$reg_season,]
-  #print(values$id
+  print(values$id)
   
   summary( dd ) 
 }) 
