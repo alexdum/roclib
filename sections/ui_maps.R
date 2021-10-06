@@ -280,21 +280,29 @@ ui_maps <- tabPanel(
                width = 9,
                
                wellPanel(
-                # htmlOutput("params_name"),
+                 # htmlOutput("params_name"),
                  htmlOutput("cnty")
                ),
                
+               wellPanel(
+                 leafletOutput("map"),
+               ),
+               tabsetPanel(
+                 tabPanel(value = "Graph",
+                          title = h6("Graph"),
+                          h5(textOutput("plot_regio_evo_tit"), style = "text-align:center;"),
+                          plotly::plotlyOutput("plot_regio_evo")
+                 ), 
+                 
+                 tabPanel(value = "Data",
+                          title = h6("Data")
+                          #
+                 )
+                 #verbatimTextOutput("sum")
+                 
+               ) 
                
-               leafletOutput("map"),
-               
-               plotly::plotlyOutput("plot_regio_evo"),
-               tableOutput("data")
-               #
-               
-               #verbatimTextOutput("sum")
-               
-             ) 
-             
+             )
            )
            )
            # footer ------------------------------------------------------------------

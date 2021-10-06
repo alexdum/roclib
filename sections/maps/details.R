@@ -244,15 +244,30 @@ observe({
 # })
 
 
-values  <- reactiveValues(id = NULL, param = NULL)
+values  <- reactiveValues(id = NULL, param = NULL, regio = NULL, scenario = NULL, season = NULL, reg_paramnam = NULL, name = NULL)
 observe({
   values$id <- level_ag()$reg_val
   values$param <-  input$regio_param
-  })
+  values$regio <-  level_ag()$reg_name
+  values$scenario <- level_ag()$reg_scenform
+  values$season <- level_ag()$reg_season
+  values$reg_paramnam <- level_ag()$reg_paramnam
+  values$name <- level_ag()$shape$name[length(level_ag()$shape$code)]
+
+})
 
 observeEvent(input$map_shape_click$id,{ 
   values$id <- which(names(level_ag()$dat_anomalies) %in% input$map_shape_click$id)
+  values$name <- level_ag()$shape$name[level_ag()$shape$code == input$map_shape_click$id]
+  
 }) 
+
+
+output$plot_regio_evo_tit <- renderText({
+  level_ag()$shape$name[level_ag()$shape$code == values$id]
+  paste(values$name, values$season, tolower(values$reg_paramnam),"Historical and", values$scenario,  "1971 - 2100")
+  
+})
 
 
 output$plot_regio_evo<- renderPlotly({
@@ -261,11 +276,11 @@ output$plot_regio_evo<- renderPlotly({
   if(level_ag()$reg_season != "Annual") dd <- dd[dd$season == level_ag()$reg_season,]
   
   print(values$param)
-
+  
   gg <- plotly_evolution(dd, "obs_anom", "scen_anom_min", "scen_anom_mean","scen_anom_max", parameter = values$param)
   gg
   
-  })
+})
 # output$sum <- renderPrint({
 #   
 #   dd <- level_ag()$dat_anomalies[[values$id]]
