@@ -125,6 +125,11 @@ observe({
     clearShapes() %>%
     addPolygons (
       fillColor = ~palm(values), 
+      label = ~paste("<font size='2'><b>Region type:",level_ag()$reg_name, "<br/>Name units:",name,
+                     "</b></font><br/>
+                     <font size='1' color='#ff0000'>Click to 
+                     get values and graph</font>") %>% lapply(htmltools::HTML),
+    #  labelOptions = labelOptions(textsize = "13px"),
       color = "grey",
       weight = 0.5, smoothFactor = 0.1,
       opacity = 0.5, 
@@ -194,25 +199,56 @@ observe({
 
 
 
-observe({ 
+# mouse click data --------------------------------------------------------
+
+# validate_event <- reactive({
+#   # I have used OR condition here, you can use AND also
+#   req(input$map_shape_click) | req(input$regio_ag)
+# })
+
+
+values  <- reactiveValues(id = NULL, param = NULL, regio = NULL, scenario = NULL, season = NULL, reg_paramnam = NULL, name = NULL,
+                          code = NULL)
+observe({
+  values$id <- level_ag()$reg_val
+  values$param <-  input$regio_param
+  values$regio <-  level_ag()$reg_name
+  values$scenario <- level_ag()$reg_scenform
+  values$season <- level_ag()$reg_season
+  values$reg_paramnam <- level_ag()$reg_paramnam
+  values$name <- level_ag()$shape$name[length(level_ag()$shape$code)]
+  values$code <- level_ag()$shape$code[length(level_ag()$shape$code)]
   
-  #req(input$tab_being_displayed == "Explore in detail") # Only display if tab is 'Explore in detail'
+})
+
+observeEvent(input$map_shape_click$id,{ 
+  values$id <- which(names(level_ag()$dat_anomalies) %in% input$map_shape_click$id)
+  values$name <- level_ag()$shape$name[level_ag()$shape$code == input$map_shape_click$id]
+  values$code <- level_ag()$shape$code[level_ag()$shape$code == input$map_shape_click$id]
   
-  # output$params_name <- renderUI(
-  #   HTML(
-  #     paste(
-  #       "<b>Region</b>",level_ag()$reg_name,"<b>Climate Scenario</b>",level_ag()$reg_scenform,"<b>Parameter</b>",level_ag()$reg_season, level_ag()$reg_paramnam)
-  #   )
-  # )
-  
-  event <- input$map_shape_mouseover
-  output$cnty <- renderUI(
-    HTML(
-      paste(
-        "<table>
+}) 
+
+
+
+
+
+#req(input$tab_being_displayed == "Explore in detail") # Only display if tab is 'Explore in detail'
+
+# output$params_name <- renderUI(
+#   HTML(
+#     paste(
+#       "<b>Region</b>",level_ag()$reg_name,"<b>Climate Scenario</b>",level_ag()$reg_scenform,"<b>Parameter</b>",level_ag()$reg_season, level_ag()$reg_paramnam)
+#   )
+# )
+
+
+output$cnty <- renderUI({
+  HTML(
+    paste(
+      "<table>
         <caption>",
-        level_ag()$reg_name,level_ag()$reg_scenform,level_ag()$reg_season,level_ag()$reg_paramnam
-        ,"</caption>
+      level_ag()$reg_name,level_ag()$reg_scenform,level_ag()$reg_season,level_ag()$reg_paramnam
+      ,"</caption>
       <tr>
       <th style='padding:5px 10px 5px 5px'>Name Region</th>
       <th style='padding:5px 10px 5px 5px'>Mean 1971-2010</th>
@@ -222,45 +258,20 @@ observe({
       <th style='padding:5px 10px 5px 5px'>Change 2071-2100</th>
       </tr>
       <tr>
-      <td style='padding:5px 10px 5px 5px'>",level_ag()$shape$name[level_ag()$shape$code == event$id],"</td>
-      <td style='padding:5px 10px 5px 5px'>",round(level_ag()$shape$mean_hist[level_ag()$shape$code == event$id], 1),"</td>
-      <td style='padding:5px 10px 5px 5px'>",round(level_ag()$shape$mean_2021_2050[level_ag()$shape$code == event$id], 1),"</td>
-      <td style='padding:5px 10px 5px 5px'>",round(level_ag()$shape$mean_2071_2100[level_ag()$shape$code == event$id], 1),"</td>
-      <td style='padding:5px 10px 5px 5px'>",round(level_ag()$shape$change_2021_2050[level_ag()$shape$code == event$id],1),"</td>
-      <td style='padding:5px 10px 5px 5px'>",round(level_ag()$shape$change_2071_2100[level_ag()$shape$code == event$id], 1),"</td>
+      <td style='padding:5px 10px 5px 5px'>",level_ag()$shape$name[level_ag()$shape$code ==   values$code],"</td>
+      <td style='padding:5px 10px 5px 5px'>",round(level_ag()$shape$mean_hist[level_ag()$shape$code ==   values$code ], 1),"</td>
+      <td style='padding:5px 10px 5px 5px'>",round(level_ag()$shape$mean_2021_2050[level_ag()$shape$code ==   values$code ], 1),"</td>
+      <td style='padding:5px 10px 5px 5px'>",round(level_ag()$shape$mean_2071_2100[level_ag()$shape$code ==   values$code], 1),"</td>
+      <td style='padding:5px 10px 5px 5px'>",round(level_ag()$shape$change_2021_2050[level_ag()$shape$code ==   values$code],1),"</td>
+      <td style='padding:5px 10px 5px 5px'>",round(level_ag()$shape$change_2071_2100[level_ag()$shape$code ==   values$code], 1),"</td>
       </tr>
       </table>"
-      )
     )
   )
-  
 })
 
-# mouse click data --------------------------------------------------------
-
-# validate_event <- reactive({
-#   # I have used OR condition here, you can use AND also
-#   req(input$map_shape_click) | req(input$regio_ag)
-# })
 
 
-values  <- reactiveValues(id = NULL, param = NULL, regio = NULL, scenario = NULL, season = NULL, reg_paramnam = NULL, name = NULL)
-observe({
-  values$id <- level_ag()$reg_val
-  values$param <-  input$regio_param
-  values$regio <-  level_ag()$reg_name
-  values$scenario <- level_ag()$reg_scenform
-  values$season <- level_ag()$reg_season
-  values$reg_paramnam <- level_ag()$reg_paramnam
-  values$name <- level_ag()$shape$name[length(level_ag()$shape$code)]
-
-})
-
-observeEvent(input$map_shape_click$id,{ 
-  values$id <- which(names(level_ag()$dat_anomalies) %in% input$map_shape_click$id)
-  values$name <- level_ag()$shape$name[level_ag()$shape$code == input$map_shape_click$id]
-  
-}) 
 
 
 output$plot_regio_evo_tit <- renderText({
@@ -275,12 +286,63 @@ output$plot_regio_evo<- renderPlotly({
   dd <- level_ag()$dat_anomalies[[values$id]]
   if(level_ag()$reg_season != "Annual") dd <- dd[dd$season == level_ag()$reg_season,]
   
-  print(values$param)
+  #print(values$param)
   
   gg <- plotly_evolution(dd, "obs_anom", "scen_anom_min", "scen_anom_mean","scen_anom_max", parameter = values$param)
   gg
   
 })
+
+output$change_regio <- DT::renderDT(rownames = FALSE,{
+  
+  dd <- level_ag()$dat_anomalies[[values$id]]
+  if(level_ag()$reg_season != "Annual") dd <- dd[dd$season == level_ag()$reg_season,]
+  dd
+})
+
+# 
+# observe({ 
+#   
+#   #req(input$tab_being_displayed == "Explore in detail") # Only display if tab is 'Explore in detail'
+#   
+#   # output$params_name <- renderUI(
+#   #   HTML(
+#   #     paste(
+#   #       "<b>Region</b>",level_ag()$reg_name,"<b>Climate Scenario</b>",level_ag()$reg_scenform,"<b>Parameter</b>",level_ag()$reg_season, level_ag()$reg_paramnam)
+#   #   )
+#   # )
+#   
+#   event <- input$map_shape_mouseover
+#   output$cnty <- renderUI(
+#     HTML(
+#       paste(
+#         "<table>
+#         <caption>",
+#         level_ag()$reg_name,level_ag()$reg_scenform,level_ag()$reg_season,level_ag()$reg_paramnam
+#         ,"</caption>
+#       <tr>
+#       <th style='padding:5px 10px 5px 5px'>Name Region</th>
+#       <th style='padding:5px 10px 5px 5px'>Mean 1971-2010</th>
+#       <th style='padding:5px 10px 5px 5px'>Mean 2021-2050</th>
+#       <th style='padding:5px 10px 5px 5px'>Mean 2071-2100</th>
+#       <th style='padding:5px 10px 5px 5px'>Change 2021-2050</th>
+#       <th style='padding:5px 10px 5px 5px'>Change 2071-2100</th>
+#       </tr>
+#       <tr>
+#       <td style='padding:5px 10px 5px 5px'>",level_ag()$shape$name[level_ag()$shape$code == event$id],"</td>
+#       <td style='padding:5px 10px 5px 5px'>",round(level_ag()$shape$mean_hist[level_ag()$shape$code == event$id], 1),"</td>
+#       <td style='padding:5px 10px 5px 5px'>",round(level_ag()$shape$mean_2021_2050[level_ag()$shape$code == event$id], 1),"</td>
+#       <td style='padding:5px 10px 5px 5px'>",round(level_ag()$shape$mean_2071_2100[level_ag()$shape$code == event$id], 1),"</td>
+#       <td style='padding:5px 10px 5px 5px'>",round(level_ag()$shape$change_2021_2050[level_ag()$shape$code == event$id],1),"</td>
+#       <td style='padding:5px 10px 5px 5px'>",round(level_ag()$shape$change_2071_2100[level_ag()$shape$code == event$id], 1),"</td>
+#       </tr>
+#       </table>"
+#       )
+#     )
+#   )
+#   
+# })
+
 # output$sum <- renderPrint({
 #   
 #   dd <- level_ag()$dat_anomalies[[values$id]]

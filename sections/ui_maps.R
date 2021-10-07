@@ -288,15 +288,16 @@ ui_maps <- tabPanel(
                  leafletOutput("map"),
                ),
                tabsetPanel(
+                 h5(textOutput("plot_regio_evo_tit"), style = "text-align:center;"),
                  tabPanel(value = "Graph",
                           title = h6("Graph"),
-                          h5(textOutput("plot_regio_evo_tit"), style = "text-align:center;"),
+                        
                           plotly::plotlyOutput("plot_regio_evo")
                  ), 
                  
                  tabPanel(value = "Data",
-                          title = h6("Data")
-                          #
+                          title = h6("Data"),
+                          DT::dataTableOutput("change_regio")
                  )
                  #verbatimTextOutput("sum")
                  
