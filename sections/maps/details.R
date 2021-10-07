@@ -129,7 +129,7 @@ observe({
                      "</b></font><br/>
                      <font size='1' color='#ff0000'>Click to 
                      get values and graph</font>") %>% lapply(htmltools::HTML),
-    #  labelOptions = labelOptions(textsize = "13px"),
+      #  labelOptions = labelOptions(textsize = "13px"),
       color = "grey",
       weight = 0.5, smoothFactor = 0.1,
       opacity = 0.5, 
@@ -293,11 +293,22 @@ output$plot_regio_evo<- renderPlotly({
   
 })
 
-output$change_regio <- DT::renderDT(rownames = FALSE,{
+output$change_regio <- DT::renderDT({
   
   dd <- level_ag()$dat_anomalies[[values$id]]
   if(level_ag()$reg_season != "Annual") dd <- dd[dd$season == level_ag()$reg_season,]
-  dd
+  
+  DT::datatable(dd, extensions = 'Buttons', rownames = F,
+                options = list(
+                  dom = 'Bfrtip',
+                  pageLength = 5, autoWidth = TRUE,
+                  buttons = c('pageLength','copy', 'csv', 'excel'),
+                  pagelength = 10, lengthMenu = list(c(10, 25, 100, -1), c('10', '25', '100','All')
+                  )
+                  
+                )
+  )
+  
 })
 
 # 
