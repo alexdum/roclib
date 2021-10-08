@@ -13,10 +13,10 @@ level_ag <- reactive({
   reg_season <- input$regio_season
   
   # region <- 2
-  # reg_param <- "tasAdjust"
+  # reg_param <- "prAdjust"
   # reg_period <- "mean_2021_2050"
   # reg_scen <-  "rcp45"
-  # reg_season <- "DJF"
+  # reg_season <- "Annual"
   
   
   reg_scenform <- ifelse(reg_scen  == "rcp45",  "RCP4.5", "RCP8.5")
