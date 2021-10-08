@@ -1,6 +1,6 @@
 ui_maps <- tabPanel(
-  "Maps", icon = icon("globe-europe"), value = "#maps", id = "#maps",
-  h4("Maps"),
+  "Maps and graphs", icon = icon("chart-line"), value = "#maps", id = "#maps",
+  h4("Maps and graphs"),
   
   HTML("Here are shown relevant maps and graphs for essential climate variables (CVs) and indicators that can 
                          be used for climate change analysis in Romania. The maps can be downloaded as PNG file, and
