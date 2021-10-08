@@ -216,8 +216,9 @@ observe({
   values$scenario <- level_ag()$reg_scenform
   values$season <- level_ag()$reg_season
   values$reg_paramnam <- level_ag()$reg_paramnam
-  values$name <- level_ag()$shape$name[length(level_ag()$shape$code)]
-  values$code <- level_ag()$shape$code[length(level_ag()$shape$code)]
+  # regiune implicita pe baza unui random number
+  values$name <- level_ag()$shape$name[sample(1:length(level_ag()$shape$code),1)]
+  values$code <- level_ag()$shape$code[sample(1:length(level_ag()$shape$code),1)]
   
 })
 
