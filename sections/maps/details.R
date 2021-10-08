@@ -12,7 +12,7 @@ level_ag <- reactive({
   reg_scen <- input$regio_scen
   reg_season <- input$regio_season
   
-  # region <- 3
+  # region <- 2
   # reg_param <- "tasAdjust"
   # reg_period <- "mean_2021_2050"
   # reg_scen <-  "rcp45"
@@ -282,17 +282,46 @@ output$plot_regio_evo_tit <- renderText({
 })
 
 
+
+# grafic ------------------------------------------------------------------
+
+#grafic plot
 output$plot_regio_evo<- renderPlotly({
   
   dd <- level_ag()$dat_anomalies[[values$id]]
   if(level_ag()$reg_season != "Annual") dd <- dd[dd$season == level_ag()$reg_season,]
-  
   #print(values$param)
-  
   gg <- plotly_evolution(dd, "obs_anom", "scen_anom_min", "scen_anom_mean","scen_anom_max", parameter = values$param)
   gg
   
 })
+
+# grafic descarca
+plot_regio_down <- reactive({
+  dd <- level_ag()$dat_anomalies[[values$id]]
+  if(level_ag()$reg_season != "Annual") dd <- dd[dd$season == level_ag()$reg_season,]
+   gg_evolution(dd, "obs_anom", "scen_anom_min", "scen_anom_mean","scen_anom_max", parameter = values$param)
+})
+
+output$down_plot_regio <- downloadHandler(
+  
+  filename = function() {
+    paste0(level_ag()$reg_name,"_",values$name,"_",level_ag()$reg_scenform,"_",level_ag()$reg_season,"_",level_ag()$reg_paramnam,".png") %>%
+      tolower()
+  },
+  content = function(file) {
+    png(file, width = 800, height = 400, units = "px", res = 100)
+    print(plot_regio_down())
+    dev.off()
+  })
+
+
+
+
+
+# date --------------------------------------------------------------------
+
+
 
 output$change_regio <- DT::renderDT({
   

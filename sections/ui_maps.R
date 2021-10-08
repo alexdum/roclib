@@ -230,7 +230,8 @@ ui_maps <- tabPanel(
                     title = h5("Explore in detail"),
                     tags$h6(" "),
                     HTML("The climate variables and indicators are aggregated at the NUTS2 (Regions), NUTS3 (Counties) 
-           and LAU (Local administrative units) (see https://en.wikipedia.org/wiki/NUTS_statistical_regions_of_Romania#Local_administrative_units)."),
+           and LAU (Local administrative units) 
+           (see <a href='https://en.wikipedia.org/wiki/NUTS_statistical_regions_of_Romania#Local_administrative_units'>Romania administrative units</a> )."),
            tags$br(""),
            
            sidebarLayout(
@@ -241,7 +242,7 @@ ui_maps <- tabPanel(
                h4("Selection Options"),
                selectInput("regio_ag", label = "Regional level",
                            c(
-                             "NUTS2" = 1,"NUTS3" = 2, "LAU"= 3
+                             "NUTS2" = 1,"NUTS3" = 2, "LAU (UAT)"= 3
                            ), selected = 2, width = "220px"),
                selectInput("regio_param", label = "Parameter",
                            c("Mean temperature" =  "tasAdjust", "Precipitation" = "prAdjust",
@@ -294,7 +295,8 @@ ui_maps <- tabPanel(
                  tabPanel(value = "Graph",
                           title = h6("Graph"),
                           
-                          plotly::plotlyOutput("plot_regio_evo")
+                          plotly::plotlyOutput("plot_regio_evo"),
+                          downloadLink('down_plot_regio', label = 'Download  PNG')
                  ), 
                  
                  tabPanel(value = "Data",
