@@ -11,7 +11,7 @@ server <- shinyServer(function(input, output, session) {
   source(file = "sections/maps/maps_indicators.R", local = T)
   source(file = "sections/maps/graphs.R", local = T)
   source(file = "sections/maps/graphs_indicators.R", local = T)
-  source(file = "sections/maps/details.R", local = T)
+  source(file = "sections/maps/details_periods.R", local = T)
 
   
   # run code before accesing section

@@ -24,6 +24,7 @@ suppressPackageStartupMessages({
 })
 source("utils/utils.R")
 source("utils/grapsh_funct.R")
+source("utils/calc_func.R")
 #date1 <- readRDS("www/data/tabs/season+anual_mean_models.rds")
 
 ### calcul anual din sezoniere 
