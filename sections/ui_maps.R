@@ -24,7 +24,7 @@ ui_maps <- tabPanel(
              
              sidebarPanel(
                width = 3,
-               h4("Selection Options"),
+               h5("Selection Options"),
                selectInput("Parameter", label = "Parameter",
                            c("Mean temperature" =  "tasAdjust", "Precipitation" = "prAdjust",
                              "Mean min.temperature" = "tasminAdjust", "Mean max.temperature" =  "tasmaxAdjust"),
@@ -239,51 +239,56 @@ ui_maps <- tabPanel(
              
              sidebarPanel(
                width = 3,
-               h4("Selection Options"),
-               selectInput("regio_ag", label = "Regional level",
-                           c(
-                             "NUTS2" = 1,"NUTS3" = 2, "LAU (UAT)"= 3
-                           ), selected = 2, width = "220px"),
-               
-               selectInput("regio_param", label = "Variable",
-                           c("Mean temperature" =  "tasAdjust", "Precipitation" = "prAdjust",
-                             "Mean min.temperature" = "tasminAdjust", "Mean max.temperature" =  "tasmaxAdjust"),
-                           selected = "tasAdjust", width = "220px"),
-               
-               sliderInput("hist_per", "Historical period", 1971, 2005, value = c(1971, 2000),step = 1,
-                           dragRange = F,   width = "220px"),
-               
-               sliderInput("scen_per", "Scenario period", 2006, 2100, value = c(2021, 2050),step = 1,
-                           dragRange = F,   width = "220px"),
-               
-               selectInput("regio_scen", label = "Scenario",
-                           c("RCP4.5" =  "rcp45",
-                             "RCP8.5" =  "rcp85") ,
-                           width = "220px",
-                           selected = "RCP4.5"),
-               
-               selectInput("regio_season", label = "Season",
-                           c("Annual" = "Annual", "DJF" =  "DJF", "MAM" =  "MAM", 
-                             "JJA" =  "JJA", "SON" = "SON" ),
-                           width = "220px", selected = "Annual"),
-               
-               selectInput("regio_period", label = "Dsplay on the map",
-                           c(
-                             "Historical period" = "mean_hist", 
-                             "Scenario period" = "mean_scen",
-                           "Changes in selected variable" = "change"),
-                           selected = "mean_scen", width = "220px"
-                           
+               h5("Select administrative unit"),
+               wellPanel(
+                 selectInput("regio_ag", label = "Regional level",
+                             c(
+                               "NUTS2" = 1,"NUTS3" = 2, "LAU (UAT)"= 3
+                             ), selected = 2, width = "220px")
                ),
-               
-               actionButton("go", "Compute averages & changes", icon("sync")),
-               h3(""),
-               
-               sliderInput("transp", "Transparency",
-                           min = 0, max = 1, ticks = F,
-                           value = 0.5, step = 0.1,
-                           width = "220px")
-               
+               h5("Select parameters to compute changes"),
+               wellPanel(
+                 
+                 selectInput("regio_param", label = "Variable",
+                             c("Mean temperature" =  "tasAdjust", "Precipitation" = "prAdjust",
+                               "Mean min.temperature" = "tasminAdjust", "Mean max.temperature" =  "tasmaxAdjust"),
+                             selected = "tasAdjust", width = "220px"),
+                 
+                 sliderInput("hist_per", "Historical period", 1971, 2005, value = c(1971, 2000),step = 1,
+                             dragRange = F,   width = "220px"),
+                 
+                 sliderInput("scen_per", "Scenario period", 2006, 2100, value = c(2021, 2050),step = 1,
+                             dragRange = F,   width = "220px"),
+                 
+                 selectInput("regio_scen", label = "Scenario",
+                             c("RCP4.5" =  "rcp45",
+                               "RCP8.5" =  "rcp85") ,
+                             width = "220px",
+                             selected = "RCP4.5"),
+                 
+                 selectInput("regio_season", label = "Season",
+                             c("Annual" = "Annual", "DJF" =  "DJF", "MAM" =  "MAM", 
+                               "JJA" =  "JJA", "SON" = "SON" ),
+                             width = "220px", selected = "Annual"),
+                 
+              
+                 actionButton("go", "Compute averages & changes", icon("sync"))
+               ),
+               h5("Map settings"),
+               wellPanel(
+                 selectInput("regio_period", label = "Dsplay on the map",
+                             c(
+                               "Historical period mean" = "mean_hist", 
+                               "Scenario period mean" = "mean_scen",
+                               "Changes in selected variable" = "change"),
+                             selected = "mean_scen", width = "220px"
+                             
+                 ),
+                 sliderInput("transp", "Transparency",
+                             min = 0, max = 1, ticks = F,
+                             value = 0.5, step = 0.1,
+                             width = "220px")
+               )
                
                
              ),

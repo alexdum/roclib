@@ -3,12 +3,15 @@
 # shape <- read_sf("misc/data/ro_uat_poligon_simp.shp") %>% st_set_crs (3844) %>% st_transform(4326)
 # names(shape)[1] <- "code"
 
-level_ag <- eventReactive(list(isolate(input$regio_ag),input$go,input$tab_being_displayed),{
+level_ag <- eventReactive(list(input$go,input$tab_being_displayed,input$regio_ag),{
+  
+  
   
   # selectare regiune
   region <- as.numeric(input$regio_ag)
+  
+  
   reg_param <- input$regio_param
-  reg_period <- input$regio_period
   reg_scen <- input$regio_scen
   reg_season <- input$regio_season
   hist_per <- input$hist_per
@@ -29,6 +32,25 @@ level_ag <- eventReactive(list(isolate(input$regio_ag),input$go,input$tab_being_
   # schimbare du funct calc_func
   dat_changes <- change_scen(dat_anomalies, reg_season, reg_param, hist_per, scen_per )
   
+  # region name 
+  
+  switch(region,
+         reg_name <- "NUTS2",
+         reg_name <- "NUTS3",
+         reg_name <- "LAU (UAT)"
+  )
+  #print(reg_name)
+  
+  
+  # parameter name 
+  switch (
+    which(c("tasAdjust","tasminAdjust","tasmaxAdjust","prAdjust" ) %in%  reg_param ),
+    reg_paramnam  <- "Tmean",
+    reg_paramnam <- "Tmin",
+    reg_paramnam <- "Tmax",
+    reg_paramnam <- "Precipitation"
+  )
+  
   
   switch(region,
          shape <- shape_region %>% right_join(dat_changes, by = c("code" = "name")),
@@ -37,13 +59,11 @@ level_ag <- eventReactive(list(isolate(input$regio_ag),input$go,input$tab_being_
   )
   
   
-  shape$values <- shape %>% data.frame() %>% dplyr::select(matches(reg_period)) %>% unlist()
   
-  source("sections/maps/details_settings.R", local = T)
   
   #print( paste(reg_param, region))
   # returneaza ca lista sa poti duce ambele variabile
-  list(shape = shape, pal = pal, pal2 = pal2, leaflet_titleg = leaflet_titleg,  reg_paramnam  = reg_paramnam ,
+  list(shape = shape, reg_paramnam  = reg_paramnam ,
        reg_name = reg_name, reg_season = reg_season, reg_scenform = reg_scenform, dat_anomalies = dat_anomalies, 
        reg_val = length(names(dat_anomalies)), reg_paraminit = reg_param)
   
@@ -108,14 +128,27 @@ output$map <- renderLeaflet ({
   
 })
 
-# this is the fun part!!! :)
+#vairabile pentru legenda proxi
+pal2.leg <- reactiveValues(leg = NULL, titl = NULL )
+
 observe({ 
-  
   req(input$tab_being_displayed == "Explore in detail") # Only display if tab is 'Explore in detail'
   
+  reg_period <- input$regio_period
+
+  shape <- level_ag()$shape
+
+  shape$values <- shape %>% data.frame() %>% dplyr::select(matches(reg_period)) %>% unlist()
+  
+  
+  source("sections/maps/details_settings.R", local = T)
+  
   opacy <- input$transp
-  data <- level_ag()$shape
-  palm <- level_ag()$pal
+  data <- shape
+  palm <- pal
+  pal2.leg$leg <- pal2
+  pal2.leg$titl<-  leaflet_titleg 
+
   
   leafletProxy("map",  data = data)  %>%
     clearShapes() %>%
@@ -159,8 +192,7 @@ observe({
 #Use a separate observer to recreate the legend as needed.
 observe({
   req(input$tab_being_displayed == "Explore in detail") # Only display if tab is 'Explore in detail'
-  
-  
+
   proxy <- leafletProxy( "map", data = start_county)
   # Remove any existing legend, and only if the legend is
   # enabled, create a new one.
@@ -181,8 +213,8 @@ observe({
         )
     ) %>% 
     addLegend(
-      title = paste0("<html>", gsub(",","",toString(rep("&nbsp;", 5))),level_ag()$leaflet_titleg,"</html>"),
-      "bottomright", pal = level_ag()$pal2, values = ~values, opacity = 1,
+      title = paste0("<html>", gsub(",","",toString(rep("&nbsp;", 5))), pal2.leg$titl,"</html>"),
+      "bottomright", pal = pal2.leg$leg, values = ~values, opacity = 1,
       labFormat = labelFormat(transform = function(x) sort(x, decreasing = TRUE))
     ) 
   #}
@@ -203,11 +235,12 @@ observe({
 
 
 values  <- reactiveValues(id = NULL, param = NULL, regio = NULL, scenario = NULL, season = NULL, reg_paramnam = NULL, name = NULL,
-                          code = NULL) %>% isolate()
+                          code = NULL) #%>% isolate()
 
 
 
-observeEvent(list(isolate(input$go),input$tab_being_displayed, level_ag()$reg_name),{
+observeEvent(list(isolate(input$go),input$tab_being_displayed,input$regio_ag),{
+  
   values$id <- level_ag()$reg_val
   values$param <-  level_ag()$reg_paraminit
   values$regio <-  level_ag()$reg_name
@@ -219,6 +252,7 @@ observeEvent(list(isolate(input$go),input$tab_being_displayed, level_ag()$reg_na
   values$name <- level_ag()$shape$name[first_sel]
   values$code <- level_ag()$shape$code[first_sel]
 })
+
 
 
 observeEvent(input$map_shape_click$id,{ 

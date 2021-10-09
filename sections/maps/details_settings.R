@@ -10,7 +10,7 @@ change.tt.col <- data.frame(cols = rev(colint(25)), vals = seq(-6,6, 0.5))
 # simboluri in functie de parametru
 
 # pentru temperatura medii
-if (reg_param != "prAdjust" & strsplit(reg_period,"_")[[1]][1] == "mean") {
+if (level_ag()$reg_paraminit != "prAdjust" & strsplit(reg_period,"_")[[1]][1] == "mean") {
   bins <- seq(round_even(min(shape$values), 2, 0), round_even(max(shape$values), 2, 1), by = 2)
   cols <- mean.tt.col$cols[mean.tt.col$vals >= bins[1] &  mean.tt.col$vals <= max(bins)]
   
@@ -23,7 +23,7 @@ if (reg_param != "prAdjust" & strsplit(reg_period,"_")[[1]][1] == "mean") {
 
 
 # pentru temperatura change
-if (reg_param != "prAdjust" & strsplit(reg_period,"_")[[1]][1] != "mean") {
+if (level_ag()$reg_paraminit != "prAdjust" & strsplit(reg_period,"_")[[1]][1] != "mean") {
   bins <- seq(round_even(min(shape$values), 0.5, 0), round_even(max(shape$values), 0.5, 1), by = 0.5)
   cols <- change.tt.col$cols[change.tt.col$vals >= bins[2] &  change.tt.col$vals <= max(bins)]
   
@@ -38,8 +38,8 @@ mean.pp.col.month <- data.frame(cols = colint(13), vals = seq(50,350, 25))
 
 
 # pentru precipitatii medii
-if (reg_param == "prAdjust" & strsplit(reg_period,"_")[[1]][1] == "mean") {
-  if (reg_season != "Annual") {
+if (level_ag()$reg_paraminit == "prAdjust" & strsplit(reg_period,"_")[[1]][1] == "mean") {
+  if (level_ag()$reg_season != "Annual") {
     bins <- seq(round_even(min(shape$values),  25, 0), round_even(max(shape$values),25, 1), by = 25)
     cols <- mean.pp.col.month$cols[mean.pp.col.month$vals >= bins[2] &  mean.pp.col.month$vals <= max(bins)]
   } else {
@@ -58,7 +58,7 @@ change.pp.col <- data.frame(cols = brewer.pal(11,"BrBG"), vals = seq(-25,25, 5))
 # image(1:10,1,as.matrix(1:10),col= colint(10),xlab="Greens (sequential)",
 #       xylab="",xaxt="n",yaxt="n",bty="n")§
 # pentru precipitation change change
-if (reg_param == "prAdjust" & strsplit(reg_period,"_")[[1]][1] != "mean") {
+if (level_ag()$reg_paraminit == "prAdjust" & strsplit(reg_period,"_")[[1]][1] != "mean") {
   bins <- seq(round_even(min(shape$values), 5, 0), round_even(max(shape$values), 5, 1), by = 5)
   cols <- change.pp.col$cols[change.pp.col$vals >= bins[1] &  change.pp.col$vals < max(bins)]
   
@@ -69,11 +69,11 @@ if (reg_param == "prAdjust" & strsplit(reg_period,"_")[[1]][1] != "mean") {
 
 # titlu legenda -----------------------------------------------------------
 
-if (reg_param != "prAdjust" & strsplit(reg_period,"_")[[1]][1] == "mean") {
+if (level_ag()$reg_paraminit != "prAdjust" & strsplit(reg_period,"_")[[1]][1] == "mean") {
   leaflet_titleg  <- "°C"
-} else if (reg_param == "prAdjust" & strsplit(reg_period,"_")[[1]][1] == "mean") {
+} else if (level_ag()$reg_paraminit == "prAdjust" & strsplit(reg_period,"_")[[1]][1] == "mean") {
   leaflet_titleg <- "l/m²"
-} else if (reg_param == "prAdjust" & strsplit(reg_period,"_")[[1]][1] != "mean") {
+} else if (level_ag()$reg_paraminit == "prAdjust" & strsplit(reg_period,"_")[[1]][1] != "mean") {
   leaflet_titleg <- "%"
 } else {
   leaflet_titleg <-  "°C"
@@ -83,24 +83,7 @@ if (reg_param != "prAdjust" & strsplit(reg_period,"_")[[1]][1] == "mean") {
 # info mouseover ----------------------------------------------------------
 
 
-# region name 
 
-switch(region,
-       reg_name <- "NUTS2",
-       reg_name <- "NUTS3",
-       reg_name <- "LAU (UAT)"
-)
-#print(reg_name)
-
-
-# parameter name 
-switch (
-  which(c("tasAdjust","tasminAdjust","tasmaxAdjust","prAdjust" ) %in%  reg_param ),
-  reg_paramnam  <- "Tmean",
-  reg_paramnam <- "Tmin",
-  reg_paramnam <- "Tmax",
-  reg_paramnam <- "Precipitation"
-)
 #var2 <- ifelse (input$Scenario == "rcp45",  "RCP4.5", "RCP8.5")
 
 # image(1:25,1,as.matrix(1:25),col= rev(colint(25)),xlab="Greens (sequential)",
