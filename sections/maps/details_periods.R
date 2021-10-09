@@ -3,7 +3,7 @@
 # shape <- read_sf("misc/data/ro_uat_poligon_simp.shp") %>% st_set_crs (3844) %>% st_transform(4326)
 # names(shape)[1] <- "code"
 
-level_ag <- eventReactive(list(input$go,input$tab_being_displayed),{
+level_ag <- eventReactive(list(isolate(input$regio_ag),input$go,input$tab_being_displayed),{
   
   # selectare regiune
   region <- as.numeric(input$regio_ag)
@@ -19,7 +19,7 @@ level_ag <- eventReactive(list(input$go,input$tab_being_displayed),{
   # reg_period <- "mean_scen"
   # reg_scen <-  "rcp45"
   # reg_season <- "DJF"
-
+  
   
   reg_scenform <- ifelse(reg_scen  == "rcp45",  "RCP4.5", "RCP8.5")
   
@@ -29,7 +29,7 @@ level_ag <- eventReactive(list(input$go,input$tab_being_displayed),{
   # schimbare du funct calc_func
   dat_changes <- change_scen(dat_anomalies, reg_season, reg_param, hist_per, scen_per )
   
- 
+  
   switch(region,
          shape <- shape_region %>% right_join(dat_changes, by = c("code" = "name")),
          shape <- shape_county %>% right_join(dat_changes, by = c("code" = "name")),
@@ -45,7 +45,7 @@ level_ag <- eventReactive(list(input$go,input$tab_being_displayed),{
   # returneaza ca lista sa poti duce ambele variabile
   list(shape = shape, pal = pal, pal2 = pal2, leaflet_titleg = leaflet_titleg,  reg_paramnam  = reg_paramnam ,
        reg_name = reg_name, reg_season = reg_season, reg_scenform = reg_scenform, dat_anomalies = dat_anomalies, 
-       reg_val = length(names(dat_anomalies)))
+       reg_val = length(names(dat_anomalies)), reg_paraminit = reg_param)
   
 })
 
@@ -161,7 +161,6 @@ observe({
   req(input$tab_being_displayed == "Explore in detail") # Only display if tab is 'Explore in detail'
   
   
-  
   proxy <- leafletProxy( "map", data = start_county)
   # Remove any existing legend, and only if the legend is
   # enabled, create a new one.
@@ -204,19 +203,23 @@ observe({
 
 
 values  <- reactiveValues(id = NULL, param = NULL, regio = NULL, scenario = NULL, season = NULL, reg_paramnam = NULL, name = NULL,
-                          code = NULL)
-observe({
+                          code = NULL) %>% isolate()
+
+
+
+observeEvent(list(isolate(input$go),input$tab_being_displayed, level_ag()$reg_name),{
   values$id <- level_ag()$reg_val
-  values$param <-  input$regio_param
+  values$param <-  level_ag()$reg_paraminit
   values$regio <-  level_ag()$reg_name
   values$scenario <- level_ag()$reg_scenform
   values$season <- level_ag()$reg_season
   values$reg_paramnam <- level_ag()$reg_paramnam
   # regiune implicita pe baza unui random number
-  values$name <- level_ag()$shape$name[sample(1:length(level_ag()$shape$code),1)]
-  values$code <- level_ag()$shape$code[sample(1:length(level_ag()$shape$code),1)]
-  
+  first_sel <- sample(1:length(level_ag()$shape$code),1)
+  values$name <- level_ag()$shape$name[first_sel]
+  values$code <- level_ag()$shape$code[first_sel]
 })
+
 
 observeEvent(input$map_shape_click$id,{ 
   values$id <- which(names(level_ag()$dat_anomalies) %in% input$map_shape_click$id)
@@ -270,8 +273,9 @@ output$cnty <- renderUI({
 
 
 output$plot_regio_evo_tit <- renderText({
-  level_ag()$shape$name[level_ag()$shape$code == values$id]
-  paste(values$name, values$season, tolower(values$reg_paramnam),"Historical and", values$scenario,  "1971 - 2100")
+  # print(level_ag()$shape$name[level_ag()$shape$code == values$id])
+  # paste(values$name, values$season, tolower(values$reg_paramnam),"Historical and", values$scenario,  "1971 - 2100")
+  paste(level_ag()$shape$name[level_ag()$shape$code ==   values$code], level_ag()$reg_name,level_ag()$reg_scenform,level_ag()$reg_season,level_ag()$reg_paramnam)
   
 })
 
@@ -284,8 +288,10 @@ output$plot_regio_evo<- renderPlotly({
   
   dd <- level_ag()$dat_anomalies[[values$id]]
   if(level_ag()$reg_season != "Annual") dd <- dd[dd$season == level_ag()$reg_season,]
-  #print(values$param)
-  gg <- plotly_evolution(dd, "obs_anom", "scen_anom_min", "scen_anom_mean","scen_anom_max", parameter = values$param)
+  print(values$param)
+  print(values$id)
+  print(head(dd))
+  gg <- plotly_evolution(dd, "obs_anom", "scen_anom_min", "scen_anom_mean","scen_anom_max", parameter =  level_ag()$reg_paraminit)
   gg
   
 })
@@ -294,7 +300,7 @@ output$plot_regio_evo<- renderPlotly({
 plot_regio_down <- reactive({
   dd <- level_ag()$dat_anomalies[[values$id]]
   if(level_ag()$reg_season != "Annual") dd <- dd[dd$season == level_ag()$reg_season,]
-  gg_evolution(dd, "obs_anom", "scen_anom_min", "scen_anom_mean","scen_anom_max", parameter = values$param)
+  gg_evolution(dd, "obs_anom", "scen_anom_min", "scen_anom_mean","scen_anom_max", parameter =level_ag()$reg_paraminit)
 })
 
 output$down_plot_regio <- downloadHandler(
