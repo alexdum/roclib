@@ -251,7 +251,7 @@ ui_maps <- tabPanel(
                            selected = "tasAdjust", width = "220px"),
                
                sliderInput("hist_per", "Historical period", 1971, 2005, value = c(1971, 2000),step = 1,
-                           sep = "", post=" ani",dragRange = F,   width = "220px"),
+                           dragRange = F,   width = "220px"),
                
                sliderInput("scen_per", "Scenario period", 2006, 2100, value = c(2021, 2050),step = 1,
                            dragRange = F,   width = "220px"),
