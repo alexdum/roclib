@@ -65,7 +65,8 @@ level_ag <- eventReactive(list(input$go,input$tab_being_displayed,input$regio_ag
   # returneaza ca lista sa poti duce ambele variabile
   list(shape = shape, reg_paramnam  = reg_paramnam ,
        reg_name = reg_name, reg_season = reg_season, reg_scenform = reg_scenform, dat_anomalies = dat_anomalies, 
-       reg_val = length(names(dat_anomalies)), reg_paraminit = reg_param)
+       reg_val = length(names(dat_anomalies)), reg_paraminit = reg_param, reg_hist_per = input$hist_per,
+       reg_scen_per = input$scen_per)
   
 })
 
@@ -202,7 +203,7 @@ observe({
   # enabled, create a new one.
   proxy %>% clearControls()
   #if (input$legend) {
-  proxy%>%
+  proxy %>%
     leaflet.extras2::addEasyprint(
       options =
         leaflet.extras2::easyprintOptions(
@@ -246,7 +247,6 @@ observeEvent(list(isolate(input$go),input$tab_being_displayed,input$regio_ag),{
 })
 
 
-
 observeEvent(list(isolate(input$go),input$map_shape_click$id),{ 
   values$id <- which(names(level_ag()$dat_anomalies) %in% input$map_shape_click$id)
   values$name <- level_ag()$shape$name[level_ag()$shape$code == input$map_shape_click$id]
@@ -255,22 +255,19 @@ observeEvent(list(isolate(input$go),input$map_shape_click$id),{
 }) 
 
 
-
-
 output$cnty <- renderUI({
   HTML(
-    paste(
+    paste0(
       "<table>
-        <caption>",
-      level_ag()$reg_name,level_ag()$reg_scenform,level_ag()$reg_season,level_ag()$reg_paramnam
-      ,"</caption>
+        <strong>",
+      level_ag()$reg_name," ",level_ag()$reg_scenform," ",level_ag()$reg_season," ", level_ag()$reg_paramnam
+      ,"</strong>
       <tr>
       <th style='padding:5px 10px 5px 5px'>Name Region</th>
-      <th style='padding:5px 10px 5px 5px'>Mean 1971-2010</th>
-      <th style='padding:5px 10px 5px 5px'>Mean 2021-2050</th>
-      <th style='padding:5px 10px 5px 5px'>Mean 2071-2100</th>
-      <th style='padding:5px 10px 5px 5px'>Change 2021-2050</th>
-      <th style='padding:5px 10px 5px 5px'>Change 2071-2100</th>
+      <th style='padding:5px 10px 5px 5px'>Mean ",level_ag()$reg_hist_per[1],"_",level_ag()$reg_hist_per[2],"</th>
+      <th style='padding:5px 10px 5px 5px'>Mean ",level_ag()$reg_scen_per[1],"_",level_ag()$reg_scen_per[2],"</th>
+      <th style='padding:5px 10px 5px 5px'>Change ",level_ag()$reg_scen_per[1],"_",level_ag()$reg_scen_per[2]," 
+      vs. ",level_ag()$reg_hist_per[1],"_",level_ag()$reg_hist_per[2],"</th>
       </tr>
       <tr>
       <td style='padding:5px 10px 5px 5px'>",level_ag()$shape$name[level_ag()$shape$code ==   values$code],"</td>
