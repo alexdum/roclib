@@ -3,13 +3,14 @@
 # shape <- read_sf("misc/data/ro_uat_poligon_simp.shp") %>% st_set_crs (3844) %>% st_transform(4326)
 # names(shape)[1] <- "code"
 
+
+# recptie data ------------------------------------------------------------
+
 level_ag <- eventReactive(list(input$go,input$tab_being_displayed,input$regio_ag),{
-  
   
   
   # selectare regiune
   region <- as.numeric(input$regio_ag)
-  
   
   reg_param <- input$regio_param
   reg_scen <- input$regio_scen
@@ -60,7 +61,6 @@ level_ag <- eventReactive(list(input$go,input$tab_being_displayed,input$regio_ag
   
   
   
-  
   #print( paste(reg_param, region))
   # returneaza ca lista sa poti duce ambele variabile
   list(shape = shape, reg_paramnam  = reg_paramnam ,
@@ -68,6 +68,10 @@ level_ag <- eventReactive(list(input$go,input$tab_being_displayed,input$regio_ag
        reg_val = length(names(dat_anomalies)), reg_paraminit = reg_param)
   
 })
+
+
+# harta leaflet -----------------------------------------------------------
+
 
 output$map <- renderLeaflet ({
   leaflet(start_county,
@@ -221,23 +225,11 @@ observe({
 })
 
 
-
-# mouseover data ----------------------------------------------------------
-
-
-
-# mouse click data --------------------------------------------------------
-
-# validate_event <- reactive({
-#   # I have used OR condition here, you can use AND also
-#   req(input$map_shape_click) | req(input$regio_ag)
-# })
+# reactive values ---------------------------------------------------------
 
 
 values  <- reactiveValues(id = NULL, param = NULL, regio = NULL, scenario = NULL, season = NULL, reg_paramnam = NULL, name = NULL,
                           code = NULL) #%>% isolate()
-
-
 
 observeEvent(list(isolate(input$go),input$tab_being_displayed,input$regio_ag),{
   
@@ -263,17 +255,6 @@ observeEvent(list(isolate(input$go),input$map_shape_click$id),{
 }) 
 
 
-
-
-
-#req(input$tab_being_displayed == "Explore in detail") # Only display if tab is 'Explore in detail'
-
-# output$params_name <- renderUI(
-#   HTML(
-#     paste(
-#       "<b>Region</b>",level_ag()$reg_name,"<b>Climate Scenario</b>",level_ag()$reg_scenform,"<b>Parameter</b>",level_ag()$reg_season, level_ag()$reg_paramnam)
-#   )
-# )
 
 
 output$cnty <- renderUI({
@@ -314,7 +295,7 @@ output$plot_regio_evo_tit <- renderText({
 
 # grafic ------------------------------------------------------------------
 
-#grafic plot
+# grafic plot
 output$plot_regio_evo<- renderPlotly({
   
   dd <- level_ag()$dat_anomalies[[values$id]]
@@ -350,7 +331,7 @@ output$down_plot_regio <- downloadHandler(
 
 
 
-# date --------------------------------------------------------------------
+# date grafic ------------------------------------------------------------------
 
 
 
@@ -372,7 +353,7 @@ output$change_regio <- DT::renderDT({
   
 })
 
-# 
+# # click mouseover
 # observe({ 
 #   
 #   #req(input$tab_being_displayed == "Explore in detail") # Only display if tab is 'Explore in detail'
