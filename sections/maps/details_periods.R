@@ -264,10 +264,10 @@ output$cnty <- renderUI({
       ,"</strong>
       <tr>
       <th style='padding:5px 10px 5px 5px'>Name Region</th>
-      <th style='padding:5px 10px 5px 5px'>Mean ",level_ag()$reg_hist_per[1],"_",level_ag()$reg_hist_per[2],"</th>
-      <th style='padding:5px 10px 5px 5px'>Mean ",level_ag()$reg_scen_per[1],"_",level_ag()$reg_scen_per[2],"</th>
-      <th style='padding:5px 10px 5px 5px'>Change ",level_ag()$reg_scen_per[1],"_",level_ag()$reg_scen_per[2]," 
-      vs. ",level_ag()$reg_hist_per[1],"_",level_ag()$reg_hist_per[2],"</th>
+      <th style='padding:5px 10px 5px 5px'>Mean ",level_ag()$reg_hist_per[1],"-",level_ag()$reg_hist_per[2],"</th>
+      <th style='padding:5px 10px 5px 5px'>Mean ",level_ag()$reg_scen_per[1],"-",level_ag()$reg_scen_per[2],"</th>
+      <th style='padding:5px 10px 5px 5px'>Change ",level_ag()$reg_scen_per[1],"-",level_ag()$reg_scen_per[2]," 
+      vs. ",level_ag()$reg_hist_per[1],"-",level_ag()$reg_hist_per[2],"</th>
       </tr>
       <tr>
       <td style='padding:5px 10px 5px 5px'>",level_ag()$shape$name[level_ag()$shape$code ==   values$code],"</td>
