@@ -255,7 +255,7 @@ observeEvent(list(isolate(input$go),input$tab_being_displayed,input$regio_ag),{
 
 
 
-observeEvent(input$map_shape_click$id,{ 
+observeEvent(list(isolate(input$go),input$map_shape_click$id),{ 
   values$id <- which(names(level_ag()$dat_anomalies) %in% input$map_shape_click$id)
   values$name <- level_ag()$shape$name[level_ag()$shape$code == input$map_shape_click$id]
   values$code <- level_ag()$shape$code[level_ag()$shape$code == input$map_shape_click$id]
@@ -303,13 +303,10 @@ output$cnty <- renderUI({
 })
 
 
-
-
-
 output$plot_regio_evo_tit <- renderText({
   # print(level_ag()$shape$name[level_ag()$shape$code == values$id])
   # paste(values$name, values$season, tolower(values$reg_paramnam),"Historical and", values$scenario,  "1971 - 2100")
-  paste(level_ag()$shape$name[level_ag()$shape$code ==   values$code], level_ag()$reg_name,level_ag()$reg_scenform,level_ag()$reg_season,level_ag()$reg_paramnam)
+  paste(level_ag()$shape$name[level_ag()$shape$code == values$code], level_ag()$reg_name,level_ag()$reg_scenform,level_ag()$reg_season,level_ag()$reg_paramnam)
   
 })
 

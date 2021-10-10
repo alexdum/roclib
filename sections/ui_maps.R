@@ -239,7 +239,7 @@ ui_maps <- tabPanel(
              
              sidebarPanel(
                width = 3,
-               h5("Select administrative unit"),
+               h5("Select type of administrative unit"),
                wellPanel(
                  selectInput("regio_ag", label = "Regional level",
                              c(
@@ -272,7 +272,7 @@ ui_maps <- tabPanel(
                              width = "220px", selected = "Annual"),
                  
               
-                 actionButton("go", "Compute averages & changes", icon("sync"))
+                 actionButton("go", "Compute average & change", icon("sync"))
                ),
                h5("Map settings"),
                wellPanel(
