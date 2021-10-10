@@ -231,7 +231,7 @@ ui_maps <- tabPanel(
                     tags$h6(" "),
                     HTML("The climate variables and indicators are aggregated at the NUTS2 (Regions), NUTS3 (Counties) 
            and LAU (Local administrative units) 
-           (see <a href='https://en.wikipedia.org/wiki/NUTS_statistical_regions_of_Romania#Local_administrative_units'>Romania administrative units</a> )."),
+           (see <a href='https://en.wikipedia.org/wiki/NUTS_statistical_regions_of_Romania#Local_administrative_units' target='_blank'> Romania administrative units</a> )."),
            tags$br(""),
            
            sidebarLayout(
@@ -272,7 +272,7 @@ ui_maps <- tabPanel(
                              width = "220px", selected = "Annual"),
                  
               
-                 actionButton("go", "Compute average & change", icon("sync"))
+                 actionButton("go", "Update values and map", icon("sync"))
                ),
                h5("Map settings"),
                wellPanel(
