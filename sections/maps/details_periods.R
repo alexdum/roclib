@@ -18,11 +18,11 @@ level_ag <- eventReactive(list(input$go,input$tab_being_displayed,input$regio_ag
   hist_per <- input$hist_per
   scen_per <- input$scen_per
   # print(hist_per)
-  # region <- 2
+  # region <- 3
   # reg_param <- "prAdjust"
   # reg_period <- "mean_scen"
   # reg_scen <-  "rcp45"
-  # reg_season <- "DJF"
+  # reg_season <- "JJA"
   # hist_per <- c(1971,2000)
   # scen_per <- c(2021,2050)
   
@@ -30,10 +30,15 @@ level_ag <- eventReactive(list(input$go,input$tab_being_displayed,input$regio_ag
   reg_scenform <- ifelse(reg_scen  == "rcp45",  "RCP4.5", "RCP8.5")
   
   dat <- readRDS(paste0("www/data/tabs/anomalies/variables/",c("region","county", "uat")[region],"_anomalies_",ifelse(reg_season == "Annual", "annual", "seasons"),"_",reg_param,"_",reg_scen,"_1971_2100.rds"))
+  name_anom <- names(dat$anomalies)
   
-  dat_anomalies <- dat$anomalies
+  dat_anomalies <- dat$anomalies %>% data.table::rbindlist(idcol = 'name') %>%  filter(if("season" %in% names(.)) season == reg_season else TRUE) %>%
+             as_tibble()
+
+ 
+  # print(head(dat_anomalies))
   # schimbare du funct calc_func
-  dat_changes <- change_scen(dat_anomalies, reg_season, reg_param, hist_per, scen_per )
+  dat_changes <- change_scen(dat_anomalies, reg_param, hist_per, scen_per )
   
   # region name 
   
@@ -68,7 +73,7 @@ level_ag <- eventReactive(list(input$go,input$tab_being_displayed,input$regio_ag
   list(shape = shape, reg_paramnam  = reg_paramnam ,
        reg_name = reg_name, reg_season = reg_season, reg_scenform = reg_scenform, dat_anomalies = dat_anomalies, 
        reg_val = length(names(dat_anomalies)), reg_paraminit = reg_param, reg_hist_per = input$hist_per,
-       reg_scen_per = input$scen_per)
+       reg_scen_per = input$scen_per,  name_anom =  name_anom )
   
 })
 
@@ -243,27 +248,30 @@ observeEvent(list(isolate(input$go),input$tab_being_displayed, input$regio_ag),{
   first_sel <- sample(1:length(level_ag()$shape$code),1)
   values$name <- level_ag()$shape$name[first_sel]
   values$code <- level_ag()$shape$code[first_sel]
-  values$id <- which(names(level_ag()$dat_anomalies) %in% values$code)
+  values$id <- level_ag()$name_anom[level_ag()$name_anom %in% as.numeric(values$code)]
+  print(paste(values$id ,"observe"))
   # print(names(level_ag()$dat_anomalies))
   # print(values$code)
   # print(paste("values$id react values", values$id))
 })
 
-observeEvent(list(isolate(input$go),input$map_shape_click$id),{ 
-  values$id <- which(names(level_ag()$dat_anomalies) %in% input$map_shape_click$id)
+observeEvent(input$map_shape_click$id,{ 
+  values$id <- level_ag()$name_anom[level_ag()$name_anom %in% input$map_shape_click$id]
+  print(paste(values$id ,"click"))
   values$name <- level_ag()$shape$name[level_ag()$shape$code == input$map_shape_click$id]
   values$code <- level_ag()$shape$code[level_ag()$shape$code == input$map_shape_click$id]
   
 }) 
 
-data_sub <- reactive({
+data_sub <- eventReactive(list(input$go,values$id), {
   #print(dim( level_ag()$dat_anomalies))
   dd <- level_ag()$dat_anomalies
-  print(paste("values$id length anom", length(names(dd))))
   print(paste("values$id plot",values$id))
-  dd <- dd[[values$id]]
+  dd <- dd %>% filter(as.numeric(name) == values$id)
   print(head(dd))
-  if(level_ag()$reg_season != "Annual") dd <- dd[dd$season == level_ag()$reg_season,]
+  #print(head(dd))
+  
+  
   list(dd = dd)
 })
 
