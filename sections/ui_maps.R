@@ -239,13 +239,26 @@ ui_maps <- tabPanel(
              
              sidebarPanel(
                width = 3,
-               h5("Select type of administrative unit"),
+               h5("Map settings"),
                wellPanel(
-                 selectInput("regio_ag", label = "Regional level",
+                 selectInput("regio_ag", label = "Select type of administrative unit",
                              c(
                                "NUTS2" = 1,"NUTS3" = 2, "LAU (UAT)"= 3
-                             ), selected = 2, width = "220px")
+                             ), selected = 2, width = "220px"), 
+                 selectInput("regio_period", label = "Parameter to display on the map",
+                             c(
+                               "Historical period mean" = "mean_hist", 
+                               "Scenario period mean" = "mean_scen",
+                               "Changes in selected variable" = "change"),
+                             selected = "mean_scen", width = "220px"
+                             
+                 ),
+                 sliderInput("transp", "Transparency",
+                             min = 0, max = 1, ticks = F,
+                             value = 0.5, step = 0.1,
+                             width = "220px")
                ),
+               
                h5("Select parameters to compute changes"),
                wellPanel(
                  
@@ -255,10 +268,10 @@ ui_maps <- tabPanel(
                              selected = "tasAdjust", width = "220px"),
                  
                  sliderInput("hist_per", "Historical period", 1971, 2005, value = c(1971, 2000),step = 1,
-                             dragRange = F,   width = "220px"),
+                             dragRange = F, sep = "", width = "220px"),
                  
                  sliderInput("scen_per", "Scenario period", 2006, 2100, value = c(2021, 2050),step = 1,
-                             dragRange = F,   width = "220px"),
+                             dragRange = F, sep = "",  width = "220px"),
                  
                  selectInput("regio_scen", label = "Scenario",
                              c("RCP4.5" =  "rcp45",
@@ -273,22 +286,8 @@ ui_maps <- tabPanel(
                  
               
                  actionButton("go", "Update values and map", icon("sync"))
-               ),
-               h5("Map settings"),
-               wellPanel(
-                 selectInput("regio_period", label = "Dsplay on the map",
-                             c(
-                               "Historical period mean" = "mean_hist", 
-                               "Scenario period mean" = "mean_scen",
-                               "Changes in selected variable" = "change"),
-                             selected = "mean_scen", width = "220px"
-                             
-                 ),
-                 sliderInput("transp", "Transparency",
-                             min = 0, max = 1, ticks = F,
-                             value = 0.5, step = 0.1,
-                             width = "220px")
                )
+              
                
                
              ),
