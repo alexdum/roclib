@@ -31,9 +31,9 @@ ui <- shinyUI(
                   # responsive images
                   "img {max-width: 100%; width: 100%; height: auto}",
                   # sliders color toate 3
-                  ".js-irs-0 .irs-to,.js-irs-0 .irs-from , .js-irs-0 .irs-bar-edge, .js-irs-0 .irs-bar {background: #E95420; border-color: #E95420;}",
+                  ".js-irs-0 .irs-single, .js-irs-0 .irs-bar-edge, .js-irs-0 .irs-bar {background: #E95420; border-color: #E95420;}",
                   ".js-irs-1 .irs-to,.js-irs-1 .irs-from , .js-irs-1 .irs-bar-edge, .js-irs-1 .irs-bar {background: #E95420; border-color: #E95420;}",
-                  ".js-irs-2 .irs-single, .js-irs-2 .irs-bar-edge, .js-irs-2 .irs-bar {background: #E95420; border-color: #E95420;}"
+                  ".js-irs-2 .irs-to,.js-irs-2 .irs-from , .js-irs-2 .irs-bar-edge, .js-irs-2 .irs-bar {background: #E95420; border-color: #E95420;}"
                   # inaltime navbaer
                   #'.navbar-brand{display:none;}'
                   #'
