@@ -1,8 +1,8 @@
 # calculeaza si sintezele medii, mulitanuale
-change_scen <- function (input, seas, param, hist_per, scen_per ) {
-  bind_rows(input, .id = 'name') %>% 
-    filter(if("season" %in% names(.)) season == seas else TRUE) %>%
-    mutate(an = format(data, "%Y")) %>%
+change_scen <- function (input, param, hist_per, scen_per ) {
+  #bind_rows(input, .id = 'name') %>% 
+  #filter(if("season" %in% names(.)) season == seas else TRUE) %>%
+  input %>% mutate(an = format(data, "%Y")) %>%
     group_by(name) %>% 
     summarise(
       mean_hist = mean(scen_param_mean[an %in% hist_per[1]:hist_per[2]]) %>% round(1),
@@ -13,5 +13,6 @@ change_scen <- function (input, seas, param, hist_per, scen_per ) {
       )
     )
 }
+
 
 
