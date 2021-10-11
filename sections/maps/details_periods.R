@@ -249,7 +249,7 @@ observeEvent(list(isolate(input$go),input$tab_being_displayed, input$regio_ag),{
   values$name <- level_ag()$shape$name[first_sel]
   values$code <- level_ag()$shape$code[first_sel]
   values$id <- level_ag()$name_anom[level_ag()$name_anom %in% as.numeric(values$code)]
-  print(paste(values$id ,"observe"))
+  #print(paste(values$id ,"observe"))
   # print(names(level_ag()$dat_anomalies))
   # print(values$code)
   # print(paste("values$id react values", values$id))
@@ -257,7 +257,7 @@ observeEvent(list(isolate(input$go),input$tab_being_displayed, input$regio_ag),{
 
 observeEvent(input$map_shape_click$id,{ 
   values$id <- level_ag()$name_anom[level_ag()$name_anom %in% input$map_shape_click$id]
-  print(paste(values$id ,"click"))
+  #print(paste(values$id ,"click"))
   values$name <- level_ag()$shape$name[level_ag()$shape$code == input$map_shape_click$id]
   values$code <- level_ag()$shape$code[level_ag()$shape$code == input$map_shape_click$id]
   
@@ -266,9 +266,9 @@ observeEvent(input$map_shape_click$id,{
 data_sub <- eventReactive(list(input$go,values$id), {
   #print(dim( level_ag()$dat_anomalies))
   dd <- level_ag()$dat_anomalies
-  print(paste("values$id plot",values$id))
+  #print(paste("values$id plot",values$id))
   dd <- dd %>% filter(as.numeric(name) == values$id)
-  print(head(dd))
+  #print(head(dd))
   #print(head(dd))
   
   
