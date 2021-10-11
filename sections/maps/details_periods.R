@@ -164,7 +164,7 @@ observe({
       fillColor = ~palm(values), 
       label = ~paste("<font size='2'><b>Region type:",level_ag()$reg_name, "<br/>Name units:",name,
                      "</b></font><br/>
-                     <font size='1' color='#ff0000'>Click to 
+                     <font size='1' color='#E95420'>Click to 
                      get values and graph</font>") %>% lapply(htmltools::HTML),
       #  labelOptions = labelOptions(textsize = "13px"),
       color = "grey",
