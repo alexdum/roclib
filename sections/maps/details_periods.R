@@ -289,7 +289,7 @@ output$cnty <- renderUI({
       <td style='padding:5px 10px 5px 5px'>",round(level_ag()$shape$change[level_ag()$shape$code ==   values$code], 1),"</td>
      </tr>
       </table>",
-     "<font size='2' color='#ff0000'>Click on the region of interest to update the values and graph below the map </font>"
+     "<font size='2' color='#E95420'>Click on the region of interest to update the values and graph below the map </font>"
     )
   )
 })
