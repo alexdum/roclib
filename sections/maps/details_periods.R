@@ -33,9 +33,9 @@ level_ag <- eventReactive(list(input$go,isolate(input$tab_being_displayed),input
   name_anom <- names(dat$anomalies)
   
   dat_anomalies <- dat$anomalies %>% data.table::rbindlist(idcol = 'name') %>%  filter(if("season" %in% names(.)) season == reg_season else TRUE) %>%
-             as_tibble()
-
- 
+    as_tibble()
+  
+  
   # print(head(dat_anomalies))
   # schimbare du funct calc_func
   dat_changes <- change_scen(dat_anomalies, reg_param, hist_per, scen_per )
@@ -144,7 +144,7 @@ output$map <- renderLeaflet ({
 pal2.leg <- reactiveValues(leg = NULL, titl = NULL )
 
 observe({ 
-  req(input$tab_being_displayed == "Explore in detail") # Only display if tab is 'Explore in detail'
+  req(input$regio_period) # Only display if tab is 'Explore in detail'
   
   # adauga values pentru legenda
   reg_period <- input$regio_period
@@ -204,7 +204,7 @@ observe({
 
 #Use a separate observer to recreate the legend as needed.
 observe({
-  req(input$tab_being_displayed == "Explore in detail") # Only display if tab is 'Explore in detail'
+  req(pal2.leg$leg) # Only display if tab is 'Explore in detail'
   
   proxy <- leafletProxy( "map", data = start_county)
   # Remove any existing legend, and only if the legend is
