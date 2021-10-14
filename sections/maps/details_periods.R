@@ -6,7 +6,7 @@
 
 # recptie data ------------------------------------------------------------
 
-level_ag <- eventReactive(list(input$go,input$tab_being_displayed,input$regio_ag),{
+level_ag <- eventReactive(list(input$go,isolate(input$tab_being_displayed),input$regio_ag),{
   
   
   # selectare regiune
@@ -239,7 +239,7 @@ observe({
 
 values  <- reactiveValues(id = NULL, name = NULL, code = NULL)
 
-observeEvent(list(isolate(input$go),input$tab_being_displayed, input$regio_ag),{
+observeEvent(list(isolate(input$go),isolate(input$tab_being_displayed), input$regio_ag),{
   
   #values$id <- level_ag()$reg_val
   #print(level_ag()$reg_val)
