@@ -144,7 +144,7 @@ output$map <- renderLeaflet ({
 pal2.leg <- reactiveValues(leg = NULL, titl = NULL )
 
 observe({ 
-  req(!is.null(level_ag()$reg_name)) # Only display if tab is 'Explore in detail'
+  req(input$tab_being_displayed == "Explore in detail")  # Only display if tab is 'Explore in detail'
   
   # adauga values pentru legenda
   reg_period <- input$regio_period
@@ -204,7 +204,7 @@ observe({
 
 #Use a separate observer to recreate the legend as needed.
 observe({
-  req(!is.null(level_ag()$reg_name)) # Only display if tab is 'Explore in detail'
+  req(input$tab_being_displayed == "Explore in detail")  # Only display if tab is 'Explore in detail'
   
   proxy <- leafletProxy( "map", data = start_county)
   # Remove any existing legend, and only if the legend is
