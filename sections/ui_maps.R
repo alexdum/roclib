@@ -239,7 +239,7 @@ ui_maps <- tabPanel(
              
              tabPanel(
                value = "Climate variables",
-               title = h5("Climate variables"),
+               title = h6("Climate variables"),
                
                sidebarLayout(
                  fluid = T,
@@ -338,7 +338,7 @@ ui_maps <- tabPanel(
              # Details ind ------------------------------------------------------
              tabPanel(
                value = "Indicator",
-               title = h5("Indicators"),
+               title = h6("Indicators"),
                
                sidebarLayout(
                  fluid = T,
@@ -392,7 +392,7 @@ ui_maps <- tabPanel(
                 
                      
                      
-                     actionButton("go", "Update values and map", icon("sync"))
+                     actionButton("go_ind", "Update values and map", icon("sync"))
                    )
                    
                    
@@ -400,7 +400,10 @@ ui_maps <- tabPanel(
                  ),
                  
                  mainPanel(
-                   width = 9
+                   width = 9,
+                   wellPanel(
+                     leafletOutput("map.ind"),
+                   )
                  )
                  
                  
