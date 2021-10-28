@@ -70,9 +70,11 @@ if (level_ag()$reg_paraminit == "prAdjust" & strsplit(reg_period,"_")[[1]][1] !=
   pal2 <- colorBin(cols, domain = shape$values, bins = bins, reverse = T)
 }
 
-
 #colint <- colorRampPalette(brewer.pal(11,"BrBG") , interpolate="linear")
 change.pp.col <- data.frame(cols = brewer.pal(11,"BrBG"), vals = seq(-25,25, 5))
+
+
+
 
 # titlu legenda -----------------------------------------------------------
 
