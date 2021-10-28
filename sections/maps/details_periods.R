@@ -149,7 +149,7 @@ output$map <- renderLeaflet ({
 pal2.leg <- reactiveValues(leg = NULL, titl = NULL )
 
 observe({ 
-  req(input$tab_being_displayed == "Explore in detail")  # Only display if tab is 'Explore in detail'
+  req(input$tab_being_displayed == "Climate variables")  # Only display if tab is 'Climate variables'
   
   # adauga values pentru legenda
   reg_period <- input$regio_period
@@ -205,7 +205,7 @@ observe({
 
 #Use a separate observer to recreate the legend as needed.
 observe({
-  req(input$tab_being_displayed == "Explore in detail")  # Only display if tab is 'Explore in detail'
+  req(input$tab_being_displayed == "Climate variables")  # Only display if tab is 'Climate variables'
   
   proxy <- leafletProxy( "map", data = start_county)
   # Remove any existing legend, and only if the legend is
@@ -371,7 +371,7 @@ output$change_regio <- DT::renderDT({
 # # click mouseover
 # observe({ 
 #   
-#   #req(input$tab_being_displayed == "Explore in detail") # Only display if tab is 'Explore in detail'
+#   #req(input$tab_being_displayed == "Climate variables") # Only display if tab is 'Climate variables'
 #   
 #   # output$params_name <- renderUI(
 #   #   HTML(
