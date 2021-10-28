@@ -224,7 +224,7 @@ ui_maps <- tabPanel(
       )
     ),
     
-    # Explore in details ------------------------------------------------------
+    # Details vars ------------------------------------------------------
     
     tabPanel(value = "Explore in detail",
              title = h5("Explore in detail"),
@@ -236,6 +236,7 @@ ui_maps <- tabPanel(
            
            tabsetPanel( 
              id = "tab_being_displayed",
+             
              tabPanel(
                value = "Climate variables",
                title = h5("Climate variables"),
@@ -331,6 +332,78 @@ ui_maps <- tabPanel(
                    ) 
                    
                  )
+               )
+             ),
+             
+             # Details ind ------------------------------------------------------
+             tabPanel(
+               value = "Indicator",
+               title = h5("Indicators"),
+               
+               sidebarLayout(
+                 fluid = T,
+                 
+                 sidebarPanel(
+                   width = 3,
+                   h5("Map settings"),
+                   wellPanel(
+                     selectInput("regio_ag_ind", label = "Select type of administrative unit",
+                                 c(
+                                   "NUTS2" = 1,"NUTS3" = 2, "LAU (UAT)"= 3
+                                 ), selected = 2, width = "220px"), 
+                     selectInput("regio_period_ind", label = "Parameter to display on the map",
+                                 c(
+                                   "Historical period mean" = "mean_hist", 
+                                   "Scenario period mean" = "mean_scen",
+                                   "Changes in selected variable" = "change"),
+                                 selected = "mean_scen", width = "220px"
+                                 
+                     ),
+                     sliderInput("transp_ind", "Transparency",
+                                 min = 0, max = 1, ticks = F,
+                                 value = 0.5, step = 0.1,
+                                 width = "220px")
+                   ),
+                   
+                   h5("Select parameters to compute changes"),
+                   wellPanel(
+                     
+                     selectInput("regio_ind", label = "Indicator",
+                                 c(
+                                   "Heat units Spring" = "heat u spring","Heat units Fall" = "heat u fall",
+                                   "Scorching number of days" = "scorch no", "Scorching units" = "scorch u",
+                                   "Cold units" =  "coldu", "Frost units 10" = "frostu 10",
+                                   "Frost units 15" = "frostu 15","Frost units 20" = "frostu 20",
+                                   "Precipitation vegetation" = "pr veget", "Precipitation Fall" = "pr fall",
+                                   "Precipitation Winter" = "pr winter"
+                                 ), selected = "Heat units Spring", width = "220px"),
+                     
+                     sliderInput("hist_per_ind", "Historical period", 1971, 2005, value = c(1971, 2000),step = 1,
+                                 dragRange = F, sep = "", width = "220px"),
+                     
+                     sliderInput("scen_per", "Scenario period", 2006, 2100, value = c(2021, 2050),step = 1,
+                                 dragRange = F, sep = "",  width = "220px"),
+                     
+                     selectInput("regio_scen_ind", label = "Scenario",
+                                 c("RCP4.5" =  "rcp45",
+                                   "RCP8.5" =  "rcp85") ,
+                                 width = "220px",
+                                 selected = "RCP4.5"),
+                
+                     
+                     
+                     actionButton("go", "Update values and map", icon("sync"))
+                   )
+                   
+                   
+                   
+                 ),
+                 
+                 mainPanel(
+                   width = 9
+                 )
+                 
+                 
                )
              )
            )
