@@ -90,8 +90,8 @@ output$map <- renderLeaflet ({
     leaflet.extras::addBootstrapDependency() %>%
     setView(25, 46, zoom = 6) %>%
     setMaxBounds(20, 43.5, 30, 48.2) %>% 
-    # addMapPane(name = "pol", zIndex = 500) %>% 
-    #  addMapPane(name = "maplabels", zIndex = 520) %>%
+    addMapPane(name = "pol", zIndex = 410) %>% 
+    addMapPane(name = "maplabels", zIndex = 420) %>%
     addProviderTiles(
       "CartoDB.PositronNoLabels"
     )   %>% 
@@ -104,6 +104,11 @@ output$map <- renderLeaflet ({
     addLayersControl(baseGroups = "CartoDB.PositronNoLabels",
                      overlayGroups = c("map labels",
                                        "region"))  %>% 
+    addProviderTiles(
+      "CartoDB.PositronOnlyLabels",
+      options = pathOptions(pane = "maplabels"),
+      group = "map labels"
+    ) %>%
     leaflet.extras::addSearchOSM (
       options = 
         leaflet.extras::searchOptions(
@@ -177,7 +182,7 @@ observe({
       opacity = 0.5, 
       fillOpacity = opacy ,
       layerId = ~code,
-      #options = leafletOptions(pane = "pol"),
+      options = pathOptions(pane = "pol"),
       group = "region",
       highlightOptions = highlightOptions(
         weight = 2,
@@ -186,12 +191,8 @@ observe({
         bringToFront = TRUE,
         sendToBack = TRUE
       ) 
-    )   %>% 
-    addProviderTiles(
-      "CartoDB.PositronOnlyLabels",
-      # options = leafletOptions(pane = "maplabels"),
-      group = "map labels"
-    ) 
+    )   
+   
   # %>%
   # addLegend(
   #   "bottomright", pal = level_ag()$pal2, values = level_ag()$shape$values, opacity = 1,
