@@ -14,6 +14,12 @@ ui <- shinyUI(
                 # includeHTML("google-analytics.html"),
                 tags$style(
                   type = "text/css", 
+                  
+                  # addmapane leflet
+                  "img.leaflet-tile {
+                    max-width: none !important;
+                    max-height: none !important;
+                  }",
                   "header {
                     border: 1px solid blue;
                     height: 150px;
