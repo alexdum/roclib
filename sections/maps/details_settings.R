@@ -1,4 +1,9 @@
 #display.brewer.pal(9,"YlOrRd")
+
+
+# culori ------------------------------------------------------------------
+
+
 colint <- colorRampPalette( brewer.pal(9,"YlOrRd") , interpolate="linear")
 mean.tt.col <- data.frame(cols = c(rev(brewer.pal(4,"Blues")),colint(17)), vals = seq(-8,32, 2))
 
@@ -10,7 +15,7 @@ change.tt.col <- data.frame(cols = rev(colint(25)), vals = seq(-6,6, 0.5))
 # simboluri in functie de parametru
 
 # pentru temperatura medii
-if (level_ag()$reg_paraminit != "prAdjust" & strsplit(reg_period,"_")[[1]][1] == "mean") {
+if (substr(level_ag()$reg_paraminit, 1,3) == "tas" & strsplit(reg_period,"_")[[1]][1] == "mean") {
   bins <- seq(round_even(min(shape$values), 2, 0), round_even(max(shape$values), 2, 1), by = 2)
   cols <- mean.tt.col$cols[mean.tt.col$vals >= bins[1] &  mean.tt.col$vals <= max(bins)]
   
@@ -21,9 +26,8 @@ if (level_ag()$reg_paraminit != "prAdjust" & strsplit(reg_period,"_")[[1]][1] ==
   # print(range(shape$values))
 }
 
-
 # pentru temperatura change
-if (level_ag()$reg_paraminit != "prAdjust" & strsplit(reg_period,"_")[[1]][1] != "mean") {
+if (substr(level_ag()$reg_paraminit, 1,3) == "tas" & strsplit(reg_period,"_")[[1]][1] != "mean") {
   bins <- seq(round_even(min(shape$values), 0.5, 0), round_even(max(shape$values), 0.5, 1), by = 0.5)
   cols <- change.tt.col$cols[change.tt.col$vals >= bins[2] &  change.tt.col$vals <= max(bins)]
   
@@ -66,6 +70,9 @@ if (level_ag()$reg_paraminit == "prAdjust" & strsplit(reg_period,"_")[[1]][1] !=
   pal2 <- colorBin(cols, domain = shape$values, bins = bins, reverse = T)
 }
 
+
+#colint <- colorRampPalette(brewer.pal(11,"BrBG") , interpolate="linear")
+change.pp.col <- data.frame(cols = brewer.pal(11,"BrBG"), vals = seq(-25,25, 5))
 
 # titlu legenda -----------------------------------------------------------
 
