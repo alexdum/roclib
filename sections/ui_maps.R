@@ -337,7 +337,7 @@ ui_maps <- tabPanel(
              
              # Details ind ------------------------------------------------------
              tabPanel(
-               value = "Indicator",
+               value = "Indicators",
                title = h6("Indicators"),
                
                sidebarLayout(
@@ -370,7 +370,7 @@ ui_maps <- tabPanel(
                      
                      selectInput("regio_ind", label = "Indicator",
                                  c(
-                                   "Heat units Spring" = "heat u spring","Heat units Fall" = "heat u fall",
+                                   "Heat units Spring" = "heatuspring","Heat units Fall" = "heat u fall",
                                    "Scorching number of days" = "scorch no", "Scorching units" = "scorch u",
                                    "Cold units" =  "coldu", "Frost units 10" = "frostu 10",
                                    "Frost units 15" = "frostu 15","Frost units 20" = "frostu 20",
@@ -381,7 +381,7 @@ ui_maps <- tabPanel(
                      sliderInput("hist_per_ind", "Historical period", 1971, 2005, value = c(1971, 2000),step = 1,
                                  dragRange = F, sep = "", width = "220px"),
                      
-                     sliderInput("scen_per", "Scenario period", 2006, 2100, value = c(2021, 2050),step = 1,
+                     sliderInput("scen_per_ind", "Scenario period", 2006, 2100, value = c(2021, 2050),step = 1,
                                  dragRange = F, sep = "",  width = "220px"),
                      
                      selectInput("regio_scen_ind", label = "Scenario",
