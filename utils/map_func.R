@@ -1,19 +1,25 @@
 # culori culori leaflet indicatori agro---------------------------------------------------------
 
 leg_leaf_ind <- function (input, reg_period, param) {
+  # culori interpolate
   colintYlOrRd <- colorRampPalette( brewer.pal(9,"YlOrRd"),interpolate="linear")
   colintBrBG <- colorRampPalette( brewer.pal(11,"BrBG")[1:5],interpolate="linear")
+  colintBlues <- colorRampPalette(brewer.pal(9,"Blues"), interpolate="linear")
+  colintBuPu <- colorRampPalette(brewer.pal(9,"BuPu"), interpolate="linear")
+  colintPuRd <- colorRampPalette(brewer.pal(9,"PuRd"), interpolate="linear")
+  colintYlOrBr <- colorRampPalette(brewer.pal(9,"YlOrBr"), interpolate="linear")
+  colintinferno <- colorRampPalette(rev(viridis::inferno(14)), interpolate="linear")
   
   if (param %in% c("heatuspring")) {
     if(strsplit(reg_period,"_")[[1]][1] == "mean") {
       df.col <- data.frame(
-        cols = c(rev(brewer.pal(3,"Blues")[1:2]), colintYlOrRd(17)), 
-        vals = seq(-50,400, 25)
+        cols = c( colintYlOrBr(17)), 
+        vals = c(seq(0,150, 25), seq(200, 1100, 100))
       )
     } else {
       df.col <- data.frame(
-        cols = c(rev(brewer.pal(3,"Blues")[1:2]), 
-                 colintYlOrRd(17)), vals = seq(-50,400, 25)
+        cols = c( colintinferno(14)), 
+        vals = c(seq(0,150, 25), seq(200, 800, 100))
       )
     }
   }
@@ -32,7 +38,22 @@ leg_leaf_ind <- function (input, reg_period, param) {
     }
   }
   
-  ints <- findInterval(range(input$values) ,df.col$vals, rightmost.closed = F, left.open = T)
+  if (param %in% c("coldu")) {
+    if(strsplit(reg_period,"_")[[1]][1] == "mean") {
+      df.col <- data.frame(
+        cols = colintBuPu(16), 
+        vals = c(0,25,50,75,100,200, 300, 400,500,600,700,800,900,1000,1100,2000)
+      )
+    } else {
+      df.col <- data.frame(
+        cols = rev(colintBlues(11)), 
+        vals = c(-700,-600,-500,-400,-300,-250,-200,-150,-100,-50,0)
+      )
+    }
+  }
+  
+  ints <- findInterval(range(input$values), df.col$vals, rightmost.closed = F, left.open = T)
+  print(ints)
   bins <-  df.col$vals[ints[1]:(ints[2] + 1)]
   cols <- df.col$cols[ints[1]:(ints[2])]
   

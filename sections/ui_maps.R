@@ -370,8 +370,8 @@ ui_maps <- tabPanel(
                      
                      selectInput("regio_ind", label = "Indicator",
                                  c(
-                                   "Heat units Spring" = "heatuspring","Heat units Fall" = "heat u fall",
-                                   "Scorching number of days" = "scorch no", "Scorching units" = "scorch u",
+                                   "Heat units Spring" = "heatuspring","Heat units Fall" = "heatufall",
+                                   "Scorching number of days" = "scorchno", "Scorching units" = "scorch u",
                                    "Cold units" =  "coldu", "Frost units 10" = "frostu 10",
                                    "Frost units 15" = "frostu 15","Frost units 20" = "frostu 20",
                                    "Precipitation vegetation" = "pr veget", "Precipitation Fall" = "pr fall",
