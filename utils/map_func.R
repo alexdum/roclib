@@ -112,6 +112,21 @@ leg_leaf_ind <- function (input, reg_period, param) {
     }
   }
   
+  
+  if (substr(param, 1, 2) %in% "pr") {
+    if(strsplit(reg_period,"_")[[1]][1] == "mean") {
+      df.col <- data.frame(
+        cols =  c(colintGnBu(11), rev(colintPuRd(5))),
+        vals = c(0, 25,50,75,100,125,150,175,200,225,250,350,400, 450, 500,600)
+      )
+    } else {
+      df.col <- data.frame(
+        cols =   colintBrBGfull(19), 
+        vals = c(-75,-50,-40,-30,-25,-20,-15,-10,-5, 0,5,10,15,20,25,30,40,50,75)
+      )
+    }
+  }
+  
   ints <- findInterval(range(input$values), df.col$vals, rightmost.closed = T, left.open = F)
   print(ints)
   bins <-  df.col$vals[ints[1]:(ints[2] + 1)]
