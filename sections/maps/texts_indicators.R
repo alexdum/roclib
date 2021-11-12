@@ -23,8 +23,8 @@ text.maps.ind <- reactive({
                     mean of ten climate scenarios. The grey field shows the range in variation between the highest 
                     and lowest value for the members of the ensemble.")
     
-    if(input$Indicator == "heat u spring") text.desc <- "Cumulative heat units (ΣTmed. > °C) in the period 01 February - 10 April"
-    if(input$Indicator == "heat u fall") text.desc <- "Cumulative heat units (ΣTmed. > °C) in the period 01 September - 31 October"
+    if(input$Indicator == "heat u spring") text.desc <- "Cumulative heat units (ΣTmed. > 0°C) in the period 01 February - 10 April"
+    if(input$Indicator == "heat u fall") text.desc <- "Cumulative heat units (ΣTmed. > 0°C) in the period 01 September - 31 October"
     if(input$Indicator == "scorch u") text.desc <- "Scorching heat units (ΣTmax. ≥ 32°C) from 1 June to 31 August"
     if(input$Indicator == "scorch no") text.desc <- "Scorching heat number of days (Tmax. ≥ 32°C) from 1 June to 31 August"
     if(input$Indicator == "coldu") text.desc <- "Cold units (ΣTmed. < 0°C) cumulated during the period 01 November - 31 March"
