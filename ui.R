@@ -36,10 +36,15 @@ ui <- shinyUI(
                   "body {padding-top: 70px;}",
                   # responsive images
                   "img {max-width: 100%; width: 100%; height: auto}",
-                  # sliders color toate 3
+                  # sliders color toate 3 variables
                   ".js-irs-0 .irs-single, .js-irs-0 .irs-bar-edge, .js-irs-0 .irs-bar {background: #E95420; border-color: #E95420;}",
                   ".js-irs-1 .irs-to,.js-irs-1 .irs-from , .js-irs-1 .irs-bar-edge, .js-irs-1 .irs-bar {background: #E95420; border-color: #E95420;}",
-                  ".js-irs-2 .irs-to,.js-irs-2 .irs-from , .js-irs-2 .irs-bar-edge, .js-irs-2 .irs-bar {background: #E95420; border-color: #E95420;}"
+                  ".js-irs-2 .irs-to,.js-irs-2 .irs-from , .js-irs-2 .irs-bar-edge, .js-irs-2 .irs-bar {background: #E95420; border-color: #E95420;}",
+                  # sliders color toate 3 indicators
+                  ".js-irs-3 .irs-single, .js-irs-3 .irs-bar-edge, .js-irs-3 .irs-bar {background: #E95420; border-color: #E95420;}",
+                  ".js-irs-4 .irs-to,.js-irs-4 .irs-from , .js-irs-4 .irs-bar-edge, .js-irs-4 .irs-bar {background: #E95420; border-color: #E95420;}",
+                  ".js-irs-5 .irs-to,.js-irs-5 .irs-from , .js-irs-5 .irs-bar-edge, .js-irs-5 .irs-bar {background: #E95420; border-color: #E95420;}",
+              
                   # inaltime navbaer
                   #'.navbar-brand{display:none;}'
                   #'
