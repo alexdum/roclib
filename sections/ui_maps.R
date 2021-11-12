@@ -262,7 +262,7 @@ ui_maps <- tabPanel(
                      ),
                      sliderInput("transp", "Transparency",
                                  min = 0, max = 1, ticks = F,
-                                 value = 0.5, step = 0.1,
+                                 value = 0.8, step = 0.1,
                                  width = "220px")
                    ),
                    
@@ -361,7 +361,7 @@ ui_maps <- tabPanel(
                      ),
                      sliderInput("transp_ind", "Transparency",
                                  min = 0, max = 1, ticks = F,
-                                 value = 0.5, step = 0.1,
+                                 value = 0.8, step = 0.1,
                                  width = "220px")
                    ),
                    
@@ -371,11 +371,11 @@ ui_maps <- tabPanel(
                      selectInput("regio_ind", label = "Indicator",
                                  c(
                                    "Heat units Spring" = "heatuspring","Heat units Fall" = "heatufall",
-                                   "Scorching number of days" = "scorchno", "Scorching units" = "scorch u",
-                                   "Cold units" =  "coldu", "Frost units 10" = "frostu 10",
-                                   "Frost units 15" = "frostu 15","Frost units 20" = "frostu 20",
-                                   "Precipitation vegetation" = "pr veget", "Precipitation Fall" = "pr fall",
-                                   "Precipitation Winter" = "pr winter"
+                                   "Scorching number of days" = "scorchno", "Scorching units" = "scorchu",
+                                   "Cold units" =  "coldu", "Frost units 10" = "frostu10",
+                                   "Frost units 15" = "frostu15","Frost units 20" = "frostu20",
+                                   "Precipitation vegetation" = "prveget", "Precipitation Fall" = "prfall",
+                                   "Precipitation Winter" = "prwinter"
                                  ), selected = "Heat units Spring", width = "220px"),
                      
                      sliderInput("hist_per_ind", "Historical period", 1971, 2005, value = c(1971, 2000),step = 1,
