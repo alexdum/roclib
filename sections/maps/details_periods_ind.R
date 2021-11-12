@@ -6,25 +6,26 @@
 
 # recptie data ------------------------------------------------------------
 
-level_ag_ind <- eventReactive(list(input$go_ind,isolate(input$tab_being_displayed),input$regio_ag_ind),{
+level_ag_ind <- eventReactive(list(input$regio_period_ind, input$go_ind,isolate(input$tab_being_displayed),input$regio_ag_ind),{
   
   
   # selectare regiune
   region <- as.numeric(input$regio_ag_ind)
   reg_param <- input$regio_ind
   reg_scen <- input$regio_scen_ind
-
+  
   hist_per <- input$hist_per_ind
   scen_per <- input$scen_per_ind
   # print(hist_per)
   # region <- 3
-  # reg_param <- "heatuspring"
+  # reg_param <- "coldu"
   # reg_period <- "mean_scen"
   # reg_scen <-  "rcp85"
   # hist_per <- c(1971,1980)
   # scen_per <- c(2081,2100)
   
-  
+  print(hist_per)
+  print(scen_per)
   reg_scenform <- ifelse(reg_scen  == "rcp45",  "RCP4.5", "RCP8.5")
   
   dat <- readRDS(paste0("www/data/tabs/anomalies/indicators/",c("region","county", "uat")[region],"_anomalies_annual_",reg_param,"_",reg_scen,"_1971_2100.rds"))
@@ -33,22 +34,38 @@ level_ag_ind <- eventReactive(list(input$go_ind,isolate(input$tab_being_displaye
   
   dat_anomalies <- dat %>% data.table::rbindlist(idcol = 'name')  %>%
     as_tibble()
-  # schimba nume sa se potriveasca cu functia
-  names(dat_anomalies)[2:5] <- c("data", "scen_param_min",  "scen_param_mean", "scen_param_max")
   
+  # schimba nume sa se potriveasca cu functia
+  names(dat_anomalies)[2] <- c("data")
+  
+  # pentru date implicite din slider cu sezon rece
+  ani.hist <- dat_anomalies$data[format(dat_anomalies$data, "%Y") <= "2005"] %>% format("%Y") %>% as.numeric()
+  ani.scen <- dat_anomalies$data[format(dat_anomalies$data, "%Y") > "2005"] %>% format("%Y")  %>% as.numeric()
+  dat_anomalies.hist <- range(ani.hist)
+  dat_anomalies.scen <- range(ani.scen)
+  updateSliderInput(
+    session, "hist_per_ind", min = dat_anomalies.hist[1], max = dat_anomalies.hist[2]
+  ) 
+  updateSliderInput(
+    session, "scen_per_ind", min = dat_anomalies.scen[1], max = dat_anomalies.scen[2]
+  ) 
+ 
   # print(head(dat_anomalies))
-  # schimbare du funct calc_func
-  dat_changes <- change_scen(dat_anomalies, reg_param, hist_per, scen_per )
+  # schimbare cu funct calc_func in functie de anii disponibili
+  hist.per2 <- c(ani.hist[which.min(abs(ani.hist  -  hist_per[1]))], ani.hist[which.min(abs(ani.hist  -  hist_per[2]))])
+  scen.per2 <- c(ani.scen[which.min(abs(ani.scen  -  scen_per[1]))], ani.scen[which.min(abs(ani.scen  -  scen_per[2]))])
+  
+  dat_changes <- change_scen(dat_anomalies, reg_param,  hist.per2 ,   scen.per2 )
   
   switch(region,
          reg_name <- "NUTS2",
          reg_name <- "NUTS3",
          reg_name <- "LAU (UAT)"
   )
-  print(reg_name)
+  #print(reg_name)
   
-
-
+  
+  
   switch(region,
          shape <- shape_region %>% right_join(dat_changes, by = c("code" = "name")),
          shape <- shape_county %>% right_join(dat_changes, by = c("code" = "name")),
@@ -72,9 +89,9 @@ level_ag_ind <- eventReactive(list(input$go_ind,isolate(input$tab_being_displaye
 
 output$map.ind <- renderLeaflet({
   leaflet(data = start_county,
-    options = leafletOptions(
-      minZoom = 6, maxZoom = 12
-    )
+          options = leafletOptions(
+            minZoom = 6, maxZoom = 12
+          )
   ) %>%
     setView(25, 46, zoom = 6) %>%
     setMaxBounds(20, 43.5, 30, 48.2) %>% 
@@ -88,7 +105,7 @@ output$map.ind <- renderLeaflet({
       "CartoDB.PositronOnlyLabels",
       options = leaflet::pathOptions(pane = "maplabels") )%>%
     clearShapes() %>%
-   
+    
     addEasyButton(
       easyButton (
         icon    = "glyphicon glyphicon-home", title = "Reset zoom",
@@ -97,6 +114,9 @@ output$map.ind <- renderLeaflet({
     ) 
 })
 
+
+# vairabile pentru legenda proxi
+pal2.legind <- reactiveValues(leg = NULL, titl = NULL )
 
 observe({ 
   req(input$tab_being_displayed == "Indicators")  # Only display if tab is 'Climate variables'
@@ -109,12 +129,16 @@ observe({
   # selecteaza variabila pentru plotare
   shape$values <- shape %>% data.frame() %>% dplyr::select(matches(reg_period)) %>% unlist()
   
+  print(summary(shape))
   
-  source("sections/maps/details_settings_ind.R", local = T)
+  # legenda/culori/intervale leaflet, vezi leg_leaf_ind  din utils/map_funct.R
+  pals <- leg_leaf_ind(input = shape, param = level_ag_ind()$reg_paraminit, reg_period = reg_period)
+  palm <- pals$pal
+  pal2.legind$leg <- pals$pal2
   
   opacy <- input$transp_ind
   data <- shape
-  palm <- pal
+  
   
   leafletProxy("map.ind",  data = data)  %>%
     clearShapes() %>%
@@ -139,14 +163,10 @@ observe({
         bringToFront = TRUE,
         sendToBack = TRUE
       ) 
-    )   
-  
-  # %>%
-  # addLegend(
-  #   "bottomright", pal = level_ag()$pal2, values = level_ag()$shape$values, opacity = 1,
-  #   labFormat = labelFormat(transform = function(x) sort(x, decreasing = TRUE))
-  # ) 
-  # 
-  
-  
+    )  %>%
+    clearControls() %>% 
+    addLegend(
+      "bottomright", pal = pal2.legind$leg, values = shape$values, opacity = 1,
+      labFormat = labelFormat(transform = function(x) sort(x, decreasing = TRUE))
+    )
 }) 
