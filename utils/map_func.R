@@ -9,6 +9,9 @@ leg_leaf_ind <- function (input, reg_period, param) {
   colintPuRd <- colorRampPalette(brewer.pal(9,"PuRd"), interpolate="linear")
   colintYlOrBr <- colorRampPalette(brewer.pal(9,"YlOrBr"), interpolate="linear")
   colintinferno <- colorRampPalette(rev(viridis::inferno(14)), interpolate="linear")
+  colintGnBu <- colorRampPalette(brewer.pal(9,"GnBu"), interpolate="linear")
+  colintRdPu <- colorRampPalette(brewer.pal(9,"RdPu"), interpolate="linear")
+  colintBrBGfull <- colorRampPalette( brewer.pal(11,"BrBG"),interpolate="linear")
   
   if (param %in% c("heatuspring")) {
     if(strsplit(reg_period,"_")[[1]][1] == "mean") {
@@ -27,13 +30,41 @@ leg_leaf_ind <- function (input, reg_period, param) {
   if (param %in% c("heatufall")) {
     if(strsplit(reg_period,"_")[[1]][1] == "mean") {
       df.col <- data.frame(
-        cols = c(rev(brewer.pal(9,"Blues")), colintYlOrRd(13), rev(colintBrBG(9))), 
-        vals = c(-150,-125, -100, -75, seq(-50,-10,10), seq(0,100,10), seq(125, 350, 25) , 400)
+        cols = c( colintYlOrBr(18)), 
+        vals = c(seq(0,150, 25), seq(200, 1200, 100))
+      )
+    } else {
+      df.col <- data.frame (
+        cols = c(rev(brewer.pal(3,"Blues")[1:3]),  colintYlOrRd(14)), 
+        vals = c(-150,seq(-50,300, 25), 350)
+      )
+    }
+  }
+  
+  if (param %in% c("scorchno")) {
+    if(strsplit(reg_period,"_")[[1]][1] == "mean") {
+      df.col <- data.frame(
+        cols = c( colintYlOrBr(16)), 
+        vals = seq(0,75, 5)
       )
     } else {
       df.col <- data.frame(
-        cols = c(rev(brewer.pal(3,"Blues")[1:3]),  colintYlOrRd(14)), 
-        vals = c(-150,seq(-50,300, 25), 350)
+        cols =  c(colintBuPu(15)[6], colintYlOrRd(10)), 
+        vals = seq(-5, 45, 5)
+      )
+    }
+  }
+  
+  if (param %in% c("scorchu")) {
+    if(strsplit(reg_period,"_")[[1]][1] == "mean") {
+      df.col <- data.frame(
+        cols = c( colintYlOrBr(13)), 
+        vals = seq(800,3200, 200)
+      )
+    } else {
+      df.col <- data.frame(
+        cols =   c(colintBuPu(15)[6], colintYlOrRd(11)), 
+        vals = seq(-50, 500, 50)
       )
     }
   }
@@ -46,13 +77,42 @@ leg_leaf_ind <- function (input, reg_period, param) {
       )
     } else {
       df.col <- data.frame(
-        cols = rev(colintBlues(11)), 
-        vals = c(-700,-600,-500,-400,-300,-250,-200,-150,-100,-50,0)
+        cols = c(rev(colintYlOrRd(10)), colintBuPu(9)[2:4]), 
+        vals = c(-700,-600,-500,-400,-300,-250,-200,-150,-100,-50,0, 50, 100)
       )
     }
   }
   
-  ints <- findInterval(range(input$values), df.col$vals, rightmost.closed = F, left.open = T)
+  if (param %in% c("frostu10", "frostu15", "frostu20")) {
+    if(strsplit(reg_period,"_")[[1]][1] == "mean") {
+      df.col <- data.frame(
+        cols = colintBuPu(15), 
+        vals = c(0,10,20,30,40,50,75,100,200, 300, 400,500,600,700,800)
+      )
+    } else {
+      df.col <- data.frame(
+        cols = c(rev(colintYlOrRd(10)),  colintBuPu(9)[2:6]), 
+        vals = c(-700,-600,-500,-400,-300,-250,-200,-150,-100,-50,0, 50,100,150,200)
+      )
+    }
+  }
+  
+  
+  if (param %in% "prveget") {
+    if(strsplit(reg_period,"_")[[1]][1] == "mean") {
+      df.col <- data.frame(
+        cols =  c(colintGnBu(11), rev(colintPuRd(8))),
+        vals = c(200, 250,300,350, 400,450,500,550,600,650,700,750,800, 850, 900,950, 1000,1100,1200)
+      )
+    } else {
+      df.col <- data.frame(
+        cols =   colintBrBGfull(17), 
+        vals = c(-50,-40,-30,-25,-20,-15,-10,-5, 0,5,10,15,20,25,30,40,50)
+      )
+    }
+  }
+  
+  ints <- findInterval(range(input$values), df.col$vals, rightmost.closed = T, left.open = F)
   print(ints)
   bins <-  df.col$vals[ints[1]:(ints[2] + 1)]
   cols <- df.col$cols[ints[1]:(ints[2])]
