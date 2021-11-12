@@ -49,7 +49,7 @@ level_ag_ind <- eventReactive(list(input$regio_period_ind, input$go_ind,isolate(
   updateSliderInput(
     session, "scen_per_ind", min = dat_anomalies.scen[1], max = dat_anomalies.scen[2]
   ) 
- 
+  
   # print(head(dat_anomalies))
   # schimbare cu funct calc_func in functie de anii disponibili
   hist.per2 <- c(ani.hist[which.min(abs(ani.hist  -  hist_per[1]))], ani.hist[which.min(abs(ani.hist  -  hist_per[2]))])
@@ -115,8 +115,8 @@ output$map.ind <- renderLeaflet({
 })
 
 
-# vairabile pentru legenda proxi
-pal2.legind <- reactiveValues(leg = NULL, titl = NULL )
+# # vairabile pentru legenda proxi
+# pal2.legind <- reactiveValues(leg = NULL, titl = NULL )
 
 observe({ 
   req(input$tab_being_displayed == "Indicators")  # Only display if tab is 'Climate variables'
@@ -134,11 +134,9 @@ observe({
   # legenda/culori/intervale leaflet, vezi leg_leaf_ind  din utils/map_funct.R
   pals <- leg_leaf_ind(input = shape, param = level_ag_ind()$reg_paraminit, reg_period = reg_period)
   palm <- pals$pal
-  pal2.legind$leg <- pals$pal2
   
   opacy <- input$transp_ind
   data <- shape
-  
   
   leafletProxy("map.ind",  data = data)  %>%
     clearShapes() %>%
@@ -166,7 +164,14 @@ observe({
     )  %>%
     clearControls() %>% 
     addLegend(
-      "bottomright", pal = pal2.legind$leg, values = shape$values, opacity = 1,
+      title = ifelse (
+        strsplit(reg_period,"_")[[1]][1] == "mean" ,
+        paste0("<html>", pals$leaflet_titleg,"</html>"),
+        paste0("<html>", gsub(",","",toString(rep("&nbsp;", 5))), pals$leaflet_titleg,"</html>")
+      ),
+      "bottomright", pal = pals$pal2, values = shape$values, opacity = 1,
       labFormat = labelFormat(transform = function(x) sort(x, decreasing = TRUE))
     )
 }) 
+
+
