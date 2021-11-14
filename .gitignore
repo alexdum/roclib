@@ -5,6 +5,7 @@
 *.class
 rsconnect*
 misc*
+tests*
 # Log file
 *.log
 
