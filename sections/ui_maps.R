@@ -7,6 +7,7 @@ ui_maps <- tabPanel(
                          the raster data used to compute the maps can be downloaded for each visualised variable in GeoTIFF format."),
   tags$br(""),
   tabsetPanel( 
+    id = "tab_being_displayed",
     tabPanel(
       h5("Climate variables"),
       tags$h6(" "),
@@ -235,8 +236,8 @@ ui_maps <- tabPanel(
            tags$br(""),
            
            tabsetPanel( 
-             id = "tab_being_displayed",
-             
+            id = "tab_being_displayed2",
+             #selected = "Climate variabless",
              tabPanel(
                value = "Climate variables",
                title = h6("Climate variables"),
@@ -403,6 +404,26 @@ ui_maps <- tabPanel(
                    width = 9,
                    wellPanel(
                      leafletOutput("map.ind"),
+                     tabsetPanel(
+                       fluidRow (
+                         h5(textOutput("plot_regio_evo_tit_ind"), style = "text-align:center;")
+                       ),
+                       tabPanel(
+                         value = "Graph",
+                         title = h6("Graph"),
+                         
+                         plotly::plotlyOutput("plot_regio_evo_ind") %>% 
+                           withSpinner(size = 0.5),
+                         # downloadLink('down_plot_regio', label = 'Download  PNG')
+                       ), 
+                       
+                       tabPanel(value = "Data",
+                                 title = h6("Data"),
+                                DT::dataTableOutput("change_regio_ind")
+                       )
+                       #verbatimTextOutput("sum")
+                       
+                     ) 
                    )
                  )
                  
