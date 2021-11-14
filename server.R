@@ -27,6 +27,7 @@ server <- shinyServer(function(input, output, session) {
   outputOptions(output, "plot.hist.ind", suspendWhenHidden = FALSE)
   # explore in details
   outputOptions(output, "map", suspendWhenHidden = FALSE)
+  outputOptions(output, "map.ind", suspendWhenHidden = FALSE)
    
 })
 
