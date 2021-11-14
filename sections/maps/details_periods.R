@@ -153,6 +153,7 @@ observe({
   req(input$tab_being_displayed == "Explore in detail") # Only display if tab is 'Explore in detail'
   #req(input$tab_being_displayed2 == "Climate variables") 
   
+  #print(input$tab_being_displayed)
   # adauga values pentru legenda
   reg_period <- input$regio_period
   
