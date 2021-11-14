@@ -407,28 +407,29 @@ ui_maps <- tabPanel(
                      htmlOutput("cnty_ind")
                    ),
                    wellPanel(
-                     leafletOutput("map.ind"),
-                     tabsetPanel(
-                       fluidRow (
-                         h5(textOutput("plot_regio_evo_tit_ind"), style = "text-align:center;")
-                       ),
-                       tabPanel(
-                         value = "Graph",
-                         title = h6("Graph"),
-                         
-                         plotly::plotlyOutput("plot_regio_evo_ind") %>% 
-                           withSpinner(size = 0.5),
-                         # downloadLink('down_plot_regio', label = 'Download  PNG')
-                       ), 
+                     leafletOutput("map.ind")
+                   ),
+                   tabsetPanel(
+                     fluidRow (
+                       h5(textOutput("plot_regio_evo_tit_ind"), style = "text-align:center;")
+                     ),
+                     tabPanel(
+                       value = "Graph",
+                       title = h6("Graph"),
                        
-                       tabPanel(value = "Data",
-                                title = h6("Data"),
-                                DT::dataTableOutput("change_regio_ind")
-                       )
-                       #verbatimTextOutput("sum")
-                       
-                     ) 
-                   )
+                       plotly::plotlyOutput("plot_regio_evo_ind") %>% 
+                         withSpinner(size = 0.5),
+                       downloadLink('down_plot_regio_ind', label = 'Download  PNG')
+                     ), 
+                     
+                     tabPanel(value = "Data",
+                              title = h6("Data"),
+                              DT::dataTableOutput("change_regio_ind")
+                     )
+                     #verbatimTextOutput("sum")
+                     
+                   ) 
+                   
                  )
                  
                  
