@@ -144,8 +144,8 @@ output$map.ind <- renderLeaflet({
 # pal2.legind <- reactiveValues(leg = NULL, titl = NULL )
 
 observe({ 
-  #req(input$tab_being_displayed2 == "Indicators") # Only display if tab is 'Climate variables'
-  req(input$tab_being_displayed == "Explore in detail") 
+  req(input$tab_being_displayed2 == "Indicators") # Only display if tab is 'Climate variables'
+  #req(input$tab_being_displayed == "Explore in detail") 
   # adauga values pentru legenda
   reg_period <- input$regio_period_ind
   
