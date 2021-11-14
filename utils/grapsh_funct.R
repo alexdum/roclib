@@ -6,15 +6,17 @@ gg_evolution <-  function(input, obs_anom, scen_anom_min, scen_anom_mean, scen_a
     cols = c("#4575b4","#d73027")
   }
   
+  tit.scaley <- "Anomaly (Σ°C)"
+  if (substr(parameter, 1, 2) %in% "pr") tit.scaley <- "Anomaly (%)"
+  if (substr(parameter, 1, 3) %in% "tas") tit.scaley <- "Anomaly (°C)"
+  if (parameter %in% "scorchno") tit.scaley <- "Anomaly (days)"
   
   gg <- ggplot(input) + 
     geom_ribbon(aes(x = data, ymax = scen_anom_max, ymin = scen_anom_min), alpha = 0.5, fill = "gray") +
     scale_x_date(breaks = c(as.Date("1971-01-01"), seq(as.Date("2000-01-01"), as.Date("2100-12-31"), by = "20 years")), date_labels = "%Y") +
-    geom_bar(aes(x = data, y = obs_anom, fill = symb, group =1),
-             stat = "identity", width = 400, show.legend = F,  color = "black") + 
     geom_line(aes(data, scen_anom_mean),  color = "black", size = 0.8) +
     scale_y_continuous(
-      paste0("Anomaly (", ifelse(parameter == "prAdjust", "%", "°C"),")")
+      tit.scaley 
     ) + #breaks = seq(-8,8, 2.0),limits = c(-4,8)) +  
     scale_fill_manual( values = cols) +
     labs( x = "") + theme_bw() +
@@ -34,6 +36,14 @@ gg_evolution <-  function(input, obs_anom, scen_anom_min, scen_anom_mean, scen_a
                      ymax =  pymax,
                      xrange = xmax - xmin,
                      yrange = ymax - ymin)
+  
+  # pentu plot coloane doar in cazul parametrilor meteo
+  if(parameter %in% c("prAdjust", "tasAdjust", "tasmaxAdjust", "tasminAdjust")) {
+    
+    gg <-  gg +  geom_bar(aes(x = data, y = obs_anom, fill = symb, group =1),
+                          stat = "identity", width = 400, show.legend = F,  color = "black") + 
+      scale_fill_manual( values = cols) 
+  }
   
   gpl <- gg + 
     annotation_raster(logo, interpolate = T, 
