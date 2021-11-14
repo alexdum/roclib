@@ -246,12 +246,15 @@ data_sub_ind <- eventReactive(list(input$go_ind,values.ind$id), {
 })
 
 output$cnty_ind <- renderUI({
+  
+  text <- indicators_def(indicators =  level_ag_ind()$reg_paraminit)
   HTML(
     paste0(
       "<table>
-        <strong>",
+      <strong>",
       level_ag_ind()$reg_name," ",level_ag_ind()$reg_scenform," ", level_ag_ind()$reg_paramnam
       ,"</strong>
+      <p>",  text, "</p>
       <tr>
       <th style='padding:5px 10px 5px 5px'>Name Region</th>
       <th style='padding:5px 10px 5px 5px'>Mean ",level_ag_ind()$reg_hist_per[1],"-",level_ag_ind()$reg_hist_per[2],"</th>
