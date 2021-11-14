@@ -5,8 +5,7 @@
 
 
 # recptie data ------------------------------------------------------------
-
-level_ag_ind <- eventReactive(list(input$regio_period_ind, input$go_ind,isolate(input$tab_being_displayed2),input$regio_ag_ind),{
+level_ag_ind <- eventReactive(list(input$go_ind,isolate(input$tab_being_displayed2),input$regio_ag_ind),{
   
   
   # selectare regiune
@@ -144,27 +143,30 @@ output$map.ind <- renderLeaflet({
 # pal2.legind <- reactiveValues(leg = NULL, titl = NULL )
 
 observe({ 
-  req(input$tab_being_displayed2 == "Indicators") # Only display if tab is 'Climate variables'
-  #req(input$tab_being_displayed == "Explore in detail") 
-  # adauga values pentru legenda
-  reg_period <- input$regio_period_ind
   
-  shape <- level_ag_ind()$shape
+  req(input$tab_being_displayed2 == "Indicators") # Only display if tab is 'Indicators'
+
+ #req(input$tab_being_displayed == "Explore in detail")
+  print(input$tab_being_displayed )
+  # adauga values pentru legenda
+  reg_period2 <- input$regio_period_ind
+  
+  shape2 <- level_ag_ind()$shape
   
   # selecteaza variabila pentru plotare
-  shape$values <- shape %>% data.frame() %>% dplyr::select(matches(reg_period)) %>% unlist()
+  shape2$values <- shape2 %>% data.frame() %>% dplyr::select(matches(reg_period2)) %>% unlist()
   
   # legenda/culori/intervale leaflet, vezi leg_leaf_ind  din utils/map_funct.R
-  pals <- leg_leaf_ind(input = shape, param = level_ag_ind()$reg_paraminit, reg_period = reg_period)
-  palm <- pals$pal
+  pals <- leg_leaf_ind(input = shape2, param = level_ag_ind()$reg_paraminit, reg_period = reg_period2)
+  palm2 <- pals$pal
   
-  opacy <- input$transp_ind
-  data <- shape
+  opacy2 <- input$transp_ind
+  data2 <- shape2
   
-  leafletProxy("map.ind",  data = data)  %>%
+  leafletProxy("map.ind",  data = data2)  %>%
     clearShapes() %>%
     addPolygons (
-      fillColor = ~palm(values), 
+      fillColor = ~palm2(values), 
       label = ~paste("<font size='2'><b>Region type:",level_ag_ind()$reg_name, "<br/>Name units:",name,
                      "</b></font><br/>
                      <font size='1' color='#E95420'>Click to 
@@ -173,7 +175,7 @@ observe({
       color = "grey",
       weight = 0.5, smoothFactor = 0.1,
       opacity = 0.5, 
-      fillOpacity = opacy ,
+      fillOpacity = opacy2 ,
       layerId = ~code,
       options = pathOptions(pane = "polygons"),
       group = "region",
@@ -188,11 +190,11 @@ observe({
     clearControls() %>% 
     addLegend(
       title = ifelse (
-        strsplit(reg_period,"_")[[1]][1] == "mean" ,
+        strsplit(reg_period2,"_")[[1]][1] == "mean" ,
         paste0("<html>", pals$leaflet_titleg,"</html>"),
         paste0("<html>", gsub(",","",toString(rep("&nbsp;", 5))), pals$leaflet_titleg,"</html>")
       ),
-      "bottomright", pal = pals$pal2, values = shape$values, opacity = 1,
+      "bottomright", pal = pals$pal2, values = shape2$values, opacity = 1,
       labFormat = labelFormat(transform = function(x) sort(x, decreasing = TRUE))
     ) %>%
     leaflet.extras2::addEasyprint(
@@ -242,6 +244,33 @@ data_sub_ind <- eventReactive(list(input$go_ind,values.ind$id), {
   #print(head(dd))
   list(dd = dd)
 })
+
+output$cnty_ind <- renderUI({
+  HTML(
+    paste0(
+      "<table>
+        <strong>",
+      level_ag_ind()$reg_name," ",level_ag_ind()$reg_scenform," ", level_ag_ind()$reg_paramnam
+      ,"</strong>
+      <tr>
+      <th style='padding:5px 10px 5px 5px'>Name Region</th>
+      <th style='padding:5px 10px 5px 5px'>Mean ",level_ag_ind()$reg_hist_per[1],"-",level_ag_ind()$reg_hist_per[2],"</th>
+      <th style='padding:5px 10px 5px 5px'>Mean ",level_ag_ind()$reg_scen_per[1],"-",level_ag_ind()$reg_scen_per[2],"</th>
+      <th style='padding:5px 10px 5px 5px'>Change ",level_ag_ind()$reg_scen_per[1],"-",level_ag_ind()$reg_scen_per[2]," 
+      vs. ",level_ag_ind()$reg_hist_per[1],"-",level_ag_ind()$reg_hist_per[2],"</th>
+      </tr>
+      <tr>
+      <td style='padding:5px 10px 5px 5px'>",level_ag_ind()$shape$name[level_ag_ind()$shape$code ==   values.ind$code],"</td>
+      <td style='padding:5px 10px 5px 5px'>",round(level_ag_ind()$shape$mean_hist[level_ag_ind()$shape$code ==   values.ind$code ], 1),"</td>
+      <td style='padding:5px 10px 5px 5px'>",round(level_ag_ind()$shape$mean_scen[level_ag_ind()$shape$code ==   values.ind$code ], 1),"</td>
+      <td style='padding:5px 10px 5px 5px'>",round(level_ag_ind()$shape$change[level_ag_ind()$shape$code ==   values.ind$code], 1),"</td>
+     </tr>
+      </table>",
+     "<font size='2' color='#E95420'>Click on the region of interest to update the values and graph below the map </font>"
+    )
+  )
+})
+
 
 output$plot_regio_evo_tit_ind <- renderText({
   # print(level_ag()$shape$name[level_ag()$shape$code == values$id])
