@@ -114,7 +114,7 @@ leg_leaf_ind <- function (input, reg_period, param) {
   if (param %in% "prveget") {
     if(strsplit(reg_period,"_")[[1]][1] == "mean") {
       df.col <- data.frame(
-        cols =  c(colintGnBu(11), rev(colintPuRd(8))),
+        cols =  c(colintGnBu(11), rev(colintPuRd(14)[7:14])),
         vals = c(200, 250,300,350, 400,450,500,550,600,650,700,750,800, 850, 900,950, 1000,1100,1200)
       )
       leaflet_titleg <- "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;l/m²"
