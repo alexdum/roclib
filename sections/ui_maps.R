@@ -9,7 +9,8 @@ ui_maps <- tabPanel(
   tabsetPanel( 
     id = "tab_being_displayed",
     tabPanel(
-      h5("Climate variables"),
+      value = "Climate variables",
+      title = h5("Climate variables"),
       tags$h6(" "),
       HTML("The climate variables' (CVs) changes are computed for each season and at
            the annual scale as differences between future periods (2021-2050 and 2071-2100)
@@ -236,11 +237,12 @@ ui_maps <- tabPanel(
            tags$br(""),
            
            tabsetPanel( 
-            id = "tab_being_displayed2",
-             #selected = "Climate variabless",
+             id = "tab_being_displayed2",
+             #selected = "Indicators",
              tabPanel(
                value = "Climate variables",
                title = h6("Climate variables"),
+               tags$h6(" "),
                
                sidebarLayout(
                  fluid = T,
@@ -340,6 +342,7 @@ ui_maps <- tabPanel(
              tabPanel(
                value = "Indicators",
                title = h6("Indicators"),
+               tags$h6(" "),
                
                sidebarLayout(
                  fluid = T,
@@ -390,18 +393,19 @@ ui_maps <- tabPanel(
                                    "RCP8.5" =  "rcp85") ,
                                  width = "220px",
                                  selected = "RCP4.5"),
-                
+                     
                      
                      
                      actionButton("go_ind", "Update values and map", icon("sync"))
                    )
-                   
-                   
-                   
                  ),
                  
                  mainPanel(
                    width = 9,
+                   wellPanel(
+                     # htmlOutput("params_name"),
+                     htmlOutput("cnty_ind")
+                   ),
                    wellPanel(
                      leafletOutput("map.ind"),
                      tabsetPanel(
@@ -418,7 +422,7 @@ ui_maps <- tabPanel(
                        ), 
                        
                        tabPanel(value = "Data",
-                                 title = h6("Data"),
+                                title = h6("Data"),
                                 DT::dataTableOutput("change_regio_ind")
                        )
                        #verbatimTextOutput("sum")
