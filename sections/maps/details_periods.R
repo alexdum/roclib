@@ -6,7 +6,7 @@
 
 # recptie data ------------------------------------------------------------
 
-level_ag <- eventReactive(list(input$go,isolate(input$tab_being_displayed),input$regio_ag),{
+level_ag <- eventReactive(list(input$go,isolate(input$tab_being_displayed2),input$regio_ag),{
   
   
   # selectare regiune
@@ -149,7 +149,9 @@ output$map <- renderLeaflet ({
 pal2.leg <- reactiveValues(leg = NULL, titl = NULL )
 
 observe({ 
-  req(input$tab_being_displayed == "Climate variables")  # Only display if tab is 'Climate variables'
+  
+  req(input$tab_being_displayed == "Explore in detail") # Only display if tab is 'Explore in detail'
+  #req(input$tab_being_displayed2 == "Climate variables") 
   
   # adauga values pentru legenda
   reg_period <- input$regio_period
@@ -191,28 +193,13 @@ observe({
         bringToFront = TRUE,
         sendToBack = TRUE
       ) 
-    )   
-   
-  # %>%
-  # addLegend(
-  #   "bottomright", pal = level_ag()$pal2, values = level_ag()$shape$values, opacity = 1,
-  #   labFormat = labelFormat(transform = function(x) sort(x, decreasing = TRUE))
-  # ) 
-  # 
-  
-  
-}) 
-
-#Use a separate observer to recreate the legend as needed.
-observe({
-  req(input$tab_being_displayed == "Climate variables")  # Only display if tab is 'Climate variables'
-  
-  proxy <- leafletProxy( "map", data = start_county)
-  # Remove any existing legend, and only if the legend is
-  # enabled, create a new one.
-  proxy %>% clearControls()
-  #if (input$legend) {
-  proxy %>%
+    )  %>% 
+    clearControls() %>% 
+    addLegend(
+      title = paste0("<html>", gsub(",","",toString(rep("&nbsp;", 5))), pal2.leg$titl,"</html>"),
+      "bottomright", pal = pal2.leg$leg, values = ~values, opacity = 1,
+      labFormat = labelFormat(transform = function(x) sort(x, decreasing = TRUE))
+    ) %>%
     leaflet.extras2::addEasyprint(
       options =
         leaflet.extras2::easyprintOptions(
@@ -225,14 +212,11 @@ observe({
           
           
         )
-    ) %>% 
-    addLegend(
-      title = paste0("<html>", gsub(",","",toString(rep("&nbsp;", 5))), pal2.leg$titl,"</html>"),
-      "bottomright", pal = pal2.leg$leg, values = ~values, opacity = 1,
-      labFormat = labelFormat(transform = function(x) sort(x, decreasing = TRUE))
-    ) 
-  #}
-})
+    )
+  
+
+}) 
+
 
 
 # reactive values ---------------------------------------------------------
@@ -240,7 +224,7 @@ observe({
 
 values  <- reactiveValues(id = NULL, name = NULL, code = NULL)
 
-observeEvent(list(isolate(input$go),isolate(input$tab_being_displayed), input$regio_ag),{
+observeEvent(list(isolate(input$go),isolate(input$tab_being_displayed2), input$regio_ag),{
   
   #values$id <- level_ag()$reg_val
   #print(level_ag()$reg_val)
