@@ -1,17 +1,18 @@
 # culori culori leaflet indicatori agro---------------------------------------------------------
+colintYlOrRd <- colorRampPalette( brewer.pal(9,"YlOrRd"),interpolate="linear")
+colintBrBG <- colorRampPalette( brewer.pal(11,"BrBG")[1:5],interpolate="linear")
+colintBlues <- colorRampPalette(brewer.pal(9,"Blues"), interpolate="linear")
+colintBuPu <- colorRampPalette(brewer.pal(9,"BuPu"), interpolate="linear")
+colintPuRd <- colorRampPalette(brewer.pal(9,"PuRd"), interpolate="linear")
+colintYlOrBr <- colorRampPalette(brewer.pal(9,"YlOrBr"), interpolate="linear")
+colintinferno <- colorRampPalette(rev(viridis::inferno(14)), interpolate="linear")
+colintGnBu <- colorRampPalette(brewer.pal(9,"GnBu"), interpolate="linear")
+colintRdPu <- colorRampPalette(brewer.pal(9,"RdPu"), interpolate="linear")
+colintBrBGfull <- colorRampPalette( brewer.pal(11,"BrBG"),interpolate="linear")
 
 leg_leaf_ind <- function (input, reg_period, param) {
   # culori interpolate
-  colintYlOrRd <- colorRampPalette( brewer.pal(9,"YlOrRd"),interpolate="linear")
-  colintBrBG <- colorRampPalette( brewer.pal(11,"BrBG")[1:5],interpolate="linear")
-  colintBlues <- colorRampPalette(brewer.pal(9,"Blues"), interpolate="linear")
-  colintBuPu <- colorRampPalette(brewer.pal(9,"BuPu"), interpolate="linear")
-  colintPuRd <- colorRampPalette(brewer.pal(9,"PuRd"), interpolate="linear")
-  colintYlOrBr <- colorRampPalette(brewer.pal(9,"YlOrBr"), interpolate="linear")
-  colintinferno <- colorRampPalette(rev(viridis::inferno(14)), interpolate="linear")
-  colintGnBu <- colorRampPalette(brewer.pal(9,"GnBu"), interpolate="linear")
-  colintRdPu <- colorRampPalette(brewer.pal(9,"RdPu"), interpolate="linear")
-  colintBrBGfull <- colorRampPalette( brewer.pal(11,"BrBG"),interpolate="linear")
+  
   
   if (param %in% c("heatuspring")) {
     if(strsplit(reg_period,"_")[[1]][1] == "mean") {
@@ -116,7 +117,7 @@ leg_leaf_ind <- function (input, reg_period, param) {
         cols =  c(colintGnBu(11), rev(colintPuRd(8))),
         vals = c(200, 250,300,350, 400,450,500,550,600,650,700,750,800, 850, 900,950, 1000,1100,1200)
       )
-      leaflet_titleg <- "l/m²"
+      leaflet_titleg <- "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;l/m²"
     } else {
       df.col <- data.frame(
         cols =   colintBrBGfull(17), 
@@ -127,13 +128,13 @@ leg_leaf_ind <- function (input, reg_period, param) {
   }
   
   
-  if (substr(param, 1, 2) %in% "pr") {
+  if (param %in% c("prwinter", "prfall")) {
     if(strsplit(reg_period,"_")[[1]][1] == "mean") {
       df.col <- data.frame(
         cols =  c(colintGnBu(11), rev(colintPuRd(5))),
         vals = c(0, 25,50,75,100,125,150,175,200,225,250,350,400, 450, 500,600)
       )
-      leaflet_titleg <- "l/m²"
+      leaflet_titleg <- "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;l/m²"
     } else {
       df.col <- data.frame(
         cols =   colintBrBGfull(19), 
@@ -144,13 +145,13 @@ leg_leaf_ind <- function (input, reg_period, param) {
   }
   
   ints <- findInterval(range(input$values), df.col$vals, rightmost.closed = T, left.open = F)
-  print(ints)
+  # print(ints)
   bins <-  df.col$vals[ints[1]:(ints[2] + 1)]
   cols <- df.col$cols[ints[1]:(ints[2])]
   
-  print(cols)
-  print(range(input$values))
-  print(leaflet_titleg)
+  # print(cols)
+  #print(range(input$values))
+  #print(leaflet_titleg)
   
   pal <- colorBin(cols, domain = df.col$values, bins = bins)
   pal2 <- colorBin(cols, domain = df.col$values, bins = bins, reverse = T)
