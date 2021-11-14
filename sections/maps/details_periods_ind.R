@@ -6,7 +6,7 @@
 
 # recptie data ------------------------------------------------------------
 
-level_ag_ind <- eventReactive(list(input$regio_period_ind, input$go_ind,isolate(input$tab_being_displayed),input$regio_ag_ind),{
+level_ag_ind <- eventReactive(list(input$regio_period_ind, input$go_ind,isolate(input$tab_being_displayed2),input$regio_ag_ind),{
   
   
   # selectare regiune
@@ -24,8 +24,8 @@ level_ag_ind <- eventReactive(list(input$regio_period_ind, input$go_ind,isolate(
   # hist_per <- c(1971,1980)
   # scen_per <- c(2081,2100)
   
-  print(hist_per)
-  print(scen_per)
+  # print(hist_per)
+  # print(scen_per)
   reg_scenform <- ifelse(reg_scen  == "rcp45",  "RCP4.5", "RCP8.5")
   
   dat <- readRDS(paste0("www/data/tabs/anomalies/indicators/",c("region","county", "uat")[region],"_anomalies_annual_",reg_param,"_",reg_scen,"_1971_2100.rds"))
@@ -55,7 +55,23 @@ level_ag_ind <- eventReactive(list(input$regio_period_ind, input$go_ind,isolate(
   hist.per2 <- c(ani.hist[which.min(abs(ani.hist  -  hist_per[1]))], ani.hist[which.min(abs(ani.hist  -  hist_per[2]))])
   scen.per2 <- c(ani.scen[which.min(abs(ani.scen  -  scen_per[1]))], ani.scen[which.min(abs(ani.scen  -  scen_per[2]))])
   
-  dat_changes <- change_scen(dat_anomalies, reg_param,  hist.per2 ,   scen.per2 )
+  dat_changes <- change_scen(dat_anomalies, reg_param,  hist.per2, scen.per2)
+  
+  # parameter name 
+  switch (
+    which(c("heatuspring","heatufall","scorchno","scorchu", "coldu","frostu10", "frostu15","frostu20","prveget", "prfall", "prwinter" ) %in%  reg_param ),
+    reg_paramnam  <- "Heat units Spring",
+    reg_paramnam <- "Heat units Fall",
+    reg_paramnam <- "Scorching number of days",
+    reg_paramnam <- "Scorching units",
+    reg_paramnam <- "Cold units",
+    reg_paramnam <- "Frost units 10",
+    reg_paramnam <- "Frost units 15",
+    reg_paramnam <- "Frost units 20",
+    reg_paramnam <- "Precipitation vegetation",
+    reg_paramnam <- "Precipitation Fall",
+    reg_paramnam <- "Precipitation Winter"
+  )
   
   switch(region,
          reg_name <- "NUTS2",
@@ -79,7 +95,7 @@ level_ag_ind <- eventReactive(list(input$regio_period_ind, input$go_ind,isolate(
   list(shape = shape,
        reg_name = reg_name, reg_scenform = reg_scenform, dat_anomalies = dat_anomalies, 
        reg_val = length(names(dat_anomalies)), reg_paraminit = reg_param, reg_hist_per = hist_per,
-       reg_scen_per = scen_per,  name_anom =  name_anom )
+       reg_scen_per = scen_per,  name_anom =  name_anom, reg_paramnam = reg_paramnam)
   
 })
 
@@ -111,6 +127,15 @@ output$map.ind <- renderLeaflet({
         icon    = "glyphicon glyphicon-home", title = "Reset zoom",
         onClick = JS("function(btn, map){ map.setView([46, 25], 6); }")
       )
+    ) %>%
+    leaflet.extras::addSearchOSM (
+      options = 
+        leaflet.extras::searchOptions(
+          collapsed = T,
+          zoom = 9,
+          autoCollapse = TRUE, minLength = 2,
+          hideMarkerOnCollapse = TRUE
+        )
     ) 
 })
 
@@ -119,8 +144,8 @@ output$map.ind <- renderLeaflet({
 # pal2.legind <- reactiveValues(leg = NULL, titl = NULL )
 
 observe({ 
-  req(input$tab_being_displayed == "Indicators")  # Only display if tab is 'Climate variables'
-  
+  #req(input$tab_being_displayed2 == "Indicators") # Only display if tab is 'Climate variables'
+  req(input$tab_being_displayed == "Explore in detail") 
   # adauga values pentru legenda
   reg_period <- input$regio_period_ind
   
@@ -128,8 +153,6 @@ observe({
   
   # selecteaza variabila pentru plotare
   shape$values <- shape %>% data.frame() %>% dplyr::select(matches(reg_period)) %>% unlist()
-  
-  print(summary(shape))
   
   # legenda/culori/intervale leaflet, vezi leg_leaf_ind  din utils/map_funct.R
   pals <- leg_leaf_ind(input = shape, param = level_ag_ind()$reg_paraminit, reg_period = reg_period)
@@ -171,7 +194,90 @@ observe({
       ),
       "bottomright", pal = pals$pal2, values = shape$values, opacity = 1,
       labFormat = labelFormat(transform = function(x) sort(x, decreasing = TRUE))
+    ) %>%
+    leaflet.extras2::addEasyprint(
+      options =
+        leaflet.extras2::easyprintOptions(
+          title = 'Print map',
+          position = 'bottomleft',
+          exportOnly = T,
+          sizeModes = list('Current'),#'A4Landscape', 'A4Portrait'),
+          hideControlContainer = F,
+          hideClasses = list('leaflet-control-zoom')
+        )
     )
 }) 
 
+# reactive values ---------------------------------------------------------
 
+# regiune implicita pe baza unui random number pentru prima accesare
+
+values.ind  <- reactiveValues(id = NULL, name = NULL, code = NULL)
+observeEvent(list(isolate(input$go_ind),isolate(input$tab_being_displayed2), input$regio_ag_ind),{
+  
+  first_sel <- sample(1:length(level_ag_ind()$shape$code),1)
+  values.ind$name <- level_ag_ind()$shape$name[first_sel]
+  values.ind$code <- level_ag_ind()$shape$code[first_sel]
+  values.ind$id <- level_ag_ind()$name_anom[level_ag_ind()$name_anom %in% as.numeric(values.ind$code)]
+  # print(paste(values$id ,"observe"))
+  # print(names(level_ag_ind()$dat_anomalies))
+  # print(values$code)
+  # print(paste("values$id react values", values$id))
+})
+
+# pentru selectie pe click din leaflet
+observeEvent(input$map.ind_shape_click$id,{ 
+  values.ind$id <- level_ag_ind()$name_anom[level_ag_ind()$name_anom %in% input$map.ind_shape_click$id]
+  #print(paste(values$id ,"click"))
+  values.ind$name <- level_ag_ind()$shape$name[level_ag_ind()$shape$code == input$map.ind_shape_click$id]
+  values.ind$code <- level_ag_ind()$shape$code[level_ag_ind()$shape$code == input$map.ind_shape_click$id]
+  
+}) 
+data_sub_ind <- eventReactive(list(input$go_ind,values.ind$id), {
+  #print(dim( level_ag()$dat_anomalies))
+  dd <- level_ag_ind()$dat_anomalies
+  #print(paste("values$id plot",values$id))
+  dd <- dd %>% filter(as.numeric(name) == values.ind$id)
+  #print(head(dd))
+  #print(head(dd))
+  list(dd = dd)
+})
+
+output$plot_regio_evo_tit_ind <- renderText({
+  # print(level_ag()$shape$name[level_ag()$shape$code == values$id])
+  # paste(values$name, values$season, tolower(values$reg_paramnam),"Historical and", values$scenario,  "1971 - 2100")
+  paste(level_ag_ind()$shape$name[level_ag_ind()$shape$code == values.ind$code], level_ag_ind()$reg_name,level_ag_ind()$reg_scenform,level_ag_ind()$reg_season,level_ag_ind()$reg_paramnam)
+  
+})
+
+# grafic ------------------------------------------------------------------
+
+# grafic plot
+output$plot_regio_evo_ind <- renderPlotly({
+  
+  # print(head(data_sub()$dd))
+  #
+  gg <- plotly_evolution(data_sub_ind()$dd, "obs_anom", "scen_anom_min", "scen_anom_mean","scen_anom_max", parameter =  level_ag_ind()$reg_paraminit)
+  gg
+  
+})
+
+
+# date grafic ------------------------------------------------------------------
+
+
+
+output$change_regio_ind <- DT::renderDT({
+  
+  DT::datatable(data_sub_ind()$dd, extensions = 'Buttons', rownames = F,
+                options = list(
+                  dom = 'Bfrtip',
+                  pageLength = 5, autoWidth = TRUE,
+                  buttons = c('pageLength','copy', 'csv', 'excel'),
+                  pagelength = 10, lengthMenu = list(c(10, 25, 100, -1), c('10', '25', '100','All')
+                  )
+                  
+                )
+  )
+  
+})
