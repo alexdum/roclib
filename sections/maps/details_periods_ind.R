@@ -246,7 +246,7 @@ data_sub_ind <- eventReactive(list(input$go_ind,values.ind$id), {
 })
 
 output$cnty_ind <- renderUI({
-  
+  # functie definitie parametru (utils/map_funct.R)
   text <- indicators_def(indicators =  level_ag_ind()$reg_paraminit)
   HTML(
     paste0(
@@ -293,6 +293,24 @@ output$plot_regio_evo_ind <- renderPlotly({
   gg
   
 })
+
+# grafic descarca
+plot_regio_down_ind <- reactive({
+  
+  gg_evolution(data_sub_ind()$dd, "obs_anom", "scen_anom_min", "scen_anom_mean","scen_anom_max", parameter =level_ag_ind()$reg_paraminit)
+})
+
+output$down_plot_regio_ind <- downloadHandler(
+  
+  filename = function() {
+    paste0(level_ag_ind()$reg_name,"_",values.ind$name,"_",level_ag_ind()$reg_scenform,"_",level_ag_ind()$reg_paraminit,".png") %>%
+      tolower()
+  },
+  content = function(file) {
+    png(file, width = 800, height = 400, units = "px", res = 100)
+    print(plot_regio_down_ind())
+    dev.off()
+  })
 
 
 # date grafic ------------------------------------------------------------------
