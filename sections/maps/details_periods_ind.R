@@ -147,7 +147,7 @@ observe({
   req(input$tab_being_displayed2 == "Indicators") # Only display if tab is 'Indicators'
 
  #req(input$tab_being_displayed == "Explore in detail")
-  print(input$tab_being_displayed )
+  #print(input$tab_being_displayed )
   # adauga values pentru legenda
   reg_period2 <- input$regio_period_ind
   
