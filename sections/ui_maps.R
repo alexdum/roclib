@@ -320,15 +320,19 @@ ui_maps <- tabPanel(
                      tabPanel(
                        value = "Graph",
                        title = h6("Graph"),
-                       
-                       plotly::plotlyOutput("plot_regio_evo")%>% 
-                         withSpinner(size = 0.5),
-                       downloadLink('down_plot_regio', label = 'Download  PNG')
+                       wellPanel(
+                         plotly::plotlyOutput("plot_regio_evo")%>% 
+                           withSpinner(size = 0.5),
+                         downloadLink('down_plot_regio', label = 'Download  PNG')
+                       )
                      ), 
                      
-                     tabPanel(value = "Data",
-                              title = h6("Data"),
-                              DT::dataTableOutput("change_regio")
+                     tabPanel(
+                       value = "Data",
+                       title = h6("Data"),
+                       wellPanel(
+                         DT::dataTableOutput("change_regio")
+                       )
                      )
                      #verbatimTextOutput("sum")
                      
@@ -416,15 +420,19 @@ ui_maps <- tabPanel(
                      tabPanel(
                        value = "Graph",
                        title = h6("Graph"),
-                       
-                       plotly::plotlyOutput("plot_regio_evo_ind") %>% 
-                         withSpinner(size = 0.5),
-                       downloadLink('down_plot_regio_ind', label = 'Download  PNG')
+                       wellPanel(
+                         plotly::plotlyOutput("plot_regio_evo_ind") %>% 
+                           withSpinner(size = 0.5),
+                         downloadLink('down_plot_regio_ind', label = 'Download  PNG')
+                       )
                      ), 
                      
-                     tabPanel(value = "Data",
-                              title = h6("Data"),
-                              DT::dataTableOutput("change_regio_ind")
+                     tabPanel(
+                       value = "Data",
+                       title = h6("Data"),
+                       wellPanel(
+                         DT::dataTableOutput("change_regio_ind")
+                       )
                      )
                      #verbatimTextOutput("sum")
                      
