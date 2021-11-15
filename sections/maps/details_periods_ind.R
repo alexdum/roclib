@@ -32,7 +32,7 @@ level_ag_ind <- eventReactive(list(input$go_ind,isolate(input$tab_being_displaye
   
   
   dat_anomalies <- dat %>% data.table::rbindlist(idcol = 'name')  %>%
-    as_tibble()
+    data.table::as.data.table()
   
   # schimba nume sa se potriveasca cu functia
   names(dat_anomalies)[2] <- c("data")
