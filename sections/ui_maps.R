@@ -136,7 +136,7 @@ ui_maps <- tabPanel(
         
         sidebarPanel(
           width = 3,
-          h4("Selection Options"),
+          h5("Selection Options"),
           selectInput("Indicator", label = "Indicator",
                       c(
                         "Heat units Spring" = "heat u spring","Heat units Fall" = "heat u fall",
