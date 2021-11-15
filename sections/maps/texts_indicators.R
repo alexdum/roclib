@@ -19,7 +19,7 @@ text.maps.ind <- reactive({
   for the ",scen," scenario. The maps below show more information about the ensembles averages.")
     
     text.anom <- paste0("The diagram shows the calculated change in ",param, " (",unit,") in 
-                    Romania during the years 1971-2100 compared with normal (mean for 1971-2100).The black line shows the ensemble
+                    Romania during the years 1971-2100 compared with normal (mean for 1971-2000).The black line shows the ensemble
                     mean of ten climate scenarios. The grey field shows the range in variation between the highest 
                     and lowest value for the members of the ensemble.")
     
